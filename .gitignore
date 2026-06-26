@@ -1,0 +1,6 @@
+node_modules
+.next
+*.log
+data/khatma.db
+data/khatma.db-*
+.DS_Store

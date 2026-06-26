@@ -1,0 +1,22 @@
+{
+  "name": "khatma",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=--experimental-sqlite next dev",
+    "build": "cross-env NODE_OPTIONS=--experimental-sqlite next build",
+    "start": "cross-env NODE_OPTIONS=--experimental-sqlite next start",
+    "seed": "cross-env NODE_OPTIONS=--experimental-sqlite node scripts/seed.mjs",
+    "fetch-quran": "node scripts/fetch-quran.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "next": "14.2.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
