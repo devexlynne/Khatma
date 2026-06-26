@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { getCurrentUser, checkIsAdmin } from "@/lib/session";
 import { adminSetJuzStatus } from "@/lib/khatma";

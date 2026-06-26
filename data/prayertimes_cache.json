@@ -853,7 +853,7 @@
     }
   },
   "Beirut|Lebanon|2026-06-26|m2": {
-    "fetched_at": 1782477542553,
+    "fetched_at": 1782515642527,
     "data": {
       "timings": {
         "Fajr": "04:05",
@@ -869,15 +869,15 @@
         "Lastthird": "02:17"
       },
       "date": {
-        "readable": "26 Jun 2026",
-        "timestamp": "1782446400",
+        "readable": "27 Jun 2026",
+        "timestamp": "1782532800",
         "hijri": {
-          "date": "11-01-1448",
+          "date": "12-01-1448",
           "format": "DD-MM-YYYY",
-          "day": "11",
+          "day": "12",
           "weekday": {
-            "en": "Al Juma'a",
-            "ar": "الجمعة"
+            "en": "Al Sabt",
+            "ar": "السبت"
           },
           "month": {
             "number": 1,
@@ -895,11 +895,11 @@
           "method": "HJCoSA"
         },
         "gregorian": {
-          "date": "26-06-2026",
+          "date": "27-06-2026",
           "format": "DD-MM-YYYY",
-          "day": "26",
+          "day": "27",
           "weekday": {
-            "en": "Friday"
+            "en": "Saturday"
           },
           "month": {
             "number": 6,
