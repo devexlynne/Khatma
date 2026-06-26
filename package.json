@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--experimental-sqlite next dev",
-    "build": "cross-env NODE_OPTIONS=--experimental-sqlite next build",
+    "build": "cross-env NODE_OPTIONS=--experimental-sqlite next build --max-workers=1",
     "start": "cross-env NODE_OPTIONS=--experimental-sqlite next start",
     "seed": "cross-env NODE_OPTIONS=--experimental-sqlite node scripts/seed.mjs",
     "fetch-quran": "node scripts/fetch-quran.mjs"

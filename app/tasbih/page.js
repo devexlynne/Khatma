@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Nav from "@/components/Nav";
 import TasbihCounter from "@/components/TasbihCounter";
 
