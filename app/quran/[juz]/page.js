@@ -11,7 +11,7 @@ export default function JuzPage({ params }) {
   if (!fs.existsSync(dataPath)) {
     return (
       <div className="container page">
-        <div className="card">
+        <div className="card quran-reader-card">
           <h1 className="section-title">الجزء {juzNum}</h1>
           <p className="muted">بيانات القرآن غير متوفرة محليًا.</p>
           <p className="muted">شغِّل <strong>npm run fetch-quran</strong> لإنشاء <code>data/quran.json</code>.</p>
@@ -27,7 +27,7 @@ export default function JuzPage({ params }) {
   if (!jdata) {
     return (
       <div className="container page">
-        <div className="card">
+        <div className="card quran-reader-card">
           <h1 className="section-title">الجزء {juzNum}</h1>
           <p className="muted">الجزء غير موجود في الملف.</p>
         </div>
@@ -36,7 +36,7 @@ export default function JuzPage({ params }) {
   }
 
   return (
-    <div className="container page" style={{ maxWidth: 820 }}>
+    <div className="container page quran-juz-page" style={{ maxWidth: 820 }}>
       <style>{`
         .quran-verse {
           direction: rtl;
@@ -83,13 +83,23 @@ export default function JuzPage({ params }) {
           font-weight: 800;
           font-size: 12px;
         }
-      `}</style>
+        @media (max-width: 760px) {
+          .quran-juz-page {
+            padding-left: 8px;
+            padding-right: 8px;
+          }
+
+          .quran-reader-card {
+            padding: 14px 12px 18px;
+            border-radius: 10px;
+          }
+        }      `}</style>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
         <Link href="/quran" className="btn btn-ghost btn-sm">
           ← رجوع
         </Link>
       </div>
-      <div className="card">
+      <div className="card quran-reader-card">
         <div style={{ marginBottom: 22 }}>
           <h1 style={{ fontSize: 32, fontWeight: 900, margin: "0 0 8px 0", color: "#7e22ce", textAlign: "center" }}>الجزء {juzNum}</h1>
           <p className="muted" style={{ fontSize: 14, margin: 0, textAlign: "center" }}>{jdata.verses.length} آية</p>

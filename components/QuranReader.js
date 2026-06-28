@@ -91,8 +91,8 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
     }
   };
 
-  const increase = () => setFontSize((s) => Math.min(42, s + 2));
-  const decrease = () => setFontSize((s) => Math.max(18, s - 2));
+  const increase = () => setFontSize((size) => Math.min(42, size + 2));
+  const decrease = () => setFontSize((size) => Math.max(18, size - 2));
   const reset = () => setFontSize(initialFont);
 
   return (
@@ -100,6 +100,9 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
       <style>{`
         .mushaf-reader {
           direction: rtl;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
         }
 
         .mushaf-toolbar {
@@ -107,6 +110,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           align-items: center;
           justify-content: space-between;
           gap: 10px;
+          width: 100%;
           margin-bottom: 14px;
           padding: 10px;
           border-radius: 8px;
@@ -118,6 +122,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
         .mushaf-toolbar-group {
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 8px;
           flex-wrap: wrap;
         }
@@ -138,6 +143,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           justify-content: center;
           padding: 0 12px;
           transition: background 0.2s ease, transform 0.2s ease;
+          white-space: nowrap;
         }
 
         .mushaf-btn:hover:not(:disabled) {
@@ -152,6 +158,8 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
 
         .mushaf-page {
           position: relative;
+          width: 100%;
+          max-width: 100%;
           min-height: 560px;
           padding: 34px 34px 42px;
           border-radius: 8px;
@@ -190,6 +198,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           text-align: justify;
           text-align-last: center;
           font-weight: 600;
+          overflow-wrap: normal;
         }
 
         .mushaf-surah-title {
@@ -201,6 +210,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           color: #315f22;
           font-family: "Tajawal", "Segoe UI", sans-serif;
           font-size: 18px;
+          line-height: 1.6;
           font-weight: 900;
           text-align: center;
         }
@@ -215,9 +225,11 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
 
         .mushaf-ayah {
           display: inline;
-          padding: 2px 5px 5px;
+          padding: 0 5px;
           border-radius: 8px;
           cursor: pointer;
+          box-decoration-break: clone;
+          -webkit-box-decoration-break: clone;
           transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
         }
 
@@ -258,24 +270,73 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           font-weight: 700;
         }
 
-        @media (max-width: 620px) {
+        @media (max-width: 760px) {
+          .mushaf-reader {
+            margin-left: -12px;
+            margin-right: -12px;
+            width: calc(100% + 24px);
+            max-width: calc(100% + 24px);
+          }
+
           .mushaf-toolbar {
             align-items: stretch;
             flex-direction: column;
-          }
-
-          .mushaf-toolbar-group {
-            justify-content: center;
+            gap: 8px;
+            border-radius: 0;
+            margin-bottom: 10px;
           }
 
           .mushaf-page {
             min-height: 520px;
-            padding: 28px 18px 34px;
-            border-width: 6px;
+            padding: 26px 14px 34px;
+            border-left-width: 5px;
+            border-right-width: 5px;
+            border-radius: 0;
           }
 
           .mushaf-text {
             line-height: 2.05;
+            text-align: right;
+            text-align-last: auto;
+          }
+
+          .mushaf-ayah {
+            padding: 0 3px;
+            border-radius: 7px;
+          }
+
+          .mushaf-surah-title {
+            gap: 8px;
+            margin: 14px auto 12px;
+            font-size: 16px;
+          }
+
+          .mushaf-surah-title::before,
+          .mushaf-surah-title::after {
+            width: min(70px, 18vw);
+          }
+        }
+
+        @media (max-width: 390px) {
+          .mushaf-reader {
+            margin-left: -16px;
+            margin-right: -16px;
+            width: calc(100% + 32px);
+            max-width: calc(100% + 32px);
+          }
+
+          .mushaf-page {
+            padding: 24px 10px 32px;
+          }
+
+          .mushaf-text {
+            font-size: min(var(--mushaf-font-size), 24px) !important;
+          }
+
+          .mushaf-btn {
+            min-width: 38px;
+            height: 36px;
+            padding: 0 10px;
           }
         }
       `}</style>
@@ -304,7 +365,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
       <audio ref={audioRef} hidden onEnded={handleAudioEnded} />
 
       <div className="mushaf-page">
-        <div className="mushaf-text" style={{ fontSize: `${fontSize}px` }}>
+        <div className="mushaf-text" style={{ fontSize: `${fontSize}px`, "--mushaf-font-size": `${fontSize}px` }}>
           {verses.map((verse, index) => {
             const startsSurah = index === 0 || verse.surahNumber !== verses[index - 1]?.surahNumber;
             const isActive = verse.aya === activeAya;
