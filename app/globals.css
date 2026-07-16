@@ -1070,6 +1070,67 @@ footer { padding:40px 0; }
 .quran-juz-count { color:var(--muted); font-size:13px; }
 @media (max-width:760px) { .nav-inner { height:auto; min-height:64px; padding-block:10px; align-items:flex-start; } .nav-links { overflow-x:auto; max-width:70%; padding-bottom:4px; } .intro-copy { text-align:right; } }
 
+/* Unified Moroccan artwork buttons */
+.btn,
+.btn-primary,
+.btn-gold,
+.btn-ghost,
+.btn-danger,
+.btn-ornate {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border:3px solid #e5b743;
+  border-radius:999px;
+  color:#fff !important;
+  background-color:#4b421f;
+  background-image:linear-gradient(rgba(28,25,12,.48),rgba(28,25,12,.48)),url('/moroccan-button-pattern.png');
+  background-size:auto,260px auto;
+  background-position:center;
+  background-repeat:no-repeat,repeat-x;
+  box-shadow:inset 0 0 0 2px rgba(255,245,201,.78),inset 0 -10px 20px rgba(22,12,0,.2),0 7px 16px rgba(76,49,7,.2);
+  font-weight:900;
+  letter-spacing:0;
+  text-shadow:0 2px 3px rgba(0,0,0,.9),0 0 9px rgba(0,0,0,.55);
+}
+.btn::before {
+  content:"";
+  position:absolute;
+  inset:5px;
+  z-index:-1;
+  border:1px solid rgba(255,238,169,.76);
+  border-radius:inherit;
+  background:none;
+  opacity:1;
+  pointer-events:none;
+}
+.btn::after,
+.btn-primary::after,
+.btn-gold::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  border:0;
+  border-radius:inherit;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 45%,rgba(0,0,0,.12));
+  pointer-events:none;
+}
+.btn:hover,
+.btn-primary:hover,
+.btn-gold:hover,
+.btn-ghost:hover,
+.btn-danger:hover,
+.btn-ornate:hover {
+  color:#fff !important;
+  border-color:#f3cc67;
+  background-color:#625522;
+  background-position:center,52% 50%;
+  filter:brightness(1.08) saturate(1.08);
+}
+.btn-sm { padding:10px 19px; border-radius:999px; }
+.btn:disabled { filter:grayscale(.35); opacity:.58; }
+
 .prayer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
