@@ -81,12 +81,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-primary { 
-  background-color: #075985;
-  background-image:
-    linear-gradient(45deg, transparent 38%, rgba(244,205,113,.9) 39% 45%, transparent 46% 54%, rgba(45,212,191,.75) 55% 61%, transparent 62%),
-    linear-gradient(-45deg, transparent 38%, rgba(255,255,255,.26) 39% 45%, transparent 46% 54%, rgba(154,52,18,.55) 55% 61%, transparent 62%),
-    linear-gradient(135deg, #064e78, #087b92 50%, #075985);
-  background-size: 24px 24px, 24px 24px, 100% 100%;
+  background-color:#101923;
+  background-image:linear-gradient(rgba(4,18,29,.38),rgba(4,18,29,.38)),url('/moroccan-zellige.svg');
+  background-size:auto,74px 74px;
   color: #fff;
   border-color: #e2b85f;
   box-shadow: 
@@ -107,20 +104,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-primary:hover { 
-  background-color:#086f86;
-  background-position: 4px 0, -4px 0, 0 0;
+  background-color:#172434;
+  background-position:0 0,8px 4px;
   box-shadow: 
     0 20px 50px rgba(147, 51, 234, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn-gold { 
-  background-color:#8b1e3f;
-  background-image:
-    radial-gradient(circle at 50% 50%,#e9c46a 0 2px,transparent 3px),
-    linear-gradient(45deg,transparent 42%,rgba(242,198,104,.78) 43% 48%,transparent 49% 51%,rgba(23,112,98,.7) 52% 57%,transparent 58%),
-    linear-gradient(135deg,#721631,#a52a52 52%,#6c1730);
-  background-size:18px 18px,28px 28px,100% 100%;
+  background-color:#7b5710;
+  background-image:linear-gradient(rgba(115,70,5,.24),rgba(80,38,0,.38)),url('/moroccan-zellige.svg');
+  background-size:auto,82px 82px;
   color:#fffaf0;
   border-color:#e0b45d;
   box-shadow: 
@@ -142,8 +136,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-gold:hover { 
-  background-color:#a62b53;
-  background-position:5px 0,-4px 0,0 0;
+  background-color:#956b18;
+  background-position:0 0,-8px 4px;
   box-shadow: 
     0 20px 50px rgba(212, 165, 116, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
