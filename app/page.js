@@ -1,84 +1,33 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import EntrySplash from "@/components/EntrySplash";
 import MemorialDedication from "@/components/MemorialDedication";
 import KidsGardenSection from "@/components/KidsGardenSection";
-import { getCurrentUser } from "@/lib/session";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
+import { getCurrentUser } from "@/lib/session";
 
 export default function Home() {
   const user = getCurrentUser();
-  // Demo grid preview for the landing page.
-  const demo = Array.from({ length: 30 }, (_, i) => {
-    const n = i + 1;
-    const status = n <= 11 ? "completed" : n <= 18 ? "reserved" : "available";
-    return { n, status };
-  });
-  const labels = { available: "متاح", reserved: "محجوز", completed: "تم" };
-
-  return (
-    <>
-      <EntrySplash />
-      <Nav />
-      <div className="container">
-        <section className="hero">
-          <h1>منصة الختمات الجماعية للقرآن</h1>
-          <p>
-            نظّم ختمة قرآن مع عائلتك وأصدقائك بسهولة واحترام. أنشئ ختمة، شارك الرابط،
-            ودع كل مشارك يحجز جزءًا ويتابع الجميع التقدّم حتى تكتمل الختمة.
-          </p>
-          <div className="row" style={{ justifyContent: "center" }}>
-            <Link href={user ? "/khatmas/new" : "/signup"} className="btn btn-primary">
-              ابدأ ختمة جديدة
-            </Link>
-            <Link href={user ? "/dashboard" : "/login"} className="btn btn-ghost">
-              {user ? "لوحة التحكم" : "تسجيل الدخول"}
-            </Link>
-          </div>
-        </section>
-
-        <MemorialDedication father="يحيى علي الحلبي" mother="دلال محمد طاهر اللادقي" />
-
-        <PrayerTimes city="Beirut" country="Lebanon" />
-
-        <KidsGardenSection />
-
-        <DailyDhikr />
-
-        <section style={{ marginTop: 10 }}>
-          <div className="card">
-            <div className="row" style={{ justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-              <strong>معاينة شبكة الأجزاء</strong>
-              <div className="legend">
-                <span><i className="dot completed" /> تم</span>
-                <span><i className="dot reserved" /> محجوز</span>
-                <span><i className="dot available" /> متاح</span>
-              </div>
-            </div>
-            <div className="juz-grid">
-              {demo.map((j) => (
-                <div key={j.n} className={`juz ${j.status}`}>
-                  <span className="num">{j.n}</span>
-                  <span className="lbl">{labels[j.status]}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="steps">
-          <div className="step"><div className="n">١</div><strong>أنشئ ختمة</strong><p className="muted" style={{ margin: 0, fontSize: 14 }}>سمِّ الختمة وأضف وصفًا اختياريًا.</p></div>
-          <div className="step"><div className="n">٢</div><strong>شارك الرابط</strong><p className="muted" style={{ margin: 0, fontSize: 14 }}>أرسل الرابط عبر واتساب أو أي وسيلة.</p></div>
-          <div className="step"><div className="n">٣</div><strong>احجز جزءًا</strong><p className="muted" style={{ margin: 0, fontSize: 14 }}>يختار كل مشارك جزءًا متاحًا باسمه فقط.</p></div>
-          <div className="step"><div className="n">٤</div><strong>تابع التقدّم</strong><p className="muted" style={{ margin: 0, fontSize: 14 }}>يؤكّد كل مشارك إتمامه حتى تكتمل الختمة.</p></div>
-        </section>
-
-        <footer className="center muted" style={{ padding: "40px 0" }}>
-          صُنع بحبّ لخدمة كتاب الله — ختمة
-        </footer>
+  return <><EntrySplash /><Nav /><main className="container">
+    <section className="hero moroccan-hero">
+      <p className="bismillah">بسم الله الرحمن الرحيم</p>
+      <h1>نور الوالدين</h1>
+      <div className="intro-copy">
+        <p>أنشأنا هذه المنصة كصدقة جارية عن روح والدنا ووالدتنا رحمهما الله وغفر لهما، وأن ينفع بها كل من قرأ القرآن أو دعا أو دلّ على الخير.</p>
+        <p>تهدف المنصة إلى تيسير ختم القرآن الكريم بصورة فردية أو جماعية؛ حيث يمكن إنشاء ختمة لوالدينا أو لمن نحب، ودعوة الأهل والأصدقاء للمشاركة، وحجز الأجزاء، ومتابعة تقدم الختمة حتى تكتمل بإذن الله.</p>
+        <p>كما تضم المنصة مجموعة من الأدعية والأذكار المأثورة، ليكون الدعاء رفيقًا لتلاوة القرآن، ونرجو أن يجعل الله ثواب ذلك في ميزان حسنات من نحب.</p>
+        <p>ولم ننسَ أبناءنا الصغار، فخصصنا لهم حديقة المسلم الصغير؛ مساحة تعليمية وتربوية تقدم القرآن الكريم والأذكار والقصص الإسلامية والقيم والأخلاق بأسلوب مبسط يناسب أعمارهم.</p>
+        <p>نسأل الله تعالى أن يتقبل هذا العمل، وأن يجعله خالصًا لوجهه الكريم، وأن ينفع من كانوا سببًا في هذا العمل.</p>
       </div>
-    </>
-  );
+      <div className="row hero-actions"><Link href={user ? "/khatmas/new" : "/signup"} className="btn btn-primary">ابدأ ختمة جديدة</Link><Link href={user ? "/dashboard" : "/login"} className="btn btn-ghost">{user ? "لوحة التحكم" : "تسجيل الدخول"}</Link></div>
+      <p className="guest-note">لا يحتاج المشاركون إلى حساب أو بريد إلكتروني لحجز جزء عبر رابط الختمة العام؛ الحساب مطلوب فقط لإنشاء الختمة وإدارتها.</p>
+    </section>
+    <MemorialDedication father="يحيى علي الحلبي" mother="دلال محمد طاهر اللاذقي" />
+    <PrayerTimes />
+    <KidsGardenSection />
+    <DailyDhikr />
+    <footer className="center muted">صُنع بحب لخدمة كتاب الله — نور الوالدين</footer>
+  </main></>;
 }

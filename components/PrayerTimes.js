@@ -2,54 +2,43 @@
 
 import { useEffect, useState } from "react";
 
-export default function PrayerTimes({ city = "Beirut", country = "Lebanon", method = 2 }) {
-  const [times, setTimes] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const LOCATIONS = [
+  { label: "بيروت، لبنان", city: "Beirut", country: "Lebanon" },
+  { label: "طرابلس، لبنان", city: "Tripoli", country: "Lebanon" },
+  { label: "الرياض، السعودية", city: "Riyadh", country: "Saudi Arabia" },
+  { label: "القاهرة، مصر", city: "Cairo", country: "Egypt" },
+  { label: "الرباط، المغرب", city: "Rabat", country: "Morocco" },
+  { label: "عمّان، الأردن", city: "Amman", country: "Jordan" },
+];
+const PRAYERS = { Fajr: "الفجر", Sunrise: "الشروق", Dhuhr: "الظهر", Asr: "العصر", Maghrib: "المغرب", Isha: "العشاء" };
 
-  const fetchTimes = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/prayertimes?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=${method}`);
-      const json = await res.json();
-      if (json.ok) {
-        setTimes(json.data);
-        setError(null);
-      } else {
-        setError(json.reason || "error");
-      }
-    } catch (err) {
-      setError(err.message || "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+export default function PrayerTimes() {
+  const [location, setLocation] = useState(LOCATIONS[0]);
+  const [times, setTimes] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchTimes();
-    const id = setInterval(fetchTimes, 5 * 60 * 1000); // refresh every 5 minutes
-    return () => clearInterval(id);
-  }, [city, country, method]);
+    setTimes(null); setError("");
+    fetch(`/api/prayertimes?city=${encodeURIComponent(location.city)}&country=${encodeURIComponent(location.country)}&method=2`)
+      .then((r) => r.json()).then((j) => j.ok ? setTimes(j.data) : setError("تعذر جلب المواقيت"))
+      .catch(() => setError("تعذر الاتصال بخدمة المواقيت"));
+  }, [location]);
 
-  if (loading) return <div className="card muted">جاري جلب أوقات الصلاة...</div>;
-  if (error) return <div className="card muted">خطأ: {error}</div>;
-  if (!times) return null;
-
-  const t = times.timings || {};
   return (
-    <div className="card prayer-times">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <strong>أوقات الصلاة — {city}, {country}</strong>
-        <small className="muted">طريقة الحساب: {times.meta?.method?.name || method}</small>
+    <section className="card prayer-times moroccan-frame">
+      <div className="prayer-heading">
+        <strong>أوقات الصلاة</strong>
+        <label>اختر البلد والمدينة
+          <select className="input" value={location.label} onChange={(e) => setLocation(LOCATIONS.find((x) => x.label === e.target.value))}>
+            {LOCATIONS.map((x) => <option key={x.label}>{x.label}</option>)}
+          </select>
+        </label>
       </div>
-      <div className="prayer-grid">
-        {Object.entries(t).map(([k, v]) => (
-          <div key={k} className="prayer-item">
-            <div className="prayer-key">{k}</div>
-            <div className="prayer-val">{v}</div>
-          </div>
-        ))}
-      </div>
-    </div>
+      {!times && !error && <p className="muted">جارٍ جلب أوقات الصلاة…</p>}
+      {error && <p className="error-text">{error}</p>}
+      {times && <div className="prayer-grid">{Object.entries(PRAYERS).map(([key, label]) => (
+        <div key={key} className="prayer-item"><div className="prayer-key">{label}</div><div className="prayer-val">{times.timings?.[key]}</div></div>
+      ))}</div>}
+    </section>
   );
 }
