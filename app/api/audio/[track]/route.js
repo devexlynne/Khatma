@@ -4,8 +4,8 @@ export const dynamic = "force-dynamic";
 
 const TRACKS = {
   quran_completion: {
-    url: "https://quran-fjamfcbbeybteyat.z01.azurefd.net/Audio3/Do3a/270001.mp3",
-    referer: "https://audio.islamweb.net/audio/index.php?page=FullContent&audioid=26860",
+    url: "https://www.ashefaa.com/ruqia/do3aa/21.mp3",
+    referer: "https://www.ashefaa.com/play-14435.html",
   },
   names_of_allah: {
     url: "https://www.sunnaonline.org/lessons/s-others/du3a2-3.mp3",

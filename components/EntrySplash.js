@@ -76,7 +76,7 @@ export default function EntrySplash() {
               </button>
               <button className="btn btn-primary" type="button" onClick={closeSplash}>فتح الصفحة الآن</button>
             </div>
-            {needsInteraction && <p className="muted">اضغط «تشغيل الآية» للسماح بالصوت. ستفتح الصفحة تلقائيًا عند انتهاء التلاوة.</p>}
+            {needsInteraction && <p className="entry-audio-notice">يتطلب هاتفك نقرة واحدة لبدء الصوت. اضغط «تشغيل الآية»، وستفتح الصفحة تلقائيًا عند انتهاء التلاوة.</p>}
           </div>
         </div>
       </div>
