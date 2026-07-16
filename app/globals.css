@@ -1187,3 +1187,59 @@ footer { padding:40px 0; }
   .hero h1 { font-size: 30px; }
   .nav-links a { padding: 7px 9px; font-size: 13px; }
 }
+
+/* Responsive layout safeguards */
+html { overflow-x:hidden; }
+body { min-width:0; overflow-x:hidden; }
+img,svg,video,canvas,iframe { max-width:100%; }
+.card,.row,.top,.nav-inner,.nav-links,.install-card,.quran-source-card { min-width:0; }
+.card h1,.card h2,.card h3,.card p,.section-title { overflow-wrap:anywhere; }
+.input,textarea.input,select.input,button,audio { max-width:100%; min-width:0; }
+
+@media (max-width:760px) {
+  .container { width:100%; padding-inline:14px; }
+  .page { padding-block:20px 42px; }
+  .nav-inner { flex-direction:column; align-items:stretch; gap:8px; padding-block:9px; }
+  .brand { align-self:flex-start; font-size:17px; }
+  .nav-links { width:100%; max-width:none; overflow-x:auto; overscroll-behavior-inline:contain; scrollbar-width:none; padding:0 0 3px; }
+  .nav-links::-webkit-scrollbar,.duaa-tabs::-webkit-scrollbar { display:none; }
+  .nav-links a { flex:0 0 auto; }
+  .hero,.moroccan-hero { margin-top:14px; padding:32px 18px; }
+  .hero h1 { font-size:clamp(26px,8vw,34px); line-height:1.35; }
+  .hero p { font-size:16px; line-height:1.8; }
+  .card { padding:18px; border-radius:16px; }
+  .section-title { font-size:21px; line-height:1.45; }
+  .summary-grid { grid-template-columns:1fr; }
+  .reservation-card,.k-card .top,.quran-source-card,.install-card { align-items:stretch; flex-direction:column; }
+  .quran-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .duaa-tabs { margin-inline:-14px; padding-inline:14px; scroll-padding-inline:14px; }
+  .duaa-list p { line-height:1.9; }
+  .verified-audio audio,.duaa-list audio { display:block; width:100%; }
+  .entry-splash { padding:10px; align-items:start; overflow-y:auto; }
+  .entry-splash-card { width:100%; max-height:none; margin:auto 0; padding:16px; border-radius:20px; }
+  .entry-splash-top { margin-bottom:16px; }
+  .entry-splash-grid { gap:14px; }
+  .entry-splash-visual,.entry-splash-quote { padding:12px; border-radius:17px; }
+  .entry-splash-quote p { font-size:16px; }
+  .entry-splash-actions .btn { flex:1 1 150px; min-width:0; }
+  .install-steps { width:100%; }
+  .prayer-heading label { width:100%; }
+  .input,textarea.input,select.input { font-size:16px; }
+}
+
+@media (max-width:420px) {
+  .container { padding-inline:11px; }
+  .card { padding:15px; }
+  .row { gap:8px; }
+  .row .btn { flex:1 1 calc(50% - 8px); padding-inline:12px; }
+  .hero-actions .btn,.dedication-form-actions .btn { flex:1 1 100%; width:100%; }
+  .quran-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .quran-juz-link { min-height:94px; padding:12px 7px; }
+  .circular-progress { width:170px; height:170px; }
+  .circular-progress .count { font-size:42px; }
+  .digital-display { font-size:clamp(42px,15vw,56px); }
+}
+
+@media (hover:none) {
+  .card:hover,.btn:hover,.quran-juz-link:hover,.nav-links a:hover { transform:none; }
+}
