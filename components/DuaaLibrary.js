@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { DUAS } from "@/lib/dhikr-client";
+import { DUAS } from "@/lib/dhikrData";
 import { useToast } from "@/components/Toast";
 
-const CATEGORIES = { deceased:"أدعية للمتوفى", quran_completion:"دعاء ختم القرآن", parents:"أدعية للوالدين", morning:"أذكار الصباح", evening:"أذكار المساء", sleep:"أذكار النوم" };
+const CATEGORIES = { deceased:"أدعية للمتوفى", quran_completion:"دعاء ختم القرآن", parents:"أدعية للوالدين", morning:"أذكار الصباح", evening:"أذكار المساء", sleep:"أذكار النوم", names:"أسماء الله الحسنى" };
 
 export default function DuaaLibrary() {
   const notify = useToast();

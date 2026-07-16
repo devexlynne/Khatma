@@ -4,7 +4,6 @@ import { getKhatmaByPublicId, getJuzList, khatmaProgress } from "@/lib/khatma";
 import { getCurrentUser, checkIsAdmin } from "@/lib/session";
 import ReservePanel from "./ReservePanel";
 import AdminReservePanel from "./AdminReservePanel";
-import QiblaCompass from "@/components/QiblaCompass";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +14,7 @@ export default function PublicKhatma({ params }) {
   const progress = khatmaProgress(khatma.id);
   
   const user = getCurrentUser();
-  const isAdmin = user && checkIsAdmin(user);
+  const isAdmin = Boolean(user && (checkIsAdmin(user) || khatma.owner_id === user.id));
 
   return (
     <>
@@ -40,7 +39,6 @@ export default function PublicKhatma({ params }) {
           </div>
         ) : (
           <>
-            <QiblaCompass />
             {isAdmin ? (
               <AdminReservePanel khatmaId={khatma.id} juz={juz} progress={progress} />
             ) : (

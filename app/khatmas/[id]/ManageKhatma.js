@@ -5,7 +5,6 @@ import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
 import ShareCompletionCard from "@/components/ShareCompletionCard";
 import GroupTasbihWidget from "@/components/GroupTasbihWidget";
-import QiblaCompass from "@/components/QiblaCompass";
 import { useToast } from "@/components/Toast";
 
 const STATUS_AR = { active: "نشطة", completed: "مكتملة", disabled: "موقوفة" };
@@ -144,9 +143,6 @@ export default function ManageKhatma({ khatma, juz, progress, groupDhikrs, timel
       </div>
 
       <div className="row" style={{ gap: 12, marginBottom: 18, flexWrap: "wrap" }}>
-        <div style={{ flex: "1 1 320px", minWidth: 280 }}>
-          <QiblaCompass />
-        </div>
         <div style={{ flex: "1 1 320px", minWidth: 280 }}>
           <div className="card" style={{ background: "#f8f4e8" }}>
             <strong style={{ display: "block", marginBottom: 10 }}>لمحات ذكية</strong>

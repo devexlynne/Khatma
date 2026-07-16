@@ -6,6 +6,7 @@ import MemorialDedication from "@/components/MemorialDedication";
 import KidsGardenSection from "@/components/KidsGardenSection";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
+import InstallApp from "@/components/InstallApp";
 import { getCurrentUser } from "@/lib/session";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
     </section>
     <MemorialDedication father="يحيى علي الحلبي" mother="دلال محمد طاهر اللاذقي" />
     <PrayerTimes />
+    <InstallApp />
     <KidsGardenSection />
     <DailyDhikr />
     <footer className="center muted">صُنع بحب لخدمة كتاب الله — نور الوالدين</footer>

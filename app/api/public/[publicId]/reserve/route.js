@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { getKhatmaByPublicId, reserveJuz } from "@/lib/khatma";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req, { params }) {
   const khatma = getKhatmaByPublicId(params.publicId);
@@ -18,5 +19,6 @@ export async function POST(req, { params }) {
   if (!res.ok)
     return NextResponse.json({ error: "هذا الجزء محجوز مسبقًا، اختر جزءًا آخر" }, { status: 409 });
 
+  revalidatePath(`/k/${params.publicId}`);
   return NextResponse.json({ ok: true, token: res.token });
 }

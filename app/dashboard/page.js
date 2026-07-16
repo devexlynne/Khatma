@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Nav from "@/components/Nav";
-import QiblaCompass from "@/components/QiblaCompass";
 import MemorialDedication from "@/components/MemorialDedication";
 import { getDailyDuaa } from "@/lib/dhikr-client";
 import { requireUser } from "@/lib/guard";
