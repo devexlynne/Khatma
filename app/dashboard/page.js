@@ -76,6 +76,66 @@ export default function Dashboard() {
                 ))}
               </div>
             </div>
+            <section className="admin-full-report">
+              <div className="row admin-section-heading">
+                <div><span className="admin-kicker">تقرير النظام الكامل</span><h2 className="section-title">كل المعلومات المتاحة للمشرف</h2></div>
+                <span className="badge admin-badge">تحديث مباشر</span>
+              </div>
+              <div className="stat-grid admin-stat-grid">
+                <div className="stat"><div className="v">{adminInfo.totalKhatmas}</div><div className="l">إجمالي الختمات</div></div>
+                <div className="stat"><div className="v">{adminInfo.activeKhatmas}</div><div className="l">ختمات نشطة</div></div>
+                <div className="stat"><div className="v">{adminInfo.completedKhatmas}</div><div className="l">ختمات مكتملة</div></div>
+                <div className="stat"><div className="v">{adminInfo.disabledKhatmas}</div><div className="l">ختمات موقوفة</div></div>
+                <div className="stat"><div className="v">{adminInfo.completedJuz}</div><div className="l">أجزاء مكتملة</div></div>
+                <div className="stat"><div className="v">{adminInfo.reservedJuz}</div><div className="l">أجزاء محجوزة</div></div>
+                <div className="stat"><div className="v">{adminInfo.availableJuz}</div><div className="l">أجزاء متاحة</div></div>
+                <div className="stat"><div className="v">{adminInfo.participantCount}</div><div className="l">أسماء مشاركين</div></div>
+                <div className="stat"><div className="v">{adminInfo.totalUsers}</div><div className="l">حسابات مسجلة</div></div>
+                <div className="stat"><div className="v">{adminInfo.totalDedications}</div><div className="l">رسائل دعاء ورثاء</div></div>
+                <div className="stat"><div className="v">{adminInfo.pendingDedications}</div><div className="l">رسائل تنتظر الموافقة</div></div>
+                <div className="stat"><div className="v">{adminInfo.dhikrTotal}</div><div className="l">مجموع الذكر الجماعي</div></div>
+              </div>
+
+              <div className="card admin-data-card">
+                <div className="admin-card-title"><h3>تفاصيل جميع الختمات</h3><span>{adminInfo.allKhatmas.length} ختمة</span></div>
+                <div className="admin-khatma-list">
+                  {adminInfo.allKhatmas.length ? adminInfo.allKhatmas.map((k) => (
+                    <article key={k.id} className="admin-khatma-item">
+                      <div className="admin-khatma-top">
+                        <div><h4>{k.title}</h4><p>{k.description || "لا يوجد وصف"}</p></div>
+                        <span className={`badge ${k.status}`}>{k.status === "active" ? "نشطة" : k.status === "completed" ? "مكتملة" : "موقوفة"}</span>
+                      </div>
+                      <div className="admin-detail-grid">
+                        <span><b>المالك:</b> {k.owner_name}</span>
+                        <span><b>البريد:</b> {k.owner_email}</span>
+                        <span><b>الإهداء:</b> {k.honor_name || "بدون إهداء"}</span>
+                        <span><b>تاريخ الإنشاء:</b> {k.created_at?.slice(0,16)}</span>
+                        <span><b>المشاركون:</b> {k.participants || 0}</span>
+                        <span><b>الرمز العام:</b> {k.public_id}</span>
+                      </div>
+                      <div className="progress"><span style={{ width: `${k.percent}%` }} /></div>
+                      <div className="admin-progress-line"><span>{k.completed || 0} مكتمل</span><span>{k.reserved || 0} محجوز</span><span>{k.available || 0} متاح</span><strong>{k.percent}%</strong></div>
+                      <div className="row">
+                        <Link href={`/khatmas/${k.id}`} className="btn btn-primary btn-sm">إدارة الختمة</Link>
+                        <Link href={`/k/${k.public_id}`} className="btn btn-ghost btn-sm">فتح الرابط العام</Link>
+                      </div>
+                    </article>
+                  )) : <p className="muted">لا توجد ختمات بعد.</p>}
+                </div>
+              </div>
+
+              <details className="card admin-data-card">
+                <summary>تفاصيل المستخدمين ({adminInfo.users.length})</summary>
+                <div className="admin-user-list">
+                  {adminInfo.users.map((account) => (
+                    <div key={account.id} className="admin-user-item">
+                      <div><strong>{account.full_name}</strong><small>{account.email}</small></div>
+                      <div className="admin-user-metrics"><span>{account.role === "admin" ? "مشرف" : "مستخدم"}</span><span>{account.khatmas} ختمة</span><span>{account.completed_khatmas} مكتملة</span><span>{account.completed_juz || 0} جزءاً منجزاً</span></div>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </section>
           </div>
         ) : null}
 
