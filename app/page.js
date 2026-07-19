@@ -7,7 +7,6 @@ import KidsGardenSection from "@/components/KidsGardenSection";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
 import InstallApp from "@/components/InstallApp";
-import JoinKhatmaSection from "@/components/JoinKhatmaSection";
 import { getCurrentUser } from "@/lib/session";
 import { khatmaGiftStats } from "@/lib/khatma";
 
@@ -30,7 +29,6 @@ export default function Home() {
       <div className="row hero-actions"><Link href={user ? "/khatmas/new" : "/signup"} className="btn btn-primary">ابدأ ختمة جديدة</Link><Link href={user ? "/dashboard" : "/login"} className="btn btn-ghost">{user ? "لوحة التحكم" : "تسجيل الدخول"}</Link></div>
       <p className="guest-note">لا يحتاج المشاركون إلى حساب أو بريد إلكتروني لحجز جزء عبر رابط الختمة العام؛ الحساب مطلوب فقط لإنشاء الختمة وإدارتها.</p>
     </section>
-    <JoinKhatmaSection />
     <MemorialDedication father={father} mother={mother} giftStats={giftStats} />
     <PrayerTimes />
     <InstallApp />

@@ -1042,15 +1042,6 @@ a { color: inherit; text-decoration: none; }
 .prayer-search { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:center; margin-top:16px; }
 .prayer-location-btn { margin-top:14px; }
 .prayer-date { margin:14px 0 8px; font-size:13px; }
-.join-khatma-card { position:relative; overflow:hidden; display:grid; grid-template-columns:auto 1fr; gap:18px 20px; align-items:center; margin:24px 0; border:2px solid rgba(212,165,45,.6); background:linear-gradient(135deg,#fffaf0,#fff 54%,#f5efff); box-shadow:0 16px 36px rgba(109,59,134,.13); }
-.join-khatma-card::after { content:""; position:absolute; width:190px; height:190px; left:-70px; bottom:-105px; border-radius:50%; background:url('/moroccan-button-pattern.png') center/cover; opacity:.1; pointer-events:none; }
-.join-khatma-icon { width:72px; height:72px; border-radius:50%; display:grid; place-items:center; color:#fff; font-size:25px; font-weight:800; background-image:linear-gradient(rgba(34,19,3,.45),rgba(34,19,3,.58)),url('/moroccan-button-pattern.png'); background-size:auto,230px auto; background-position:center; border:3px solid #e2b83f; box-shadow:0 8px 20px rgba(117,77,13,.2); }
-.join-khatma-copy h2 { margin:2px 0 6px; color:var(--green-dark); font-size:24px; }
-.join-khatma-copy p { margin:0; color:var(--muted); line-height:1.9; }
-.join-khatma-kicker { color:#9a6b0d; font-size:13px; font-weight:800; }
-.join-khatma-form { grid-column:1 / -1; display:grid; gap:8px; }
-.join-khatma-form label { font-size:14px; font-weight:800; }
-.join-khatma-controls { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; }
 @media (max-width:680px) { .prayer-search { grid-template-columns:1fr; } }
 .moroccan-frame {
   position:relative;
@@ -1287,11 +1278,6 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .entry-splash-actions .btn { flex:1 1 150px; min-width:0; }
   .install-steps { width:100%; }
   .prayer-heading label { width:100%; }
-  .join-khatma-card { grid-template-columns:auto minmax(0,1fr); gap:14px; }
-  .join-khatma-icon { width:58px; height:58px; font-size:21px; }
-  .join-khatma-copy h2 { font-size:21px; }
-  .join-khatma-controls { grid-template-columns:1fr; }
-  .join-khatma-controls .btn { width:100%; }
   .input,textarea.input,select.input { font-size:16px; }
 }
 
