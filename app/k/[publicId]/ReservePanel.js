@@ -139,10 +139,13 @@ export default function ReservePanel({ publicId, juz, progress }) {
                     <strong>جزء {reservation.number}</strong>
                     <div className="muted" style={{ fontSize: 13 }}>اسم الحجز: {reservation.name}</div>
                   </div>
-                  <button
-                    className="btn btn-sm btn-gold"
-                    onClick={() => { navigator.clipboard?.writeText(link); notify("تم نسخ الرابط", "info"); }}
-                  >نسخ رابط الإتمام</button>
+                  <div className="row">
+                    <Link href={`/complete/${reservation.token}`} className="btn btn-sm btn-primary">تممت القراءة</Link>
+                    <button
+                      className="btn btn-sm btn-gold"
+                      onClick={() => { navigator.clipboard?.writeText(link); notify("تم نسخ الرابط", "info"); }}
+                    >نسخ رابط الإتمام</button>
+                  </div>
                 </div>
               );
             })}
@@ -154,15 +157,18 @@ export default function ReservePanel({ publicId, juz, progress }) {
       <div className="juz-grid">
         {juz.map((j) => {
           const isAvail = j.status === "available";
+          const ownReservation = savedReservations.find((reservation) => reservation.number === j.number);
           return (
             <div
               key={j.number}
-              className={`juz ${j.status} ${isAvail ? "selectable" : ""} ${selected === j.number ? "selected" : ""}`}
+              className={`juz ${j.status} ${isAvail ? "selectable" : ""} ${ownReservation ? "reserved-by-me" : ""} ${selected === j.number ? "selected" : ""}`}
               onClick={() => isAvail && setSelected(j.number)}
             >
               <span className="num">{j.number}</span>
-              <span className="lbl">{JUZ_LABEL[j.status]}</span>
-              {j.status === "reserved" ? <span className="who">محجوز الآن</span> : null}
+              <span className="lbl">{ownReservation && j.status === "reserved" ? "محجوز لك" : JUZ_LABEL[j.status]}</span>
+              {ownReservation && j.status === "reserved" ? (
+                <button type="button" className="complete-my-juz" onClick={(event)=>{event.stopPropagation();router.push(`/complete/${ownReservation.token}`);}}>تممت القراءة</button>
+              ) : j.status === "reserved" ? <span className="who">محجوز الآن</span> : null}
             </div>
           );
         })}

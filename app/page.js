@@ -9,9 +9,13 @@ import PrayerTimes from "@/components/PrayerTimes";
 import InstallApp from "@/components/InstallApp";
 import JoinKhatmaSection from "@/components/JoinKhatmaSection";
 import { getCurrentUser } from "@/lib/session";
+import { khatmaGiftStats } from "@/lib/khatma";
 
 export default function Home() {
   const user = getCurrentUser();
+  const father = "يحيى علي الحلبي";
+  const mother = "دلال محمد طاهر اللاذقي";
+  const giftStats = { father: khatmaGiftStats(father), mother: khatmaGiftStats(mother) };
   return <><EntrySplash /><Nav /><main className="container">
     <section className="hero moroccan-hero">
       <p className="bismillah">بسم الله الرحمن الرحيم</p>
@@ -27,7 +31,7 @@ export default function Home() {
       <p className="guest-note">لا يحتاج المشاركون إلى حساب أو بريد إلكتروني لحجز جزء عبر رابط الختمة العام؛ الحساب مطلوب فقط لإنشاء الختمة وإدارتها.</p>
     </section>
     <JoinKhatmaSection />
-    <MemorialDedication father="يحيى علي الحلبي" mother="دلال محمد طاهر اللاذقي" />
+    <MemorialDedication father={father} mother={mother} giftStats={giftStats} />
     <PrayerTimes />
     <InstallApp />
     <KidsGardenSection />

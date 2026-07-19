@@ -1,7 +1,7 @@
 import DedicationForm from "./DedicationForm";
 import DedicationList from "./DedicationList";
 
-export default function MemorialDedication({ father, mother }) {
+export default function MemorialDedication({ father, mother, giftStats }) {
   return (
     <>
       <div className="card dedication-card moroccan-frame">
@@ -17,8 +17,8 @@ export default function MemorialDedication({ father, mother }) {
           <p className="dedication-photo-caption">برُّ الوالدين… أثرٌ يبقى، وأجرٌ لا ينقطع</p>
         </div>
         <div className="dedication-grid">
-          <div className="dedication-person center"><span className="dedication-label">الوالد</span><strong>{father}</strong></div>
-          <div className="dedication-person center"><span className="dedication-label">الوالدة</span><strong>{mother}</strong></div>
+          <div className="dedication-person center"><span className="dedication-label">الوالد</span><strong>{father}</strong><span className="gift-count">{giftStats?.father?.total || 0} ختمة مهداة · {giftStats?.father?.completed || 0} مكتملة</span></div>
+          <div className="dedication-person center"><span className="dedication-label">الوالدة</span><strong>{mother}</strong><span className="gift-count">{giftStats?.mother?.total || 0} ختمة مهداة · {giftStats?.mother?.completed || 0} مكتملة</span></div>
         </div>
       </div>
       <div className="card moroccan-frame" style={{ marginTop: 20 }}>
