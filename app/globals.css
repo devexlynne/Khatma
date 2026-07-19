@@ -859,6 +859,34 @@ a { color: inherit; text-decoration: none; }
 }
 .pdf-shell {
   padding: 26px 26px 18px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(210, 161, 45, 0.48);
+  background: linear-gradient(145deg, #fffdf7 0%, #fff 45%, #fbf4ff 100%);
+  box-shadow: 0 18px 42px rgba(104, 56, 128, 0.12);
+}
+.pdf-shell::before {
+  content: "";
+  position: absolute;
+  top: -52px;
+  left: -48px;
+  width: 150px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: url('/moroccan-button-pattern.png') center/cover;
+  opacity: .14;
+  pointer-events: none;
+}
+.pdf-shell::after {
+  content: "✦  ❖  ✦";
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #b68016;
+  letter-spacing: 5px;
+  opacity: .72;
+  pointer-events: none;
 }
 .pdf-header {
   display: flex;
@@ -874,8 +902,10 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   padding: 10px 16px;
   border-radius: 999px;
-  background: #f4f7ff;
-  color: #3c6e9e;
+  background: linear-gradient(135deg, #fff0b8, #f3d372);
+  color: #72500a;
+  border: 1px solid #d9aa36;
+  box-shadow: 0 6px 16px rgba(190, 139, 27, .16);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -892,11 +922,16 @@ a { color: inherit; text-decoration: none; }
   min-height: 165px;
   padding: 22px;
   border-radius: 22px;
-  border: 1px solid rgba(147, 51, 234, 0.12);
-  background: linear-gradient(180deg, #ffffff, #f7fbff);
+  border: 1px solid rgba(147, 51, 234, 0.2);
+  border-top: 5px solid #268b70;
+  background: linear-gradient(155deg, #ffffff 30%, #effbf5 100%);
   text-decoration: none;
   color: inherit;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.pdf-card:nth-child(2) {
+  border-top-color: #a43b78;
+  background: linear-gradient(155deg, #ffffff 30%, #fff1f8 100%);
 }
 .pdf-card:hover {
   transform: translateY(-2px);
@@ -941,10 +976,21 @@ a { color: inherit; text-decoration: none; }
   margin-top: 18px;
   padding: 12px 16px;
   border-radius: 16px;
-  background: rgba(147, 51, 234, 0.12);
-  color: var(--green-dark);
+  background-image: linear-gradient(rgba(27,18,5,.5),rgba(27,18,5,.62)), url('/moroccan-button-pattern.png');
+  background-size: auto, 320px auto;
+  background-position: center;
+  color: #fff;
+  border: 2px solid #e1b83f;
+  box-shadow: 0 7px 16px rgba(103, 67, 8, .18);
   font-size: 14px;
   font-weight: 700;
+}
+
+@media (max-width:760px) {
+  .pdf-shell { padding:22px 16px 16px; }
+  .pdf-shell::after { position:static; display:block; transform:none; margin:-6px 0 14px; text-align:center; }
+  .pdf-header { margin-bottom:14px; }
+  .pdf-card { padding:18px; }
 }
 
 .section-title { font-size: 22px; font-weight: 800; margin: 0 0 6px; }
