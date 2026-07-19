@@ -247,13 +247,15 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--green);
   box-shadow: 0 0 0 4px var(--green-soft);
 }
-.pw-wrap { position: relative; }
+.pw-wrap { position: relative; width:100%; }
+.pw-wrap .input { padding-left:78px; }
 .pw-wrap .toggle {
-  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer; color: var(--muted); font-size: 13px; font-weight: 700;
-  transition: color 0.2s ease;
+  position:absolute; left:9px; right:auto; top:50%; transform:translateY(-50%); z-index:2;
+  min-width:58px; height:34px; padding:0 10px; border:0; border-radius:10px;
+  background:var(--green-soft); cursor:pointer; color:var(--green-dark); font-family:inherit; font-size:13px; font-weight:800; line-height:1;
+  transition:color .2s ease,background .2s ease;
 }
-.pw-wrap .toggle:hover { color: var(--green); }
+.pw-wrap .toggle:hover { color:#fff; background:var(--green); }
 
 /* Nav */
 .nav {
