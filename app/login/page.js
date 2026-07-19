@@ -33,7 +33,7 @@ export default function LoginPage() {
       }
       let d = null;
       try { d = await res.json(); } catch (err) { /* ignore JSON parse errors */ }
-      setError(d?.error || "حدث خطأ");
+      setError(d?.error || "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.");
     } catch (err) {
       console.error("Login failed:", err);
       setError("فشل الاتصال بالخادم");
@@ -70,18 +70,10 @@ export default function LoginPage() {
           <button className="btn btn-primary btn-block" disabled={loading} style={{ marginTop: 8 }}>
             {loading ? "جارٍ الدخول…" : "دخول"}
           </button>
-          <button
-            type="button"
-            className="btn btn-ghost btn-block"
-            style={{ marginTop: 10 }}
-            onClick={() => setForm({ email: "admin@khatma.app", password: "admin123" })}
-          >
-            دخول كمدير النظام
-          </button>
         </form>
-        <div className="note" style={{ marginTop: 16, background: "#f4f8ff", borderColor: "#d7e5fa", color: "#254a78" }}>
-          لتجربة دور المسؤول، شغّل الأمر <strong>npm run seed</strong> ثم سجّل الدخول بـ
-          <br />البريد: <strong>admin@khatma.app</strong> · كلمة المرور: <strong>admin123</strong>
+        <div className="note login-recovery-note" style={{ marginTop: 16 }}>
+          <strong>لا تستطيع الدخول بعد تحديث الموقع؟</strong>
+          <br />قد يكون الحساب القديم غير محفوظ. أنشئ الحساب مجدداً بنفس بريدك، ثم اطلب تفعيل صلاحية الإدارة لهذا البريد.
         </div>
         <div className="divider">ليس لديك حساب؟ <Link href="/signup" style={{ color: "var(--green)", fontWeight: 800 }}>إنشاء حساب</Link></div>
       </div>
