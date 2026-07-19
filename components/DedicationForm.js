@@ -53,7 +53,7 @@ export default function DedicationForm() {
       </div>
 
       <div className="dedication-form-actions">
-        <button className="btn btn-primary btn-ornate" type="submit" disabled={submitting}>
+        <button className="btn btn-primary btn-block" type="submit" disabled={submitting}>
           {submitting ? "جارٍ الإرسال..." : "أرسل للدراسة"}
         </button>
       </div>
