@@ -994,6 +994,8 @@ a { color: inherit; text-decoration: none; }
 .prayer-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; }
 .prayer-heading label { display:grid; gap:6px; min-width:min(100%, 260px); font-size:13px; font-weight:700; color:var(--muted); }
 .prayer-search { display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:center; margin-top:16px; }
+.prayer-location-btn { margin-top:14px; }
+.prayer-date { margin:14px 0 8px; font-size:13px; }
 @media (max-width:680px) { .prayer-search { grid-template-columns:1fr; } }
 .moroccan-frame {
   position:relative;
