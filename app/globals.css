@@ -1038,7 +1038,7 @@ a { color: inherit; text-decoration: none; }
 .dedication-person { text-align:center; }
 footer { padding:40px 0; }
 .duaa-tabs { display:flex; gap:8px; overflow-x:auto; padding:14px 0 20px; }
-.duaa-tabs button { white-space:nowrap; }
+.duaa-tabs button { white-space:nowrap; flex:0 0 auto; }
 .duaa-list { display:grid; gap:14px; }
 .duaa-list article:nth-child(4n+1) { border-color:#7a9b76; }
 .duaa-list article:nth-child(4n+2) { border-color:#9b476e; }
@@ -1213,6 +1213,8 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .reservation-card,.k-card .top,.quran-source-card,.install-card { align-items:stretch; flex-direction:column; }
   .quran-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
   .duaa-tabs { margin-inline:-14px; padding-inline:14px; scroll-padding-inline:14px; }
+  .duaa-tabs { scroll-snap-type:inline proximity; overscroll-behavior-inline:contain; }
+  .duaa-tabs button { scroll-snap-align:start; min-width:max-content; flex-shrink:0; padding:10px 17px; font-size:13px; }
   .duaa-list p { line-height:1.9; }
   .verified-audio audio,.duaa-list audio { display:block; width:100%; }
   .entry-splash { padding:10px; align-items:start; overflow-y:auto; }
@@ -1232,6 +1234,8 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .card { padding:15px; }
   .row { gap:8px; }
   .row .btn { flex:1 1 calc(50% - 8px); padding-inline:12px; }
+  .duaa-tabs { margin-inline:-11px; padding-inline:11px; scroll-padding-inline:11px; }
+  .duaa-tabs .btn { width:auto; flex:0 0 auto; min-width:max-content; }
   .hero-actions .btn,.dedication-form-actions .btn { flex:1 1 100%; width:100%; }
   .quran-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .quran-juz-link { min-height:94px; padding:12px 7px; }
