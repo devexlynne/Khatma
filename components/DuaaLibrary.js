@@ -17,7 +17,9 @@ export default function DuaaLibrary() {
   const favorite=(d)=>{ const id=idOf(d); const next=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id]; setFavorites(next); localStorage.setItem("duaa_favorites",JSON.stringify(next)); };
   return <div className="container page"><h1 className="section-title">الأدعية والأذكار</h1>
     <div className="duaa-tabs">{Object.entries(CATEGORIES).map(([key,label])=><button key={key} className={`btn btn-sm ${category===key?"btn-primary":"btn-ghost"}`} onClick={()=>setCategory(key)}>{label}</button>)}</div>
-    <div className="duaa-list">{(DUAS[category]||[]).map((d,i)=><article className="card moroccan-frame" key={`${d.title}-${i}`}><h3>{d.title}</h3><p>{d.text}</p>
+    <div className="duaa-list">{(DUAS[category]||[]).map((d,i)=><article className={`card moroccan-frame${d.names ? " names-chapter" : ""}`} key={`${d.title}-${i}`}><h3>{d.title}</h3>
+      {d.intro && <p className="names-hadith">{d.intro}</p>}
+      {d.names ? <div className="names-grid" aria-label="أسماء الله الحسنى">{d.names.map((name,index)=><div className="name-tile" key={name}><span>{index+1}</span><strong>{name}</strong></div>)}</div> : <p>{d.text}</p>}
       {d.audio && <div className="verified-audio"><strong>تسجيل صوتي</strong><audio controls preload="none" src={d.audio}>متصفحك لا يدعم تشغيل الصوت.</audio></div>}
       {d.source && <p><a href={d.source} target="_blank" rel="noreferrer">فتح المصدر أو التسجيل الصوتي</a></p>}
       {d.alternateSource && <p><a href={d.alternateSource} target="_blank" rel="noreferrer">دعاء ختم القرآن بصوت الشيخ محمد جبريل</a></p>}
