@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import EntrySplash from "@/components/EntrySplash";
 import MemorialDedication from "@/components/MemorialDedication";
 import ParentsTributeGateway from "@/components/ParentsTributeGateway";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import KidsGardenSection from "@/components/KidsGardenSection";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
@@ -16,7 +17,7 @@ export default function Home() {
   const father = "يحيى علي الحلبي";
   const mother = "دلال محمد طاهر اللاذقي";
   const giftStats = { father: khatmaGiftStats(father), mother: khatmaGiftStats(mother) };
-  return <><EntrySplash /><Nav /><main className="container">
+  return <><EntrySplash /><Nav /><AnnouncementBar /><main className="container">
     <section className="hero moroccan-hero">
       <p className="bismillah">بسم الله الرحمن الرحيم</p>
       <h1>نور الوالدين</h1>
@@ -32,10 +33,14 @@ export default function Home() {
     </section>
     <MemorialDedication father={father} mother={mother} giftStats={giftStats} />
     <ParentsTributeGateway />
+    <section className="card prophet-audio-card moroccan-frame">
+      <div><span className="prophet-card-kicker">سيرةٌ تُسمع بالقلب</span><h2>مع النبي محمد ﷺ</h2><p>حلقات صوتية تقرّبنا من سيرة النبي محمد صلى الله عليه وسلم وهديه.</p></div>
+      <a className="btn btn-primary" href="https://islamonline.net/podcast/" target="_blank" rel="noreferrer">الاستماع إلى الصوتيات</a>
+    </section>
     <PrayerTimes />
     <InstallApp />
     <KidsGardenSection />
     <DailyDhikr />
-    <footer className="center muted">صُنع بحب لخدمة كتاب الله — نور الوالدين</footer>
+    <footer className="center muted">القرآن يجمعنا...</footer>
   </main></>;
 }

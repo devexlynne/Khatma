@@ -4,6 +4,7 @@ import MemorialDedication from "@/components/MemorialDedication";
 import { getDailyDuaa } from "@/lib/dhikr-client";
 import { requireUser } from "@/lib/guard";
 import { ownerStats, adminOverview } from "@/lib/khatma";
+import AnnouncementAdmin from "@/components/AnnouncementAdmin";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,7 @@ export default function Dashboard() {
 
         {isAdmin ? (
           <div style={{ marginTop: 22 }}>
+            <AnnouncementAdmin />
             <div className="row" style={{ gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
               <div style={{ flex: "1 1 320px", minWidth: 280 }}>
                 <div className="stat-grid">

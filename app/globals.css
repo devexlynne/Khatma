@@ -997,7 +997,7 @@ a { color: inherit; text-decoration: none; }
 .moroccan-hero::after { left:22px; color:#2f765b; }
 .bismillah { color:#8a295f !important; font-size:22px !important; font-weight:800; }
 .intro-copy { max-width:900px; margin:0 auto 24px; text-align:right; }
-.intro-copy p { max-width:none; font-size:16px; line-height:2; margin:0 0 8px; }
+.intro-copy p { max-width:none; font-size:16px; line-height:2; margin:0 0 8px; font-weight:700; }
 .hero-actions { justify-content:center; }
 .guest-note { margin:18px auto 0 !important; padding:12px 16px; border-radius:14px; background:#eef9f1; color:#315f43 !important; font-size:14px !important; }
 .dedication-person { text-align:center; }
@@ -1239,6 +1239,24 @@ img,svg,video,canvas,iframe { max-width:100%; }
 @media (hover:none) {
   .card:hover,.btn:hover,.quran-juz-link:hover,.nav-links a:hover { transform:none; }
 }
+
+.announcement-bar { display:flex; align-items:center; gap:10px; min-height:48px; padding:8px max(16px,calc((100% - 1040px)/2)); background:linear-gradient(90deg,#211f1b,#4d483e,#211f1b); border-block:2px solid #cba95c; color:#fff; overflow:hidden; }
+.announcement-star { display:grid; place-items:center; width:30px; height:30px; flex:0 0 auto; border:1px solid #e8c875; border-radius:50%; color:#f4cf68; animation:announcementGlow 1.8s infinite alternate; }
+.brand-wrap { display:flex; align-items:center; gap:5px; }
+.brand-news-star { border:0; background:transparent; color:#d59f20; font-size:22px; cursor:pointer; animation:announcementGlow 1.2s infinite alternate; }
+.announcement-bar strong { white-space:nowrap; color:#f4d57f; }
+.announcement-track { overflow:hidden; flex:1; }
+.announcement-track span { display:block; width:max-content; min-width:100%; text-align:center; font-weight:700; animation:announcementMove 18s linear infinite; }
+@keyframes announcementGlow { to { box-shadow:0 0 14px #f4cf68; transform:scale(1.08); } }
+@keyframes announcementMove { from { transform:translateX(-10%); } to { transform:translateX(10%); } }
+.announcement-admin { display:grid; gap:12px; margin-bottom:20px; border-color:#d4ad52; background:#fffaf0; }
+.announcement-admin p { margin:5px 0 0; }
+.announcement-admin .btn { width:max-content; }
+.prophet-audio-card { display:flex; justify-content:space-between; align-items:center; gap:24px; margin:24px 0; background:linear-gradient(135deg,#f4f1e8,#fff); }
+.prophet-audio-card h2 { margin:4px 0; }
+.prophet-audio-card p { margin:0; color:var(--muted); }
+.prophet-card-kicker { color:#886921; font-size:13px; font-weight:800; }
+@media(max-width:600px){ .announcement-bar { padding-inline:10px; font-size:13px; } .announcement-bar strong { display:none; } .prophet-audio-card { flex-direction:column; align-items:stretch; } .prophet-audio-card .btn { width:100%; } }
 
 /* Parents' memorial — monochrome sanctuary theme */
 .tribute-gateway {
