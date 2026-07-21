@@ -36,7 +36,7 @@ export default function JuzPage({ params }) {
   }
 
   return (
-    <div className="container page quran-juz-page" style={{ maxWidth: 820 }}>
+    <div className="container page quran-juz-page" style={{ maxWidth: 1240 }}>
       <style>{`
         .quran-verse {
           direction: rtl;

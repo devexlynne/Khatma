@@ -94,6 +94,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
   const increase = () => setFontSize((size) => Math.min(42, size + 2));
   const decrease = () => setFontSize((size) => Math.max(18, size - 2));
   const reset = () => setFontSize(initialFont);
+  const toArabicDigits = (value) => String(value ?? "").replace(/\d/g, (digit) => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
 
   return (
     <div className="mushaf-reader">
@@ -161,29 +162,17 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           width: 100%;
           max-width: 100%;
           min-height: 560px;
-          padding: 34px 34px 42px;
-          border-radius: 8px;
-          background:
-            linear-gradient(90deg, rgba(110, 84, 45, 0.08), transparent 6%, transparent 94%, rgba(110, 84, 45, 0.08)),
-            #fff4d8;
-          border: 8px solid #4f8a32;
-          box-shadow:
-            inset 0 0 0 2px rgba(219, 173, 83, 0.65),
-            inset 0 0 0 9px rgba(255, 251, 232, 0.85),
-            0 18px 45px rgba(54, 73, 38, 0.18);
+          padding: 38px 30px 48px;
+          border-radius: 4px;
+          background: #fff;
+          border: 1px solid #edf2e8;
+          box-shadow: 0 10px 32px rgba(42, 92, 150, 0.07);
           overflow: hidden;
         }
 
         .mushaf-page::before,
         .mushaf-page::after {
-          content: "";
-          position: absolute;
-          left: 18px;
-          right: 18px;
-          height: 5px;
-          border-radius: 99px;
-          background: linear-gradient(90deg, transparent, #d7a94d 18%, #4f8a32 50%, #d7a94d 82%, transparent);
-          opacity: 0.75;
+          display: none;
         }
 
         .mushaf-page::before { top: 16px; }
@@ -192,13 +181,14 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
         .mushaf-text {
           position: relative;
           z-index: 1;
-          color: #2f2619;
-          font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", "Traditional Arabic", serif;
-          line-height: 2.2;
+          color: #0561b8;
+          font-family: "Amiri Quran", "Amiri", "Scheherazade New", "Noto Naskh Arabic", "Traditional Arabic", serif;
+          line-height: 2.35;
           text-align: justify;
           text-align-last: center;
-          font-weight: 600;
+          font-weight: 400;
           overflow-wrap: normal;
+          word-spacing: 0.06em;
         }
 
         .mushaf-surah-title {
@@ -207,9 +197,9 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           justify-content: center;
           gap: 12px;
           margin: 18px auto 16px;
-          color: #315f22;
-          font-family: "Tajawal", "Segoe UI", sans-serif;
-          font-size: 18px;
+          color: #0561b8;
+          font-family: "Amiri Quran", "Amiri", serif;
+          font-size: 24px;
           line-height: 1.6;
           font-weight: 900;
           text-align: center;
@@ -220,12 +210,12 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           content: "";
           width: min(120px, 22vw);
           height: 2px;
-          background: linear-gradient(90deg, transparent, #d2a64b, transparent);
+          background: linear-gradient(90deg, transparent, #dceecf, transparent);
         }
 
         .mushaf-ayah {
           display: inline;
-          padding: 0 5px;
+          padding: 0 2px;
           border-radius: 8px;
           cursor: pointer;
           box-decoration-break: clone;
@@ -236,30 +226,40 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
         .mushaf-ayah:hover,
         .mushaf-ayah:focus-visible {
           outline: none;
-          background: rgba(79, 138, 50, 0.12);
+          background: rgba(226, 244, 213, 0.7);
         }
 
         .mushaf-ayah.is-active {
-          background: rgba(245, 201, 83, 0.42);
-          color: #1f4316;
-          box-shadow: 0 0 0 1px rgba(153, 113, 30, 0.18);
+          background: rgba(226, 244, 213, 0.72);
+          color: #48a6ce;
+          box-shadow: none;
         }
 
         .mushaf-marker {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 1.8em;
-          height: 1.8em;
-          margin: 0 0.18em;
-          color: #7a5b1b;
-          border: 1px solid rgba(122, 91, 27, 0.38);
+          min-width: 1.9em;
+          height: 1.9em;
+          margin: 0 0.15em;
+          padding: 0 0.28em;
+          color: #526e3c;
+          border: 0;
           border-radius: 50%;
-          font-family: "Tajawal", "Segoe UI", sans-serif;
-          font-size: 0.48em;
-          font-weight: 900;
+          font-family: "Amiri Quran", "Amiri", serif;
+          font-size: 0.46em;
+          font-weight: 700;
           vertical-align: 0.22em;
-          background: rgba(255, 248, 220, 0.72);
+          background: #e3f3d8;
+          white-space: nowrap;
+        }
+
+        .mushaf-marker::before,
+        .mushaf-marker::after {
+          content: "۞";
+          font-size: 0.72em;
+          color: #758a61;
+          margin: 0 0.05em;
         }
 
         .mushaf-status {
@@ -288,16 +288,14 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
 
           .mushaf-page {
             min-height: 520px;
-            padding: 26px 14px 34px;
-            border-left-width: 5px;
-            border-right-width: 5px;
+            padding: 24px 14px 34px;
             border-radius: 0;
           }
 
           .mushaf-text {
-            line-height: 2.05;
-            text-align: right;
-            text-align-last: auto;
+            line-height: 2.2;
+            text-align: justify;
+            text-align-last: center;
           }
 
           .mushaf-ayah {
@@ -390,7 +388,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
                 >
                   {verse.text?.replace(/^\uFEFF/, "")}
                   <span className="mushaf-marker" aria-label={`الآية ${verse.numberInSurah}`}>
-                    {verse.numberInSurah}
+                    {toArabicDigits(verse.numberInSurah)}
                   </span>
                 </span>
               </span>
