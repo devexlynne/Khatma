@@ -1257,6 +1257,11 @@ img,svg,video,canvas,iframe { max-width:100%; }
   color:#fff;
   text-decoration:none;
 }
+.tribute-gateway-fallback {
+  position:absolute;
+  inset:0;
+  background:#aaa49a url('/sanctuary-gate.png') center 44% / cover no-repeat;
+}
 .tribute-gateway-image {
   position:absolute;
   inset:0;
@@ -1346,6 +1351,75 @@ img,svg,video,canvas,iframe { max-width:100%; }
 .tribute-ornament,.tribute-divider { display:flex; align-items:center; gap:15px; color:#49463f; }
 .tribute-ornament::before,.tribute-ornament::after,.tribute-divider::before,.tribute-divider::after { content:""; height:1px; flex:1; background:linear-gradient(90deg,transparent,#4b4842,transparent); }
 .tribute-ornament span { font-size:34px; }
+.tribute-portraits {
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 74px minmax(0,1fr);
+  align-items:center;
+  gap:26px;
+  margin:38px auto 58px;
+  max-width:760px;
+  padding:28px;
+  border-block:3px double #4a4740;
+  background:linear-gradient(rgba(248,245,237,.91),rgba(248,245,237,.91)),url('/sanctuary-gate.png') center 36% / cover no-repeat;
+}
+.tribute-portraits::before,.tribute-portraits::after {
+  content:"✦";
+  position:absolute;
+  top:-17px;
+  display:grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border:1px solid #4a4740;
+  background:#f8f5ed;
+  color:#4a4740;
+  transform:rotate(45deg);
+}
+.tribute-portraits::before { right:24px; }
+.tribute-portraits::after { left:24px; }
+.tribute-portrait { margin:0; text-align:center; }
+.tribute-portrait-frame {
+  position:relative;
+  width:min(100%,280px);
+  aspect-ratio:4/5;
+  margin:0 auto;
+  padding:9px;
+  border:4px double #403d37;
+  background:#ddd7cb;
+  box-shadow:0 12px 25px rgba(35,32,27,.18);
+}
+.tribute-portrait-frame::before {
+  content:"";
+  position:absolute;
+  inset:4px;
+  z-index:1;
+  border:1px solid rgba(255,255,255,.75);
+  pointer-events:none;
+}
+.tribute-portrait-frame img { display:block; width:100%; height:100%; object-fit:cover; filter:sepia(.13) saturate(.82) contrast(1.04); }
+.tribute-portrait-mother .tribute-portrait-frame img { object-position:center 35%; }
+.tribute-portrait-father .tribute-portrait-frame img { object-position:center 18%; }
+.tribute-portrait figcaption { display:flex; flex-direction:column; gap:3px; margin-top:16px; }
+.tribute-portrait figcaption > span { color:#6c675e; font-size:13px; }
+.tribute-portrait figcaption strong { font-size:clamp(18px,2.5vw,24px); line-height:1.5; }
+.tribute-portrait figcaption small { color:#6c675e; font-weight:700; }
+.tribute-portrait-seal {
+  display:grid;
+  place-items:center;
+  width:70px;
+  height:70px;
+  border:3px double #4a4740;
+  border-radius:50%;
+  background:#eeeae0;
+  color:#46423b;
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.45;
+  box-shadow:0 0 0 6px rgba(74,71,64,.08);
+}
 .tribute-chapter { position:relative; z-index:1; margin:38px auto; max-width:720px; }
 .tribute-chapter p { margin:0 0 20px; font-size:clamp(17px,2.1vw,20px); line-height:2.15; text-align:justify; }
 .tribute-chapter .tribute-lead { margin-bottom:25px; font-size:clamp(30px,5vw,45px); font-weight:800; text-align:center; line-height:1.5; }
@@ -1380,6 +1454,10 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .tribute-manuscript { padding:34px 22px; border-width:7px; }
   .tribute-manuscript::before { inset:7px; }
   .tribute-cover-title { inset:auto 4% 4%; padding:20px 10px; }
+  .tribute-portraits { grid-template-columns:1fr; gap:22px; padding:28px 14px; }
+  .tribute-portrait-seal { width:58px; height:58px; margin:auto; order:2; }
+  .tribute-portrait-father { order:3; }
+  .tribute-portrait-frame { width:min(86%,270px); }
   .tribute-chapter p { line-height:2; text-align:right; }
   .tribute-prayer { grid-template-columns:1fr; padding:22px 16px; }
   .tribute-prayer > span { display:none; }

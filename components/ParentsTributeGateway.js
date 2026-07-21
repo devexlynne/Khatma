@@ -4,6 +4,7 @@ export default function ParentsTributeGateway() {
   return (
     <section className="tribute-gateway" aria-labelledby="tribute-gateway-title">
       <Link href="/tribute" className="tribute-gateway-link" aria-label="اقرأ: لأنهما يستحقان">
+        <span className="tribute-gateway-fallback" aria-hidden="true" />
         <img
           src="/sanctuary-gate.png"
           alt="زخرفة معمارية إسلامية لباب الحرم"
