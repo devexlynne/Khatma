@@ -6,7 +6,7 @@ import { userFromToken, isAdmin, COOKIE_NAME } from "@/lib/auth";
 
 export async function GET() {
   const row = db.prepare("SELECT value, updated_at FROM site_settings WHERE key='announcement'").get();
-  return NextResponse.json({ message: row?.value || "", updatedAt: row?.updated_at || "" });
+  return NextResponse.json({ message: row?.value || "", updatedAt: row?.updated_at || "" }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export async function POST(request) {
@@ -15,6 +15,7 @@ export async function POST(request) {
   const { message } = await request.json();
   const clean = String(message || "").trim().slice(0, 500);
   if (!clean) return NextResponse.json({ ok:false }, { status:400 });
-  db.prepare("INSERT INTO site_settings (key,value,updated_at) VALUES ('announcement',?,datetime('now')) ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=datetime('now')").run(clean);
-  return NextResponse.json({ ok:true });
+  const updatedAt = new Date().toISOString();
+  db.prepare("INSERT INTO site_settings (key,value,updated_at) VALUES ('announcement',?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=excluded.updated_at").run(clean, updatedAt);
+  return NextResponse.json({ ok:true, message:clean, updatedAt });
 }

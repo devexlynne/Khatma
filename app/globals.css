@@ -1252,6 +1252,15 @@ img,svg,video,canvas,iframe { max-width:100%; }
 .announcement-admin { display:grid; gap:12px; margin-bottom:20px; border-color:#d4ad52; background:#fffaf0; }
 .announcement-admin p { margin:5px 0 0; }
 .announcement-admin .btn { width:max-content; }
+.announcement-success { display:flex; flex-direction:column; gap:5px; padding:12px 15px; border:1px solid #8bbf98; border-radius:14px; background:#effaf2; color:#285e38; }
+.announcement-success span { color:#45624d; }
+.public-khatmas-section { margin-top:40px; padding-top:26px; border-top:2px solid #ead9ad; }
+.public-khatmas-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }
+.public-khatmas-heading span:first-child { color:#8a681c; font-size:13px; font-weight:800; }
+.public-khatmas-heading h2 { margin:3px 0 0; }
+.public-khatma-card { border-color:#d9bd74; background:linear-gradient(145deg,#fffdf7,#fff); }
+.public-khatma-card .btn { align-self:flex-start; }
+@media(max-width:600px){ .public-khatmas-heading { align-items:flex-start; flex-direction:column; } .public-khatma-card .btn { width:100%; } }
 .prophet-audio-card { display:flex; justify-content:space-between; align-items:center; gap:24px; margin:24px 0; background:linear-gradient(135deg,#f4f1e8,#fff); }
 .prophet-audio-card h2 { margin:4px 0; }
 .prophet-audio-card p { margin:0; color:var(--muted); }

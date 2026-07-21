@@ -12,7 +12,7 @@ const FILTERS = [
 
 const STATUS_AR = { active: "نشطة", completed: "مكتملة", disabled: "موقوفة" };
 
-export default function KhatmaList({ khatmas }) {
+export default function KhatmaList({ khatmas, publicKhatmas = [] }) {
   const [filter, setFilter] = useState("all");
   const [q, setQ] = useState("");
 
@@ -75,6 +75,14 @@ export default function KhatmaList({ khatmas }) {
           ))}
         </div>
       )}
+
+      <section className="public-khatmas-section">
+        <div className="public-khatmas-heading">
+          <div><span>المشاركة بالأجر</span><h2 className="section-title">ختمات عامة يمكنك المشاركة فيها</h2></div>
+          <span className="badge active">{publicKhatmas.length} ختمة نشطة</span>
+        </div>
+        {publicKhatmas.length === 0 ? <div className="card center"><p className="muted">لا توجد ختمات عامة نشطة حاليًا.</p></div> : <div className="stat-grid">{publicKhatmas.map((k)=><article key={k.id} className="card k-card public-khatma-card"><div className="top"><h3>{k.title}</h3><span className="badge active">متاحة للمشاركة</span></div>{k.honor_name&&<p className="desc">مهداة إلى: {k.honor_name}</p>}<p className="meta">أنشأها: {k.owner_name}</p><div className="progress"><span style={{width:`${k.progress.percent}%`}} /></div><div className="meta">{k.progress.completed} مكتمل · {k.progress.reserved} محجوز · {k.progress.available} متاح</div><Link href={`/k/${k.public_id}`} className="btn btn-primary btn-sm">فتح الختمة وحجز جزء</Link></article>)}</div>}
+      </section>
     </>
   );
 }
