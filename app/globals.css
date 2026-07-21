@@ -1481,8 +1481,9 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .tribute-cover-title { left:50%; right:auto; bottom:3%; width:90%; padding:18px 12px; transform:translateX(-50%); }
   .tribute-cover-title h1 { font-size:clamp(30px,10vw,42px); }
   .tribute-portraits { grid-template-columns:1fr; gap:22px; padding:28px 14px; }
+  .tribute-portrait-father { order:1; }
   .tribute-portrait-seal { width:58px; height:58px; margin:auto; order:2; }
-  .tribute-portrait-father { order:3; }
+  .tribute-portrait-mother { order:3; }
   .tribute-portrait-frame { width:min(86%,270px); }
   .tribute-chapter p { line-height:2; text-align:right; }
   .tribute-prayer { grid-template-columns:1fr; padding:22px 16px; }

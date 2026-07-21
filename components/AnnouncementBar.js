@@ -7,5 +7,5 @@ export default function AnnouncementBar() {
     setData(next);
   }).catch(()=>{}); },[]);
   if(!data?.message) return null;
-  return <aside className="announcement-bar" aria-label="رسالة الموقع"><span className="announcement-star">✦</span><strong>رسالة اليوم</strong><div className="announcement-track"><span>{data.message}</span></div></aside>;
+  return <aside className="announcement-bar" aria-label="شريط أخبار الموقع"><span className="announcement-star">✦</span><strong>آخر الأخبار</strong><div className="announcement-track"><span>{data.message}</span></div></aside>;
 }

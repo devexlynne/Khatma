@@ -25,17 +25,6 @@ export default function TributePage() {
           <div className="tribute-ornament" aria-hidden="true"><span>❦</span></div>
 
           <section className="tribute-portraits" aria-label="والدانا رحمهما الله">
-            <figure className="tribute-portrait tribute-portrait-mother">
-              <div className="tribute-portrait-frame">
-                <img src="/mother-dalal.png" alt="دلال محمد طاهر اللادقي" />
-              </div>
-              <figcaption>
-                <span>الأم الحبيبة</span>
-                <strong>دلال محمد طاهر اللادقي</strong>
-                <small>رحمها الله</small>
-              </figcaption>
-            </figure>
-            <div className="tribute-portrait-seal" aria-hidden="true"><span>رحمهما<br />الله</span></div>
             <figure className="tribute-portrait tribute-portrait-father">
               <div className="tribute-portrait-frame">
                 <img src="/father-yahya.png" alt="يحيى علي الحلبي" />
@@ -44,6 +33,17 @@ export default function TributePage() {
                 <span>الأب الحبيب</span>
                 <strong>يحيى علي الحلبي</strong>
                 <small>رحمه الله</small>
+              </figcaption>
+            </figure>
+            <div className="tribute-portrait-seal" aria-hidden="true"><span>رحمهما<br />الله</span></div>
+            <figure className="tribute-portrait tribute-portrait-mother">
+              <div className="tribute-portrait-frame">
+                <img src="/mother-dalal.png" alt="دلال محمد طاهر اللادقي" />
+              </div>
+              <figcaption>
+                <span>الأم الحبيبة</span>
+                <strong>دلال محمد طاهر اللادقي</strong>
+                <small>رحمها الله</small>
               </figcaption>
             </figure>
           </section>
