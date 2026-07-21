@@ -1255,6 +1255,8 @@ img,svg,video,canvas,iframe { max-width:100%; }
 .announcement-success { display:flex; flex-direction:column; gap:5px; padding:12px 15px; border:1px solid #8bbf98; border-radius:14px; background:#effaf2; color:#285e38; }
 .announcement-success span { color:#45624d; }
 .public-khatmas-section { margin-top:40px; padding-top:26px; border-top:2px solid #ead9ad; }
+.home-public-khatmas { margin:28px 0; padding:26px; border:2px solid #d8b55d; border-radius:24px; background:linear-gradient(145deg,#fff9e9,#fff); box-shadow:var(--shadow); }
+.home-public-khatmas .public-khatmas-heading p { margin:5px 0 0; }
 .public-khatmas-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }
 .public-khatmas-heading span:first-child { color:#8a681c; font-size:13px; font-weight:800; }
 .public-khatmas-heading h2 { margin:3px 0 0; }

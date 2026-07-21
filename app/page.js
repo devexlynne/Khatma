@@ -5,18 +5,20 @@ import EntrySplash from "@/components/EntrySplash";
 import MemorialDedication from "@/components/MemorialDedication";
 import ParentsTributeGateway from "@/components/ParentsTributeGateway";
 import AnnouncementBar from "@/components/AnnouncementBar";
+import PublicKhatmasSection from "@/components/PublicKhatmasSection";
 import KidsGardenSection from "@/components/KidsGardenSection";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
 import InstallApp from "@/components/InstallApp";
 import { getCurrentUser } from "@/lib/session";
-import { khatmaGiftStats } from "@/lib/khatma";
+import { khatmaGiftStats, listPublicActiveKhatmas } from "@/lib/khatma";
 
 export default function Home() {
   const user = getCurrentUser();
   const father = "يحيى علي الحلبي";
   const mother = "دلال محمد طاهر اللاذقي";
   const giftStats = { father: khatmaGiftStats(father), mother: khatmaGiftStats(mother) };
+  const publicKhatmas = listPublicActiveKhatmas();
   return <><EntrySplash /><Nav /><AnnouncementBar /><main className="container">
     <section className="hero moroccan-hero">
       <p className="bismillah">بسم الله الرحمن الرحيم</p>
@@ -31,6 +33,7 @@ export default function Home() {
       <div className="row hero-actions"><Link href={user ? "/khatmas/new" : "/signup"} className="btn btn-primary">ابدأ ختمة جديدة</Link><Link href={user ? "/dashboard" : "/login"} className="btn btn-ghost">{user ? "لوحة التحكم" : "تسجيل الدخول"}</Link></div>
       <p className="guest-note">لا يحتاج المشاركون إلى حساب أو بريد إلكتروني لحجز جزء عبر رابط الختمة العام؛ الحساب مطلوب فقط لإنشاء الختمة وإدارتها.</p>
     </section>
+    <PublicKhatmasSection khatmas={publicKhatmas} />
     <MemorialDedication father={father} mother={mother} giftStats={giftStats} />
     <ParentsTributeGateway />
     <section className="card prophet-audio-card moroccan-frame">
