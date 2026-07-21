@@ -7,10 +7,10 @@ export const metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: "/noor-star-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/noor-star-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/noor-parents-star-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/noor-parents-star-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: [{ url: "/noor-star-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/noor-parents-star-192.png", sizes: "192x192", type: "image/png" }],
   },
 };
 
