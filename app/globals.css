@@ -1269,7 +1269,7 @@ img,svg,video,canvas,iframe { max-width:100%; }
 .tribute-gateway-link {
   position:relative;
   display:block;
-  min-height:clamp(310px,48vw,560px);
+  min-height:clamp(420px,66vw,760px);
   overflow:hidden;
   border:5px double rgba(244,241,233,.9);
   color:#fff;
@@ -1278,15 +1278,15 @@ img,svg,video,canvas,iframe { max-width:100%; }
 .tribute-gateway-fallback {
   position:absolute;
   inset:0;
-  background:#aaa49a url('/sanctuary-gate.png') center 44% / cover no-repeat;
+  background:#dedbd4 url('/sanctuary-gate.png') center / contain no-repeat;
 }
 .tribute-gateway-image {
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
-  object-fit:cover;
-  object-position:center 45%;
+  object-fit:contain;
+  object-position:center;
   filter:grayscale(1) contrast(1.04) sepia(.08);
   transition:transform .7s ease,filter .7s ease;
 }
@@ -1317,7 +1317,7 @@ img,svg,video,canvas,iframe { max-width:100%; }
   background:rgba(0,0,0,.34);
   font-weight:700;
 }
-.tribute-gateway-link:hover .tribute-gateway-image { transform:scale(1.025); filter:grayscale(1) contrast(1.12); }
+.tribute-gateway-link:hover .tribute-gateway-image { transform:scale(1.005); filter:grayscale(1) contrast(1.12); }
 
 .tribute-page {
   min-height:100vh;
@@ -1465,8 +1465,8 @@ img,svg,video,canvas,iframe { max-width:100%; }
 
 @media (max-width:600px) {
   .tribute-gateway { margin-inline:-3px; padding:5px; }
-  .tribute-gateway-link { min-height:390px; border-width:3px; }
-  .tribute-gateway-image { object-position:center top; }
+  .tribute-gateway-link { min-height:min(128vw,620px); border-width:3px; }
+  .tribute-gateway-image { object-position:center; }
   .tribute-page { padding:12px 8px 38px; }
   .tribute-cover { min-height:520px; border-width:7px; }
   .tribute-manuscript { padding:34px 22px; border-width:7px; }
