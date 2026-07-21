@@ -99,7 +99,7 @@ export default function Dashboard() {
               </div>
 
               <div className="card admin-data-card">
-                <div className="admin-card-title"><h3>تفاصيل جميع الختمات</h3><span>{adminInfo.allKhatmas.length} ختمة</span></div>
+                <div className="admin-card-title"><h3>تفاصيل جميع الختمات لكل المستخدمين</h3><span>{adminInfo.allKhatmas.length} ختمة</span></div>
                 <div className="admin-khatma-list">
                   {adminInfo.allKhatmas.length ? adminInfo.allKhatmas.map((k) => (
                     <article key={k.id} className="admin-khatma-item">
