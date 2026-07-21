@@ -3,6 +3,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import EntrySplash from "@/components/EntrySplash";
 import MemorialDedication from "@/components/MemorialDedication";
+import ParentsTributeGateway from "@/components/ParentsTributeGateway";
 import KidsGardenSection from "@/components/KidsGardenSection";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
@@ -30,6 +31,7 @@ export default function Home() {
       <p className="guest-note">لا يحتاج المشاركون إلى حساب أو بريد إلكتروني لحجز جزء عبر رابط الختمة العام؛ الحساب مطلوب فقط لإنشاء الختمة وإدارتها.</p>
     </section>
     <MemorialDedication father={father} mother={mother} giftStats={giftStats} />
+    <ParentsTributeGateway />
     <PrayerTimes />
     <InstallApp />
     <KidsGardenSection />

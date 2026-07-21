@@ -1239,3 +1239,149 @@ img,svg,video,canvas,iframe { max-width:100%; }
 @media (hover:none) {
   .card:hover,.btn:hover,.quran-juz-link:hover,.nav-links a:hover { transform:none; }
 }
+
+/* Parents' memorial — monochrome sanctuary theme */
+.tribute-gateway {
+  margin:24px 0;
+  padding:8px;
+  border:1px solid #b9b4aa;
+  background:#f4f1e9;
+  box-shadow:0 14px 36px rgba(31,29,25,.13);
+}
+.tribute-gateway-link {
+  position:relative;
+  display:block;
+  min-height:clamp(310px,48vw,560px);
+  overflow:hidden;
+  border:5px double rgba(244,241,233,.9);
+  color:#fff;
+  text-decoration:none;
+}
+.tribute-gateway-image {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 45%;
+  filter:grayscale(1) contrast(1.04) sepia(.08);
+  transition:transform .7s ease,filter .7s ease;
+}
+.tribute-gateway-shade {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(18,17,15,.06) 20%,rgba(18,17,15,.86) 100%);
+}
+.tribute-gateway-copy {
+  position:absolute;
+  inset:auto 0 0;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:46px 20px 30px;
+  text-align:center;
+  text-shadow:0 2px 8px #000;
+}
+.tribute-gateway-kicker { font-size:14px; letter-spacing:.08em; }
+.tribute-gateway-copy strong { font-size:clamp(30px,5vw,52px); line-height:1.25; }
+.tribute-gateway-cta {
+  margin-top:5px;
+  padding:8px 18px;
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:999px;
+  background:rgba(0,0,0,.34);
+  font-weight:700;
+}
+.tribute-gateway-link:hover .tribute-gateway-image { transform:scale(1.025); filter:grayscale(1) contrast(1.12); }
+
+.tribute-page {
+  min-height:100vh;
+  padding:34px 18px 70px;
+  background-color:#e8e4da;
+  background-image:radial-gradient(rgba(34,32,28,.08) .7px,transparent .7px);
+  background-size:7px 7px;
+  color:#292722;
+}
+.tribute-cover,
+.tribute-manuscript { width:min(900px,100%); margin-inline:auto; }
+.tribute-cover {
+  position:relative;
+  min-height:min(72vh,720px);
+  overflow:hidden;
+  border:12px double #34312b;
+  border-bottom:0;
+  background:#222;
+}
+.tribute-cover img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; object-position:center top; filter:grayscale(1) contrast(1.06); }
+.tribute-cover-overlay { position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.16) 45%,rgba(0,0,0,.88)); }
+.tribute-cover-title {
+  position:absolute;
+  z-index:1;
+  inset:auto 6% 6%;
+  padding:28px 18px;
+  border-block:1px solid rgba(255,255,255,.6);
+  color:#fff;
+  text-align:center;
+  text-shadow:0 2px 10px #000;
+}
+.tribute-cover-title span { font-size:14px; letter-spacing:.05em; }
+.tribute-cover-title h1 { margin:9px 0; font-size:clamp(38px,7vw,66px); line-height:1.25; }
+.tribute-cover-title p { margin:0; font-size:clamp(16px,2.5vw,21px); }
+.tribute-manuscript {
+  position:relative;
+  padding:clamp(28px,6vw,72px);
+  border:12px double #34312b;
+  background:#f8f5ed;
+  box-shadow:0 25px 55px rgba(28,26,22,.22);
+}
+.tribute-manuscript::before {
+  content:"";
+  position:absolute;
+  inset:12px;
+  border:1px solid #8b867b;
+  pointer-events:none;
+}
+.tribute-ornament,.tribute-divider { display:flex; align-items:center; gap:15px; color:#49463f; }
+.tribute-ornament::before,.tribute-ornament::after,.tribute-divider::before,.tribute-divider::after { content:""; height:1px; flex:1; background:linear-gradient(90deg,transparent,#4b4842,transparent); }
+.tribute-ornament span { font-size:34px; }
+.tribute-chapter { position:relative; z-index:1; margin:38px auto; max-width:720px; }
+.tribute-chapter p { margin:0 0 20px; font-size:clamp(17px,2.1vw,20px); line-height:2.15; text-align:justify; }
+.tribute-chapter .tribute-lead { margin-bottom:25px; font-size:clamp(30px,5vw,45px); font-weight:800; text-align:center; line-height:1.5; }
+.tribute-chapter .tribute-pause { margin-block:38px; font-size:clamp(22px,4vw,30px); font-weight:800; text-align:center; }
+.tribute-divider { margin:50px auto; max-width:420px; }
+.tribute-divider span { display:grid; place-items:center; width:38px; height:38px; border:1px solid #4b4842; transform:rotate(45deg); }
+.tribute-divider span::first-letter { transform:rotate(-45deg); }
+.tribute-prayer {
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:14px;
+  align-items:start;
+  margin:55px auto 30px;
+  max-width:740px;
+  padding:30px;
+  border:3px double #44413b;
+  background:#eeebe3;
+}
+.tribute-prayer p { margin:0; font-size:clamp(19px,2.6vw,24px); font-weight:700; line-height:2.05; text-align:center; }
+.tribute-prayer > span { font-size:36px; line-height:1; }
+.tribute-footer-mark { position:relative; z-index:1; margin:34px 0 20px; text-align:center; color:#625e55; font-weight:700; }
+.tribute-back { position:relative; z-index:1; display:flex; width:max-content; margin:0 auto; }
+
+@media (max-width:600px) {
+  .tribute-gateway { margin-inline:-3px; padding:5px; }
+  .tribute-gateway-link { min-height:390px; border-width:3px; }
+  .tribute-gateway-image { object-position:center top; }
+  .tribute-page { padding:12px 8px 38px; }
+  .tribute-cover { min-height:520px; border-width:7px; }
+  .tribute-manuscript { padding:34px 22px; border-width:7px; }
+  .tribute-manuscript::before { inset:7px; }
+  .tribute-cover-title { inset:auto 4% 4%; padding:20px 10px; }
+  .tribute-chapter p { line-height:2; text-align:right; }
+  .tribute-prayer { grid-template-columns:1fr; padding:22px 16px; }
+  .tribute-prayer > span { display:none; }
+  .tribute-back { width:100%; justify-content:center; }
+}
