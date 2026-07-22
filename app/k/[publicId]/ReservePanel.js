@@ -9,10 +9,10 @@ const JUZ_LABEL = { available: "متاح", reserved: "محجوز", completed: "�
 export default function ReservePanel({ publicId, juz, progress }) {
   const router = useRouter();
   const notify = useToast();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState([]);
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState(null); // { number, token }
+  const [done, setDone] = useState([]); // [{ number, token }]
   const [savedReservations, setSavedReservations] = useState([]);
 
   useEffect(() => {
@@ -36,55 +36,61 @@ export default function ReservePanel({ publicId, juz, progress }) {
       : "ابدأ اليوم بحجز أول جزء";
 
   async function reserve() {
-    if (!selected) return notify("اختر جزءًا متاحًا أولًا", "error");
+    if (selected.length === 0) return notify("اختر جزءًا متاحًا واحدًا أو أكثر", "error");
     if (!name.trim()) return notify("أدخل اسمك", "error");
     setBusy(true);
-    const res = await fetch(`/api/public/${publicId}/reserve`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ number: selected, name }),
-    });
+    const results = await Promise.all(selected.map(async (number) => {
+      const res = await fetch(`/api/public/${publicId}/reserve`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ number, name }),
+      });
+      const data = await res.json();
+      return { number, ok: res.ok, ...data };
+    }));
     setBusy(false);
-    const d = await res.json();
-    if (res.ok) {
+    const successful = results.filter((result) => result.ok);
+    const failed = results.filter((result) => !result.ok);
+    if (successful.length > 0) {
       try {
         const key = `khatma_${publicId}_reservations`;
         const prev = JSON.parse(localStorage.getItem(key) || "[]");
-        prev.push({ number: selected, name: name.trim(), token: d.token });
-        localStorage.setItem(key, JSON.stringify(prev));
-        setSavedReservations(prev);
+        const additions = successful.map((result) => ({ number: result.number, name: name.trim(), token: result.token }));
+        const next = [...prev, ...additions];
+        localStorage.setItem(key, JSON.stringify(next));
+        setSavedReservations(next);
       } catch {}
-      notify("تم حجز الجزء بنجاح");
-      setDone({ number: selected, token: d.token });
-    } else {
-      notify(d.error || "تعذّر الحجز", "error");
-      router.refresh();
+      notify(successful.length === 1 ? "تم حجز الجزء بنجاح" : `تم حجز ${successful.length} أجزاء بنجاح`);
+      setDone(successful.map(({ number, token }) => ({ number, token })));
     }
+    if (failed.length > 0) notify(`تعذّر حجز ${failed.length} من الأجزاء لأنها حُجزت للتو`, "error");
+    if (successful.length === 0 && failed[0]) notify(failed[0].error || "تعذّر الحجز", "error");
+    router.refresh();
   }
 
-  if (done) {
-    const completeUrl =
-      typeof window !== "undefined" ? `${window.location.origin}/complete/${done.token}` : "";
+  if (done.length > 0) {
     return (
       <div className="card">
         <div className="center">
           <div style={{ fontSize: 30 }}>✅</div>
-          <h2 className="section-title" style={{ fontSize: 20 }}>تم حجز الجزء {done.number}</h2>
-          <p className="muted">احفظ رابط الإتمام لاستكمال حصتك لاحقًا.</p>
+          <h2 className="section-title" style={{ fontSize: 20 }}>{done.length === 1 ? `تم حجز الجزء ${done[0].number}` : `تم حجز ${done.length} أجزاء`}</h2>
+          <p className="muted">لكل جزء رابط إتمام مستقل. الروابط محفوظة أيضًا في هذا المتصفح.</p>
         </div>
         <div className="note" style={{ marginTop: 12 }}>
-          هذا الرابط يضمن لك متابعة التقدم دون الحاجة لحساب.
+          احتفظ بروابط الإتمام لتحديث كل جزء بعد الانتهاء من قراءته، دون الحاجة لحساب.
         </div>
-        <div className="field" style={{ marginTop: 10 }}>
-          <input className="input" readOnly value={completeUrl} onFocus={(e) => e.target.select()} />
-        </div>
-        <div className="row">
-          <button
-            className="btn btn-gold btn-sm"
-            onClick={() => { navigator.clipboard?.writeText(completeUrl); notify("تم نسخ الرابط", "info"); }}
-          >نسخ رابط الإتمام</button>
-          <Link href={`/complete/${done.token}`} className="btn btn-primary btn-sm">الانتقال لصفحة الإتمام</Link>
-          <button className="btn btn-ghost btn-sm" onClick={() => { setDone(null); setSelected(null); router.refresh(); }}>
+        <div className="row" style={{ flexDirection: "column", gap: 10, marginTop: 12 }}>
+          {done.map((reservation) => {
+            const completeUrl = typeof window !== "undefined" ? `${window.location.origin}/complete/${reservation.token}` : "";
+            return <div className="reservation-card" key={reservation.token}>
+              <strong>الجزء {reservation.number}</strong>
+              <div className="row">
+                <button className="btn btn-gold btn-sm" onClick={() => { navigator.clipboard?.writeText(completeUrl); notify("تم نسخ الرابط", "info"); }}>نسخ رابط الإتمام</button>
+                <Link href={`/complete/${reservation.token}`} className="btn btn-primary btn-sm">صفحة الإتمام</Link>
+              </div>
+            </div>;
+          })}
+          <button className="btn btn-ghost btn-sm" onClick={() => { setDone([]); setSelected([]); router.refresh(); }}>
             حجز جزء آخر
           </button>
         </div>
@@ -153,7 +159,7 @@ export default function ReservePanel({ publicId, juz, progress }) {
         </div>
       ) : null }
 
-      <p className="muted" style={{ fontSize: 14 }}>اختر جزءًا متاحًا ثم أدخل اسمك للحجز. الآخرين لن يروا اسمك.</p>
+      <p className="muted" style={{ fontSize: 14 }}>اختر جزءًا واحدًا أو عدة أجزاء متاحة، ثم أدخل اسمك للحجز. اضغط على الجزء مرة أخرى لإلغاء اختياره.</p>
       <div className="juz-grid">
         {juz.map((j) => {
           const isAvail = j.status === "available";
@@ -161,8 +167,8 @@ export default function ReservePanel({ publicId, juz, progress }) {
           return (
             <div
               key={j.number}
-              className={`juz ${j.status} ${isAvail ? "selectable" : ""} ${ownReservation ? "reserved-by-me" : ""} ${selected === j.number ? "selected" : ""}`}
-              onClick={() => isAvail && setSelected(j.number)}
+              className={`juz ${j.status} ${isAvail ? "selectable" : ""} ${ownReservation ? "reserved-by-me" : ""} ${selected.includes(j.number) ? "selected" : ""}`}
+              onClick={() => isAvail && setSelected((current) => current.includes(j.number) ? current.filter((number) => number !== j.number) : [...current, j.number])}
             >
               <span className="num">{j.number}</span>
               <span className="lbl">{ownReservation && j.status === "reserved" ? "محجوز لك" : JUZ_LABEL[j.status]}</span>
@@ -182,8 +188,8 @@ export default function ReservePanel({ publicId, juz, progress }) {
         <div className="note" style={{ marginBottom: 12 }}>
           لا حاجة لكلمة مرور أو رمز تحقق. يمكنك استخدام نفس الاسم لاحقًا لاسترجاع حجزك.
         </div>
-        <button className="btn btn-primary btn-block" onClick={reserve} disabled={busy || !selected}>
-          {selected ? `احجز الجزء ${selected}` : "اختر جزءًا أولًا"}
+        <button className="btn btn-primary btn-block" onClick={reserve} disabled={busy || selected.length === 0}>
+          {busy ? "جارٍ الحجز..." : selected.length === 0 ? "اختر جزءًا واحدًا أو أكثر" : selected.length === 1 ? `احجز الجزء ${selected[0]}` : `احجز ${selected.length} أجزاء: ${selected.join("، ")}`}
         </button>
       </div>
     </>
