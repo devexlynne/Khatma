@@ -11,6 +11,7 @@ import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
 import InstallApp from "@/components/InstallApp";
 import ContactAdminForm from "@/components/ContactAdminForm";
+import KhatmaRequestForm from "@/components/KhatmaRequestForm";
 import { getCurrentUser } from "@/lib/session";
 import { khatmaGiftStats, listPublicActiveKhatmas } from "@/lib/khatma";
 
@@ -31,7 +32,7 @@ export default function Home() {
         <p>ولم ننسَ أبناءنا الصغار، فخصصنا لهم حديقة المسلم الصغير؛ مساحة تعليمية وتربوية تقدم القرآن الكريم والأذكار والقصص الإسلامية والقيم والأخلاق بأسلوب مبسط يناسب أعمارهم.</p>
         <p>نسأل الله تعالى أن يتقبل هذا العمل، وأن يجعله خالصًا لوجهه الكريم، وأن ينفع من كانوا سببًا في هذا العمل.</p>
       </div>
-      <div className="row hero-actions"><Link href={user ? "/khatmas/new" : "/signup"} className="btn btn-primary">ابدأ ختمة جديدة</Link><Link href={user ? "/dashboard" : "/login"} className="btn btn-ghost">{user ? "لوحة التحكم" : "تسجيل الدخول"}</Link></div>
+      <div className="row hero-actions"><Link href={user ? "/khatmas/new" : "/signup"} className="btn btn-primary">ابدأ ختمة جديدة</Link><a href="#request-khatma" className="btn btn-gold">اطلب ختمة لمن تحب</a><Link href={user ? "/dashboard" : "/login"} className="btn btn-ghost">{user ? "لوحة التحكم" : "تسجيل الدخول"}</Link></div>
       <p className="guest-note">لا يحتاج المشاركون إلى حساب أو بريد إلكتروني لحجز جزء عبر رابط الختمة العام؛ الحساب مطلوب فقط لإنشاء الختمة وإدارتها.</p>
     </section>
     <PublicKhatmasSection khatmas={publicKhatmas} />
@@ -45,6 +46,7 @@ export default function Home() {
     <InstallApp />
     <KidsGardenSection />
     <DailyDhikr />
+    <KhatmaRequestForm currentUser={user ? { name: user.full_name, email: user.email } : null} />
     <ContactAdminForm />
     <footer className="center muted">القرآن يجمعنا...</footer>
   </main></>;

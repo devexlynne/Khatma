@@ -3,9 +3,11 @@ import Nav from "@/components/Nav";
 import MemorialDedication from "@/components/MemorialDedication";
 import { getDailyDuaa } from "@/lib/dhikr-client";
 import { requireUser } from "@/lib/guard";
-import { ownerStats, adminOverview } from "@/lib/khatma";
+import { ownerStats, adminOverview, recipientGiftStats } from "@/lib/khatma";
 import AnnouncementAdmin from "@/components/AnnouncementAdmin";
 import AdminMessages from "@/components/AdminMessages";
+import KhatmaRequestsAdmin from "@/components/KhatmaRequestsAdmin";
+import GiftRecipientStats from "@/components/GiftRecipientStats";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +17,7 @@ export default function Dashboard() {
   const dailyDuaa = getDailyDuaa();
   const isAdmin = user.role === "admin";
   const adminInfo = isAdmin ? adminOverview() : null;
+  const recipientStats = recipientGiftStats(isAdmin ? null : user.id);
 
   return (
     <>
@@ -38,9 +41,12 @@ export default function Dashboard() {
           <div className="stat"><div className="v">{stats.avg}%</div><div className="l">متوسط الإنجاز</div></div>
         </div>
 
+        <GiftRecipientStats recipients={recipientStats} admin={isAdmin} />
+
         {isAdmin ? (
           <div style={{ marginTop: 22 }}>
             <AnnouncementAdmin />
+            <KhatmaRequestsAdmin />
             <AdminMessages />
             <div className="row" style={{ gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
               <div style={{ flex: "1 1 320px", minWidth: 280 }}>

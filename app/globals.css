@@ -1337,6 +1337,62 @@ img,svg,video,canvas,iframe { max-width:100%; }
 .prophet-card-kicker { color:#886921; font-size:13px; font-weight:800; }
 @media(max-width:600px){ .announcement-bar { padding-inline:10px; font-size:13px; } .announcement-bar strong { display:none; } .prophet-audio-card { flex-direction:column; align-items:stretch; } .prophet-audio-card .btn { width:100%; } }
 
+/* Smart khatma recipients and requests */
+.smart-khatma-form { display:grid; gap:18px; max-width:760px; margin-inline:auto; }
+.smart-owner-field { padding:16px; border-radius:16px; background:#f3f7ff; border:1px solid #d8e5fb; }
+.recipient-picker { border:0; padding:0; margin:0; min-width:0; }
+.recipient-picker legend { font-size:19px; font-weight:900; color:var(--ink); padding:0; margin-bottom:4px; }
+.recipient-picker > p { margin:0 0 12px; }
+.recipient-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.recipient-option { min-height:88px; padding:14px; border:1px solid #e5dff0; border-radius:18px; background:linear-gradient(145deg,#fff,#fbf8ff); color:var(--ink); font-family:inherit; text-align:right; cursor:pointer; display:flex; flex-direction:column; justify-content:center; gap:5px; transition:.2s ease; }
+.recipient-option span { color:var(--muted); font-size:13px; }
+.recipient-option strong { font-size:15px; line-height:1.5; }
+.recipient-option.compact { min-height:72px; }
+.recipient-option:hover,.recipient-option.selected { border-color:#b07be2; box-shadow:0 10px 25px rgba(126,34,206,.11); transform:translateY(-1px); }
+.recipient-option.selected { background:linear-gradient(145deg,#faf3ff,#fff8df); outline:2px solid rgba(209,168,49,.22); }
+.new-recipient-panel { padding:16px; border-radius:18px; background:#fffcf2; border:1px solid #ead9a0; }
+.smart-two-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.recipient-preview { display:grid; gap:4px; justify-items:center; padding:17px; border-radius:20px; text-align:center; background:linear-gradient(135deg,#f5eaff,#fff7d6); border:1px solid #d9b94f; }
+.recipient-preview span { color:#7e22ce; font-size:12px; font-weight:900; }
+.recipient-preview strong { font-size:20px; }
+.recipient-preview small { color:var(--muted); }
+.smart-label-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.text-action { border:0; background:transparent; color:#7e22ce; font-family:inherit; font-weight:800; cursor:pointer; padding:3px 0; }
+
+.khatma-request-card { margin:28px 0; padding:24px; background:linear-gradient(145deg,#fffdf8,#fbf7ff); }
+.khatma-request-heading { display:flex; align-items:flex-start; gap:15px; margin-bottom:18px; }
+.khatma-request-heading h2 { margin:4px 0 5px; }
+.khatma-request-heading p { margin:0; line-height:1.8; }
+.request-star { width:48px; height:48px; flex:0 0 48px; border-radius:16px; display:grid; place-items:center; color:#fff; font-size:22px; background:linear-gradient(135deg,#7e22ce,#d1a831); box-shadow:0 9px 20px rgba(126,34,206,.2); }
+.khatma-request-form { display:grid; gap:14px; }
+.request-success { display:flex; flex-direction:column; gap:3px; margin:0 0 16px; padding:13px 16px; border-radius:15px; background:#eefaf1; border:1px solid #a7d4b1; color:#246239; }
+
+.admin-khatma-requests,.gift-recipient-ledger { margin:20px 0; }
+.admin-request-list,.gift-recipient-grid { display:grid; gap:12px; }
+.admin-request-item { padding:16px; border:1px solid var(--line); border-radius:17px; background:#fff; }
+.admin-request-item.is-pending { border-color:#d8b349; background:linear-gradient(135deg,#fffdf3,#fff); }
+.admin-request-top { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; }
+.admin-request-top h4 { margin:3px 0; font-size:19px; }
+.admin-request-top p,.admin-request-top span { margin:0; color:var(--muted); font-size:13px; }
+.admin-request-message { margin:12px 0; padding:12px 14px; border-radius:12px; background:#f8f6fb; line-height:1.8; }
+.gift-recipient-grid { grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.gift-recipient-item { display:flex; justify-content:space-between; gap:16px; padding:17px; border:1px solid #e5ddec; border-radius:18px; background:linear-gradient(145deg,#fff,#fcf9ff); }
+.gift-recipient-item > div:first-child { display:flex; flex-direction:column; gap:4px; }
+.gift-recipient-item > div:first-child span,.gift-recipient-item small { color:var(--muted); font-size:12px; }
+.gift-recipient-item strong { font-size:17px; }
+.gift-recipient-numbers { display:grid; grid-template-columns:repeat(3,auto); gap:1px 9px; align-content:center; text-align:center; }
+.gift-recipient-numbers b { color:#7e22ce; font-size:19px; }
+.gift-recipient-numbers span { grid-row:2; color:var(--muted); font-size:10px; }
+
+@media(max-width:680px){
+  .recipient-options,.smart-two-columns { grid-template-columns:1fr; }
+  .recipient-option { min-height:70px; }
+  .khatma-request-card { padding:18px 14px; }
+  .khatma-request-heading { align-items:center; }
+  .admin-request-top,.gift-recipient-item { flex-direction:column; }
+  .gift-recipient-numbers { align-self:stretch; justify-content:space-around; }
+}
+
 /* Parents' memorial — monochrome sanctuary theme */
 .tribute-gateway {
   margin:24px 0;

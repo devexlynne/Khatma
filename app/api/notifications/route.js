@@ -19,6 +19,7 @@ export async function GET() {
   events.forEach((event) => notifications.push({ id: `juz-${event.id}-${event.status}`, type: event.status, title: event.status === "completed" ? "تم إكمال جزء" : "تم حجز جزء", message: `${event.participant_name || "مشارك"} — الجزء ${event.number} في ختمة «${event.title}»`, createdAt: event.event_at, url: `/khatmas/${event.khatma_id}` }));
 
   if (isAdmin(user)) {
+    db.prepare("SELECT id, requester_name, beneficiary_name, created_at FROM khatma_requests WHERE status='pending' ORDER BY created_at DESC LIMIT 8").all().forEach((item) => notifications.push({ id: `khatma-request-${item.id}`, type: "khatma-request", title: "طلب ختمة جديد", message: `${item.requester_name} يطلب ختمة لـ ${item.beneficiary_name}`, createdAt: item.created_at, url: "/dashboard" }));
     db.prepare("SELECT id, sender_name, category, message, created_at FROM contact_messages ORDER BY created_at DESC LIMIT 8").all().forEach((item) => notifications.push({ id: `contact-${item.id}`, type: "contact", title: item.category === "suggestion" ? "اقتراح جديد" : "رسالة جديدة للمشرف", message: `${item.sender_name}: ${item.message.slice(0,90)}`, createdAt: item.created_at, url: "/dashboard" }));
     db.prepare("SELECT id, title, created_at FROM khatmas ORDER BY created_at DESC LIMIT 5").all().forEach((item) => notifications.push({ id: `khatma-${item.id}`, type: "khatma", title: "ختمة أُنشئت", message: item.title, createdAt: item.created_at, url: `/khatmas/${item.id}` }));
   }
