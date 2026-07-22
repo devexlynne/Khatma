@@ -1516,12 +1516,13 @@ img,svg,video,canvas,iframe { max-width:100%; }
   z-index:1;
   display:grid;
   grid-template-columns:minmax(0,1fr) 74px minmax(0,1fr);
-  align-items:center;
-  gap:26px;
+  align-items:start;
+  justify-items:center;
+  gap:clamp(24px,4vw,38px);
   margin:38px auto 58px;
-  max-width:760px;
-  padding:28px;
-  border-block:3px double #4a4740;
+  max-width:880px;
+  padding:38px 32px;
+  border-block:4px double #521d48;
   background:linear-gradient(rgba(248,245,237,.91),rgba(248,245,237,.91)),url('/sanctuary-gate.png') center 36% / cover no-repeat;
 }
 .tribute-portraits::before,.tribute-portraits::after {
@@ -1539,28 +1540,59 @@ img,svg,video,canvas,iframe { max-width:100%; }
 }
 .tribute-portraits::before { right:24px; }
 .tribute-portraits::after { left:24px; }
-.tribute-portrait { margin:0; text-align:center; }
+.tribute-portrait {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  margin:0;
+  text-align:center;
+}
 .tribute-portrait-frame {
   position:relative;
-  width:min(100%,280px);
+  display:grid;
+  place-items:center;
+  width:min(100%,320px);
   aspect-ratio:4/5;
   margin:0 auto;
-  padding:9px;
-  border:4px double #403d37;
-  background:#ddd7cb;
-  box-shadow:0 12px 25px rgba(35,32,27,.18);
+  padding:13px;
+  overflow:hidden;
+  border:3px solid #421237;
+  border-radius:3px;
+  background:linear-gradient(145deg,#6d2c5d 0%,#35102d 48%,#71325f 100%);
+  box-shadow:0 0 0 2px #d2ad61,0 0 0 7px #542047,0 0 0 9px rgba(198,156,74,.72),0 18px 34px rgba(51,16,43,.28);
 }
 .tribute-portrait-frame::before {
   content:"";
   position:absolute;
-  inset:4px;
-  z-index:1;
-  border:1px solid rgba(255,255,255,.75);
+  inset:7px;
+  z-index:2;
+  border:1px solid rgba(239,210,141,.92);
+  box-shadow:inset 0 0 0 3px rgba(55,13,45,.72);
   pointer-events:none;
 }
-.tribute-portrait-frame img { display:block; width:100%; height:100%; object-fit:cover; filter:sepia(.13) saturate(.82) contrast(1.04); }
-.tribute-portrait-mother .tribute-portrait-frame img { object-position:center 35%; }
-.tribute-portrait-father .tribute-portrait-frame img { object-position:center 18%; }
+.tribute-portrait-frame::after {
+  content:"✦";
+  position:absolute;
+  z-index:3;
+  right:50%;
+  bottom:2px;
+  padding-inline:7px;
+  color:#e0bd70;
+  background:#4d1941;
+  font-size:12px;
+  line-height:1;
+  transform:translateX(50%);
+}
+.tribute-portrait-frame img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center center;
+  background:#e8e1d5;
+  filter:sepia(.08) saturate(.9) contrast(1.035);
+}
 .tribute-portrait figcaption { display:flex; flex-direction:column; gap:3px; margin-top:16px; }
 .tribute-portrait figcaption > span { color:#6c675e; font-size:13px; }
 .tribute-portrait figcaption strong { font-size:clamp(18px,2.5vw,24px); line-height:1.5; }
@@ -1570,15 +1602,15 @@ img,svg,video,canvas,iframe { max-width:100%; }
   place-items:center;
   width:70px;
   height:70px;
-  border:3px double #4a4740;
+  border:3px double #5b204f;
   border-radius:50%;
-  background:#eeeae0;
-  color:#46423b;
+  background:linear-gradient(145deg,#fffaf0,#eadfca);
+  color:#511b45;
   text-align:center;
   font-size:12px;
   font-weight:800;
   line-height:1.45;
-  box-shadow:0 0 0 6px rgba(74,71,64,.08);
+  box-shadow:0 0 0 5px rgba(91,32,79,.1),0 8px 18px rgba(58,17,48,.14);
 }
 .tribute-chapter { position:relative; z-index:1; margin:38px auto; max-width:720px; }
 .tribute-chapter p { margin:0 0 20px; font-size:clamp(17px,2.1vw,20px); line-height:2.15; text-align:justify; }
@@ -1615,11 +1647,12 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .tribute-manuscript::before { inset:7px; }
   .tribute-cover-title { left:50%; right:auto; bottom:3%; width:90%; padding:18px 12px; transform:translateX(-50%); }
   .tribute-cover-title h1 { font-size:clamp(30px,10vw,42px); }
-  .tribute-portraits { grid-template-columns:1fr; gap:22px; padding:28px 14px; }
+  .tribute-portraits { grid-template-columns:minmax(0,1fr); gap:28px; padding:34px 16px; }
   .tribute-portrait-father { order:1; }
   .tribute-portrait-seal { width:58px; height:58px; margin:auto; order:2; }
   .tribute-portrait-mother { order:3; }
-  .tribute-portrait-frame { width:min(86%,270px); }
+  .tribute-portrait { min-width:0; }
+  .tribute-portrait-frame { width:min(100%,310px); padding:11px; }
   .tribute-chapter p { line-height:2; text-align:right; }
   .tribute-prayer { grid-template-columns:1fr; padding:22px 16px; }
   .tribute-prayer > span { display:none; }
