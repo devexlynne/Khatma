@@ -42,27 +42,40 @@ for ($offset = 62; $offset -le 450; $offset += 64) {
   $graphics.DrawLine($motifPen, 454, $offset - 24, 478, $offset)
 }
 
-$letterPath = [System.Drawing.Drawing2D.GraphicsPath]::new()
-$letterPath.AddBezier(356, 174, 366, 248, 370, 332, 326, 368)
-$letterPath.AddBezier(286, 401, 210, 397, 176, 350, 174, 292)
-$letterPath.AddBezier(173, 258, 180, 229, 194, 207, 208, 192)
 $cream = [System.Drawing.ColorTranslator]::FromHtml("#FFF9F0")
-$letterPen = [System.Drawing.Pen]::new($cream, 58)
-$letterPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-$letterPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-$letterPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-$graphics.DrawPath($letterPen, $letterPath)
-$dotBrush = [System.Drawing.SolidBrush]::new($cream)
-$graphics.FillEllipse($dotBrush, 239, 112, 50, 50)
+$letterBrush = [System.Drawing.SolidBrush]::new($cream)
+$letterPath = [System.Drawing.Drawing2D.GraphicsPath]::new()
+$letterPath.AddLine(335, 160, 390, 160)
+$letterPath.AddLine(390, 160, 390, 300)
+$letterPath.AddBezier(390, 300, 390, 392, 337, 440, 260, 440)
+$letterPath.AddBezier(260, 440, 170, 440, 125, 390, 125, 310)
+$letterPath.AddBezier(125, 310, 125, 265, 140, 225, 175, 190)
+$letterPath.AddLine(175, 190, 215, 230)
+$letterPath.AddBezier(215, 230, 190, 255, 185, 280, 185, 310)
+$letterPath.AddBezier(185, 310, 185, 355, 210, 380, 260, 380)
+$letterPath.AddBezier(260, 380, 307, 380, 330, 355, 330, 300)
+$letterPath.AddLine(330, 300, 330, 165)
+$letterPath.AddBezier(330, 165, 330, 162, 332, 160, 335, 160)
+$letterPath.CloseFigure()
+$graphics.FillPath($letterBrush, $letterPath)
 
-$path512 = Join-Path $public "noor-app-512.png"
+$dotPath = [System.Drawing.Drawing2D.GraphicsPath]::new()
+$dotPath.AddPolygon([System.Drawing.PointF[]]@(
+  [System.Drawing.PointF]::new(260, 95),
+  [System.Drawing.PointF]::new(292, 127),
+  [System.Drawing.PointF]::new(260, 159),
+  [System.Drawing.PointF]::new(228, 127)
+))
+$graphics.FillPath($letterBrush, $dotPath)
+
+$path512 = Join-Path $public "noor-clean-512.png"
 $bitmap.Save($path512, [System.Drawing.Imaging.ImageFormat]::Png)
 
 $maskable = [System.Drawing.Bitmap]::new($size, $size)
 $maskableGraphics = [System.Drawing.Graphics]::FromImage($maskable)
 $maskableGraphics.Clear([System.Drawing.ColorTranslator]::FromHtml("#6B21A8"))
 $maskableGraphics.DrawImage($bitmap, 0, 0, $size, $size)
-$maskable.Save((Join-Path $public "noor-app-maskable-512.png"), [System.Drawing.Imaging.ImageFormat]::Png)
+$maskable.Save((Join-Path $public "noor-clean-maskable-512.png"), [System.Drawing.Imaging.ImageFormat]::Png)
 
 $small = [System.Drawing.Bitmap]::new(192, 192)
 $smallGraphics = [System.Drawing.Graphics]::FromImage($small)
@@ -70,14 +83,14 @@ $smallGraphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQua
 $smallGraphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
 $smallGraphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
 $smallGraphics.DrawImage($bitmap, 0, 0, 192, 192)
-$small.Save((Join-Path $public "noor-app-192.png"), [System.Drawing.Imaging.ImageFormat]::Png)
+$small.Save((Join-Path $public "noor-clean-192.png"), [System.Drawing.Imaging.ImageFormat]::Png)
 
 $smallGraphics.Dispose()
 $small.Dispose()
 $maskableGraphics.Dispose()
 $maskable.Dispose()
-$dotBrush.Dispose()
-$letterPen.Dispose()
+$letterBrush.Dispose()
+$dotPath.Dispose()
 $letterPath.Dispose()
 $motifPen.Dispose()
 $gold.Dispose()

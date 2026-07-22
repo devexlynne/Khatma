@@ -17,7 +17,7 @@ export default function InstallApp() {
   },[]);
   const install=async()=>{if(!installPrompt)return;await installPrompt.prompt();const result=await installPrompt.userChoice;if(result.outcome==="accepted")setInstalled(true);setInstallPrompt(null);};
   return <section className="card install-card moroccan-frame">
-    <div className="install-brand"><img src="/noor-app-192.png" alt="حرف ن — نور الوالدين" /><div><strong>احفظ نور الوالدين على شاشة هاتفك</strong></div></div>
+    <div className="install-brand"><img src="/noor-clean-192.png" alt="حرف ن — نور الوالدين" /><div><strong>احفظ نور الوالدين على شاشة هاتفك</strong></div></div>
     {installed?<span className="badge completed">تم تثبيت التطبيق</span>:installPrompt?<button className="btn btn-primary" onClick={install}>تثبيت التطبيق</button>:isIOS?
       <ol className="install-steps"><li>افتح الموقع في Safari.</li><li>اضغط زر المشاركة <b>□↑</b>.</li><li>اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة».</li></ol>:
       <p className="muted install-help">من قائمة المتصفح اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».</p>}
