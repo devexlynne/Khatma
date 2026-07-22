@@ -371,7 +371,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
             return (
               <span key={verse.aya}>
                 {startsSurah ? (
-                  <span className="mushaf-surah-title">{verse.surahName}</span>
+                  <span className="mushaf-surah-title">{verse.numberInSurah === 1 ? verse.surahName : `متابعة ${verse.surahName} — من الآية ${toArabicDigits(verse.numberInSurah)}`}</span>
                 ) : " "}
                 <span
                   className={`mushaf-ayah${isActive ? " is-active" : ""}`}

@@ -71,10 +71,6 @@ export default function LoginPage() {
             {loading ? "جارٍ الدخول…" : "دخول"}
           </button>
         </form>
-        <div className="note login-recovery-note" style={{ marginTop: 16 }}>
-          <strong>لا تستطيع الدخول بعد تحديث الموقع؟</strong>
-          <br />قد يكون الحساب القديم غير محفوظ. أنشئ الحساب مجدداً بنفس بريدك، ثم اطلب تفعيل صلاحية الإدارة لهذا البريد.
-        </div>
         <div className="divider">ليس لديك حساب؟ <Link href="/signup" style={{ color: "var(--green)", fontWeight: 800 }}>إنشاء حساب</Link></div>
       </div>
     </div>

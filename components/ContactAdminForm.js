@@ -5,7 +5,7 @@ import { useToast } from "@/components/Toast";
 
 export default function ContactAdminForm() {
   const notify = useToast();
-  const [form, setForm] = useState({ name: "", contact: "", message: "", website: "" });
+  const [form, setForm] = useState({ name: "", contact: "", category: "message", message: "", website: "" });
   const [busy, setBusy] = useState(false);
 
   const update = (key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value }));
@@ -22,7 +22,7 @@ export default function ContactAdminForm() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "تعذر إرسال الرسالة");
-      setForm({ name: "", contact: "", message: "", website: "" });
+      setForm({ name: "", contact: "", category: "message", message: "", website: "" });
       notify("وصلت رسالتك إلى المشرف، شكرًا لك", "success");
     } catch (error) {
       notify(error.message || "تعذر إرسال الرسالة", "error");
@@ -41,6 +41,7 @@ export default function ContactAdminForm() {
         <div className="field"><label htmlFor="contact-name">الاسم</label><input id="contact-name" className="input" value={form.name} onChange={update("name")} maxLength={80} required placeholder="اكتب اسمك" /></div>
         <div className="field"><label htmlFor="contact-info">وسيلة التواصل (اختياري)</label><input id="contact-info" className="input" value={form.contact} onChange={update("contact")} maxLength={120} placeholder="بريد إلكتروني أو رقم هاتف" /></div>
       </div>
+      <div className="field"><label htmlFor="contact-category">نوع الرسالة</label><select id="contact-category" className="input" value={form.category} onChange={update("category")}><option value="message">رسالة عامة</option><option value="suggestion">اقتراح لتطوير الموقع</option><option value="problem">الإبلاغ عن مشكلة</option><option value="question">استفسار</option></select></div>
       <div className="field"><label htmlFor="contact-message">الرسالة</label><textarea id="contact-message" className="input" value={form.message} onChange={update("message")} maxLength={1500} required rows={5} placeholder="اكتب رسالتك للمشرف هنا..." /></div>
       <input className="contact-honeypot" tabIndex="-1" autoComplete="off" value={form.website} onChange={update("website")} aria-hidden="true" />
       <div className="row contact-submit-row"><small className="muted">لن تظهر الرسالة للزوار؛ يراها المشرف فقط.</small><button className="btn btn-primary" disabled={busy}>{busy ? "جارٍ الإرسال..." : "إرسال إلى المشرف"}</button></div>
