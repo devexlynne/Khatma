@@ -10,6 +10,7 @@ import KidsGardenSection from "@/components/KidsGardenSection";
 import DailyDhikr from "@/components/DailyDhikr";
 import PrayerTimes from "@/components/PrayerTimes";
 import InstallApp from "@/components/InstallApp";
+import ContactAdminForm from "@/components/ContactAdminForm";
 import { getCurrentUser } from "@/lib/session";
 import { khatmaGiftStats, listPublicActiveKhatmas } from "@/lib/khatma";
 
@@ -44,6 +45,7 @@ export default function Home() {
     <InstallApp />
     <KidsGardenSection />
     <DailyDhikr />
+    <ContactAdminForm />
     <footer className="center muted">القرآن يجمعنا...</footer>
   </main></>;
 }

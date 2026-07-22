@@ -1048,6 +1048,24 @@ footer { padding:40px 0; }
 .name-tile::after { bottom:8px; left:10px; }
 .name-tile span { position:absolute; top:7px; left:10px; width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#e8f2dd; color:#5b733e; font-size:10px; font-weight:800; }
 .name-tile strong { color:#35572e; font-family:"Amiri Quran","Amiri",serif; font-size:22px; line-height:1.5; }
+.contact-admin-card { margin:28px 0; background:linear-gradient(145deg,#fffdf6,#f4fff8); border-color:#c7a03a; }
+.contact-admin-heading { display:flex; align-items:flex-start; gap:16px; margin-bottom:20px; }
+.contact-admin-heading h2 { margin:3px 0 7px; color:var(--green-dark); }
+.contact-admin-heading p { margin:0; }
+.contact-admin-icon { width:52px; height:52px; flex:0 0 auto; display:grid; place-items:center; border-radius:16px; background:var(--green); color:#fff; font-size:24px; box-shadow:0 8px 18px rgba(38,105,70,.2); }
+.contact-fields-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.contact-admin-form textarea { resize:vertical; min-height:130px; }
+.contact-honeypot { position:absolute !important; left:-10000px !important; width:1px; height:1px; opacity:0; }
+.contact-submit-row { justify-content:space-between; align-items:center; }
+.admin-message-inbox { margin:0 0 20px; border-color:#c7a03a; }
+.admin-message-list { display:grid; gap:12px; margin-top:15px; }
+.admin-message-item { padding:16px; border:1px solid var(--line); border-radius:16px; background:#fff; }
+.admin-message-item.is-new { border-color:#d6aa38; background:#fffcf2; box-shadow:inset -4px 0 0 #d6aa38; }
+.admin-message-item > p { white-space:pre-wrap; line-height:1.8; }
+.admin-message-meta { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:12px; }
+.admin-message-meta strong { color:var(--green-dark); font-size:15px; }
+.admin-message-contact { color:#72530c; font-size:13px; font-weight:700; }
+@media (max-width:620px) { .contact-fields-row { grid-template-columns:1fr; } .contact-submit-row { align-items:stretch; flex-direction:column; } .contact-submit-row .btn { width:100%; } }
 .install-card { margin:22px 0; display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; background:linear-gradient(135deg,#f5fff8,#fff4fa); }
 .install-card p { margin:7px 0 0; }
 .install-brand { display:flex; align-items:center; gap:14px; }
