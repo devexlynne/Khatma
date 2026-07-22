@@ -10,9 +10,9 @@ export default function manifest() {
     lang: "ar",
     dir: "rtl",
     icons: [
-      { src: "/noor-star-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/noor-star-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "/noor-star-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/noor-letter-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/noor-letter-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/noor-letter-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
   };
 }
