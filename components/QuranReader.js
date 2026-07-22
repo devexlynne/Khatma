@@ -317,10 +317,10 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
 
         @media (max-width: 390px) {
           .mushaf-reader {
-            margin-left: -16px;
-            margin-right: -16px;
-            width: calc(100% + 32px);
-            max-width: calc(100% + 32px);
+            margin-left: -11px;
+            margin-right: -11px;
+            width: calc(100% + 22px);
+            max-width: calc(100% + 22px);
           }
 
           .mushaf-page {
