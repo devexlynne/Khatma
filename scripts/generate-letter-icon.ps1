@@ -24,17 +24,17 @@ $graphics.Clear([System.Drawing.Color]::Transparent)
 $outer = New-RoundedPath 0 0 $size $size 112
 $gradient = [System.Drawing.Drawing2D.LinearGradientBrush]::new(
   [System.Drawing.Rectangle]::new(0, 0, $size, $size),
-  [System.Drawing.ColorTranslator]::FromHtml("#23835F"),
-  [System.Drawing.ColorTranslator]::FromHtml("#11543D"),
+  [System.Drawing.ColorTranslator]::FromHtml("#A855F7"),
+  [System.Drawing.ColorTranslator]::FromHtml("#6B21A8"),
   135
 )
 $graphics.FillPath($gradient, $outer)
 
 $inner = New-RoundedPath 18 18 476 476 96
-$gold = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(210, 221, 178, 82), 6)
+$gold = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(235, 212, 165, 116), 6)
 $graphics.DrawPath($gold, $inner)
 
-$motifPen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(48, 255, 255, 255), 3)
+$motifPen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(42, 255, 249, 240), 3)
 for ($offset = 62; $offset -le 450; $offset += 64) {
   $graphics.DrawLine($motifPen, 34, $offset, 58, $offset - 24)
   $graphics.DrawLine($motifPen, 58, $offset - 24, 82, $offset)
@@ -46,22 +46,23 @@ $letterPath = [System.Drawing.Drawing2D.GraphicsPath]::new()
 $letterPath.AddBezier(356, 174, 366, 248, 370, 332, 326, 368)
 $letterPath.AddBezier(286, 401, 210, 397, 176, 350, 174, 292)
 $letterPath.AddBezier(173, 258, 180, 229, 194, 207, 208, 192)
-$letterPen = [System.Drawing.Pen]::new([System.Drawing.Color]::White, 58)
+$cream = [System.Drawing.ColorTranslator]::FromHtml("#FFF9F0")
+$letterPen = [System.Drawing.Pen]::new($cream, 58)
 $letterPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
 $letterPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
 $letterPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
 $graphics.DrawPath($letterPen, $letterPath)
-$dotBrush = [System.Drawing.SolidBrush]::new([System.Drawing.Color]::White)
+$dotBrush = [System.Drawing.SolidBrush]::new($cream)
 $graphics.FillEllipse($dotBrush, 239, 112, 50, 50)
 
-$path512 = Join-Path $public "noor-n-512.png"
+$path512 = Join-Path $public "noor-app-512.png"
 $bitmap.Save($path512, [System.Drawing.Imaging.ImageFormat]::Png)
 
 $maskable = [System.Drawing.Bitmap]::new($size, $size)
 $maskableGraphics = [System.Drawing.Graphics]::FromImage($maskable)
-$maskableGraphics.Clear([System.Drawing.ColorTranslator]::FromHtml("#11543D"))
+$maskableGraphics.Clear([System.Drawing.ColorTranslator]::FromHtml("#6B21A8"))
 $maskableGraphics.DrawImage($bitmap, 0, 0, $size, $size)
-$maskable.Save((Join-Path $public "noor-n-maskable-512.png"), [System.Drawing.Imaging.ImageFormat]::Png)
+$maskable.Save((Join-Path $public "noor-app-maskable-512.png"), [System.Drawing.Imaging.ImageFormat]::Png)
 
 $small = [System.Drawing.Bitmap]::new(192, 192)
 $smallGraphics = [System.Drawing.Graphics]::FromImage($small)
@@ -69,7 +70,7 @@ $smallGraphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQua
 $smallGraphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
 $smallGraphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
 $smallGraphics.DrawImage($bitmap, 0, 0, 192, 192)
-$small.Save((Join-Path $public "noor-n-192.png"), [System.Drawing.Imaging.ImageFormat]::Png)
+$small.Save((Join-Path $public "noor-app-192.png"), [System.Drawing.Imaging.ImageFormat]::Png)
 
 $smallGraphics.Dispose()
 $small.Dispose()
