@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { getSurahName } from "@/lib/surahNames";
 
 export default function QuranReader({ verses = [], initialFont = 26, audioUrls = [] }) {
   const [fontSize, setFontSize] = useState(initialFont);
@@ -367,11 +368,12 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
           {verses.map((verse, index) => {
             const startsSurah = index === 0 || verse.surahNumber !== verses[index - 1]?.surahNumber;
             const isActive = verse.aya === activeAya;
+            const surahTitle = `سورة ${getSurahName(verse.surahNumber)}`;
 
             return (
               <span key={verse.aya}>
                 {startsSurah ? (
-                  <span className="mushaf-surah-title">{verse.numberInSurah === 1 ? verse.surahName : `متابعة ${verse.surahName} — من الآية ${toArabicDigits(verse.numberInSurah)}`}</span>
+                  <span className="mushaf-surah-title">{verse.numberInSurah === 1 ? surahTitle : `متابعة ${surahTitle} — من الآية ${toArabicDigits(verse.numberInSurah)}`}</span>
                 ) : " "}
                 <span
                   className={`mushaf-ayah${isActive ? " is-active" : ""}`}
