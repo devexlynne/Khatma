@@ -964,6 +964,7 @@ a { color: inherit; text-decoration: none; }
 .prayer-location-btn { margin-top:14px; }
 .prayer-method { display:grid; gap:6px; max-width:360px; margin-top:14px; font-size:13px; font-weight:700; color:var(--muted); }
 .prayer-method-note { margin:8px 0 0; font-size:13px; }
+.prayer-resolved { margin:14px 0 0; padding:10px 14px; border-radius:12px; background:var(--green-soft); color:var(--ink); }
 .prayer-date { margin:14px 0 8px; font-size:13px; }
 @media (max-width:680px) { .prayer-search { grid-template-columns:1fr; } }
 .moroccan-frame {

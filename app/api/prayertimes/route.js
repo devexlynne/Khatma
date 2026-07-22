@@ -6,7 +6,8 @@ export async function GET(req) {
   try {
     const url = new URL(req.url);
     const city = url.searchParams.get("city") || "Beirut";
-    const country = url.searchParams.get("country") || "Lebanon";
+    const countryParam = url.searchParams.get("country");
+    const country = countryParam === null ? "Lebanon" : countryParam.trim();
     const requestedMethod = url.searchParams.get("method");
     const method = requestedMethod ? Number(requestedMethod) : undefined;
     const date = url.searchParams.get("date") || undefined;

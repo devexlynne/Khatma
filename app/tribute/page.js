@@ -30,7 +30,7 @@ export default function TributePage() {
                 <img src="/father-yahya.png" alt="يحيى علي الحلبي" />
               </div>
               <figcaption>
-                <span>الأب الحبيب</span>
+                <span>الوالد الحبيب</span>
                 <strong>يحيى علي الحلبي</strong>
                 <small>رحمه الله</small>
               </figcaption>
@@ -41,7 +41,7 @@ export default function TributePage() {
                 <img src="/mother-dalal.png" alt="دلال محمد طاهر اللادقي" />
               </div>
               <figcaption>
-                <span>الأم الحبيبة</span>
+                <span>الوالدة الحبيبة</span>
                 <strong>دلال محمد طاهر اللادقي</strong>
                 <small>رحمها الله</small>
               </figcaption>

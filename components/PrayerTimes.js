@@ -27,16 +27,19 @@ export default function PrayerTimes() {
   const [times,setTimes]=useState(null); const [error,setError]=useState("");
   useEffect(()=>{
     setTimes(null); setError("");
+    const controller=new AbortController();
     const now=new Date();
     const date=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
     const coordinates=Number.isFinite(location.latitude)&&Number.isFinite(location.longitude)?`&latitude=${location.latitude}&longitude=${location.longitude}`:"";
+    const requestedDate=coordinates?`&date=${date}`:"";
     const calculationMethod=method!=="auto"?`&method=${method}`:"";
-    fetch(`/api/prayertimes?city=${encodeURIComponent(location.city)}&country=${encodeURIComponent(location.country)}&date=${date}${coordinates}${calculationMethod}`)
-      .then(r=>r.json()).then(j=>j.ok?setTimes(j.data):setError("تعذر جلب المواقيت، تحقق من اسم المدينة والبلد."))
-      .catch(()=>setError("تعذر الاتصال بخدمة المواقيت."));
+    fetch(`/api/prayertimes?city=${encodeURIComponent(location.city)}&country=${encodeURIComponent(location.country)}${requestedDate}${coordinates}${calculationMethod}`,{signal:controller.signal})
+      .then(r=>r.json()).then(j=>j.ok?setTimes(j.data):setError("لم يتم العثور على المدينة. اكتب اسمها بدقة، وأضف البلد إذا وُجدت مدن متشابهة."))
+      .catch(err=>{if(err.name!=="AbortError")setError("تعذر الاتصال بخدمة المواقيت.");});
+    return ()=>controller.abort();
   },[location,method]);
-  const choose=(value)=>{ const item=LOCATIONS.find(x=>x[0]===value); if(item)setLocation({label:item[0],city:item[1],country:item[2],latitude:item[3],longitude:item[4]}); };
-  const search=(e)=>{ e.preventDefault(); if(draft.city.trim()&&draft.country.trim())setLocation({city:draft.city.trim(),country:draft.country.trim(),label:`${draft.city.trim()}، ${draft.country.trim()}`}); };
+  const choose=(value)=>{ const item=LOCATIONS.find(x=>x[0]===value); if(item)setLocation({label:item[0],city:item[1],country:item[2]}); };
+  const search=(e)=>{ e.preventDefault(); const city=draft.city.trim(); const country=draft.country.trim(); if(!city){setTimes(null);setError("اكتب اسم المدينة أولًا.");return;} setLocation({city,country,label:country?`${city}، ${country}`:city}); };
   const useMyLocation=()=>{
     if(!navigator.geolocation)return setError("تحديد الموقع غير مدعوم في هذا المتصفح.");
     setError("");
@@ -54,10 +57,10 @@ export default function PrayerTimes() {
       <label>اختيار سريع<select className="input" value={LOCATIONS.some(x=>x[0]===location.label)?location.label:""} onChange={e=>choose(e.target.value)}><option value="">مدينة أخرى</option>{LOCATIONS.map(x=><option key={x[0]}>{x[0]}</option>)}</select></label>
     </div>
     <button type="button" className="btn btn-ghost btn-sm prayer-location-btn" onClick={useMyLocation}>استخدام موقعي الحالي</button>
-    <form className="prayer-search" onSubmit={search}><input className="input" value={draft.city} onChange={e=>setDraft({...draft,city:e.target.value})} placeholder="المدينة، مثل: صيدا" /><input className="input" value={draft.country} onChange={e=>setDraft({...draft,country:e.target.value})} placeholder="البلد، مثل: لبنان" /><button className="btn btn-primary btn-sm">عرض المواقيت</button></form>
+    <form className="prayer-search" onSubmit={search}><input className="input" value={draft.city} onChange={e=>setDraft({...draft,city:e.target.value})} placeholder="المدينة، مثل: باريس" required /><input className="input" value={draft.country} onChange={e=>setDraft({...draft,country:e.target.value})} placeholder="البلد (اختياري)، مثل: فرنسا" /><button className="btn btn-primary btn-sm">تحديث المواقيت</button></form>
     <label className="prayer-method">طريقة حساب الفجر والعشاء<select className="input" value={method} onChange={e=>setMethod(e.target.value)}>{METHODS.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>
     <p className="muted prayer-method-note">في فرنسا قد تختلف المواقيت بين المساجد. اختر الطريقة التي يعتمدها مسجدك إذا كان جدوله مختلفًا.</p>
     {!times&&!error&&<p className="muted">جارٍ جلب أوقات الصلاة…</p>}{error&&<p className="error-text">{error}</p>}
-    {times&&<><p className="muted prayer-date">مواقيت {times.date?.readable || "اليوم"} — طريقة الحساب: {METHOD_LABELS[String(times.method)] || `رقم ${times.method}`}.</p><div className="prayer-grid">{Object.entries(PRAYERS).map(([key,label])=><div key={key} className="prayer-item"><div className="prayer-key">{label}</div><div className="prayer-val">{times.timings?.[key]}</div></div>)}</div></>}
+    {times&&<><p className="prayer-resolved">الموقع المعتمد: <strong>{times.location?.name || location.label}{times.location?.country?`، ${times.location.country}`:""}</strong>{times.location?.timezone?` — ${times.location.timezone}`:""}</p><p className="muted prayer-date">مواقيت {times.date?.readable || "اليوم"} — طريقة الحساب: {METHOD_LABELS[String(times.method)] || `رقم ${times.method}`}.</p><div className="prayer-grid">{Object.entries(PRAYERS).map(([key,label])=><div key={key} className="prayer-item"><div className="prayer-key">{label}</div><div className="prayer-val">{times.timings?.[key]}</div></div>)}</div></>}
   </section>;
 }
