@@ -19,19 +19,22 @@ export default function SignupPage() {
     setError("");
     if (form.password !== form.confirm) return setError("كلمتا المرور غير متطابقتين");
     setLoading(true);
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    setLoading(false);
-    if (res.ok) {
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      let data = null;
+      try { data = await res.json(); } catch { /* ignore invalid response bodies */ }
+      if (!res.ok) return setError(data?.error || "تعذر إنشاء الحساب");
       notify("تم إنشاء الحساب بنجاح");
       router.push("/dashboard");
       router.refresh();
-    } else {
-      const d = await res.json();
-      setError(d.error || "حدث خطأ");
+    } catch {
+      setError("فشل الاتصال بالخادم. حاول مجددًا.");
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DUAS } from "@/lib/dhikrData";
 import { useToast } from "@/components/Toast";
 
@@ -7,16 +7,21 @@ const CATEGORIES = { deceased:"أدعية للمتوفى", quran_completion:"د�
 
 export default function DuaaLibrary() {
   const notify = useToast();
+  const tabsRef = useRef(null);
   const [category,setCategory] = useState("deceased");
   const [favorites,setFavorites] = useState([]);
   useEffect(()=>{ try { setFavorites(JSON.parse(localStorage.getItem("duaa_favorites")||"[]")); } catch {} },[]);
   useEffect(()=>{ const requested=new URLSearchParams(window.location.search).get("category"); if(requested && DUAS[requested]) setCategory(requested); },[]);
+  useEffect(()=>{
+    const activeTab = tabsRef.current?.querySelector('[aria-selected="true"]');
+    activeTab?.scrollIntoView({ behavior:"smooth", block:"nearest", inline:"center" });
+  },[category]);
   const idOf=(d)=>`${category}:${d.title}`;
   const copy=(text)=>navigator.clipboard?.writeText(text).then(()=>notify("تم نسخ الدعاء","success"));
   const share=(d)=>navigator.share ? navigator.share({title:d.title,text:d.text}).catch(()=>{}) : copy(d.text);
   const favorite=(d)=>{ const id=idOf(d); const next=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id]; setFavorites(next); localStorage.setItem("duaa_favorites",JSON.stringify(next)); };
   return <div className="container page"><h1 className="section-title">الأدعية والأذكار</h1>
-    <div className="duaa-tabs">{Object.entries(CATEGORIES).map(([key,label])=><button key={key} className={`btn btn-sm ${category===key?"btn-primary":"btn-ghost"}`} onClick={()=>setCategory(key)}>{label}</button>)}</div>
+    <div className="duaa-tabs" ref={tabsRef} role="tablist" aria-label="تصنيفات الأدعية والأذكار">{Object.entries(CATEGORIES).map(([key,label])=><button key={key} type="button" role="tab" aria-selected={category===key} className={`btn btn-sm ${category===key?"btn-primary":"btn-ghost"}`} onClick={()=>setCategory(key)}>{label}</button>)}</div>
     <div className="duaa-list">{(DUAS[category]||[]).map((d,i)=><article className={`card moroccan-frame${d.names ? " names-chapter" : ""}`} key={`${d.title}-${i}`}><h3>{d.title}</h3>
       {d.intro && <p className="names-hadith">{d.intro}</p>}
       {d.names ? <div className="names-grid" aria-label="أسماء الله الحسنى">{d.names.map((name,index)=><div className="name-tile" key={name}><span>{index+1}</span><strong>{name}</strong></div>)}</div> : <p>{d.text}</p>}

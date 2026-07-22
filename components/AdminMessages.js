@@ -7,13 +7,17 @@ export default function AdminMessages() {
   const notify = useToast();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const load = useCallback(async () => {
+    setError("");
     try {
       const response = await fetch("/api/admin/messages", { cache: "no-store" });
       if (!response.ok) throw new Error();
       const data = await response.json();
       setMessages(data.messages || []);
+    } catch {
+      setError("تعذر تحميل الرسائل. حاول التحديث مجددًا.");
     } finally { setLoading(false); }
   }, []);
 
@@ -30,7 +34,7 @@ export default function AdminMessages() {
   const categoryLabel = { message: "رسالة", suggestion: "اقتراح", problem: "مشكلة", question: "استفسار" };
   return <section className="card admin-message-inbox">
     <div className="admin-card-title"><div><span className="admin-kicker">صندوق التواصل</span><h3>رسائل الزوار والمشتركين</h3></div><span className={`badge ${unread ? "active" : "completed"}`}>{unread} جديدة</span></div>
-    {loading ? <p className="muted">جارٍ تحميل الرسائل...</p> : messages.length === 0 ? <p className="muted">لا توجد رسائل بعد.</p> : <div className="admin-message-list">
+    {loading ? <p className="muted">جارٍ تحميل الرسائل...</p> : error ? <div><p className="error-text">{error}</p><button className="btn btn-sm btn-ghost" onClick={load}>إعادة المحاولة</button></div> : messages.length === 0 ? <p className="muted">لا توجد رسائل بعد.</p> : <div className="admin-message-list">
       {messages.map((item) => <article key={item.id} className={`admin-message-item ${item.status === "new" ? "is-new" : ""}`}>
         <div className="admin-message-meta"><strong>{item.sender_name} · {categoryLabel[item.category] || "رسالة"}</strong><span>{item.created_at?.slice(0,16)}</span></div>
         {item.contact_info ? <p className="admin-message-contact">وسيلة التواصل: {item.contact_info}</p> : null}

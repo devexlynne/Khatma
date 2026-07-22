@@ -339,7 +339,7 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
         }
       `}</style>
 
-      <div className="mushaf-toolbar" aria-label="Quran reader controls">
+      <div className="mushaf-toolbar" aria-label="أدوات قارئ القرآن">
         <div className="mushaf-toolbar-group">
           <button className="mushaf-btn" onClick={decrease} aria-label="تقليل حجم الخط">A-</button>
           <button className="mushaf-btn" onClick={reset} aria-label="إعادة حجم الخط">إعادة</button>

@@ -23,7 +23,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, remember }),
       });
       if (res.ok) {
         notify("مرحبًا بعودتك");
@@ -60,11 +60,11 @@ export default function LoginPage() {
             </div>
           </div>
           <div className="row" style={{ justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <label style={{ display: "flex", gap: 7, alignItems: "center", fontSize: 14, fontWeight: 600 }}>
+            <label className="remember-label">
               <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
               تذكّرني
             </label>
-            <span className="muted" style={{ fontSize: 13 }}>نسيت كلمة المرور؟</span>
+            <Link href="/#contact-admin" className="muted login-help-link">تحتاج مساعدة في الدخول؟</Link>
           </div>
           {error && <div className="error-text">{error}</div>}
           <button className="btn btn-primary btn-block" disabled={loading} style={{ marginTop: 8 }}>
