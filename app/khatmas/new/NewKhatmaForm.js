@@ -6,8 +6,17 @@ import { useToast } from "@/components/Toast";
 
 const FEATURED_RECIPIENTS = {
   father: { name: "يحيى علي الحلبي", relationship: "الوالد", honorStatus: "deceased", label: "الوالد يحيى علي الحلبي" },
-  mother: { name: "دلال محمد طاهر اللاذقي", relationship: "الوالدة", honorStatus: "deceased", label: "الوالدة دلال محمد طاهر اللاذقي" },
+  mother: { name: "دلال محمد طاهر اللادقي", relationship: "الوالدة", honorStatus: "deceased", label: "الوالدة دلال محمد طاهر اللادقي" },
+  parents: { name: "يحيى ودلال", relationship: "الوالدان", honorStatus: "deceased", label: "الوالدان يحيى ودلال" },
 };
+
+function recipientStatusText(recipient) {
+  if (recipient.honorStatus === "living") return "على قيد الحياة";
+  if (recipient.relationship === "الوالدان") return "رحمهما الله";
+  if (recipient.relationship === "الوالدة" || recipient.name.includes("دلال محمد طاهر اللادقي")) return "رحمها الله";
+  if (recipient.relationship === "الوالد" || recipient.name === "يحيى علي الحلبي") return "رحمه الله";
+  return "متوفى";
+}
 
 export default function NewKhatmaForm({ suggestions = [], owners = [], currentUserId, isAdmin = false }) {
   const router = useRouter();
@@ -17,7 +26,6 @@ export default function NewKhatmaForm({ suggestions = [], owners = [], currentUs
   const [recipientMode, setRecipientMode] = useState("father");
   const [existingName, setExistingName] = useState(suggestions[0]?.name || "");
   const [newName, setNewName] = useState("");
-  const [relationship, setRelationship] = useState("");
   const [honorStatus, setHonorStatus] = useState("deceased");
   const [ownerId, setOwnerId] = useState(String(currentUserId || ""));
   const [loading, setLoading] = useState(false);
@@ -29,8 +37,8 @@ export default function NewKhatmaForm({ suggestions = [], owners = [], currentUs
       const found = suggestions.find((item) => item.name === existingName);
       return { name: existingName, relationship: found?.relationship || "", honorStatus: found?.honorStatus || "deceased" };
     }
-    return { name: newName.trim(), relationship: relationship.trim(), honorStatus };
-  }, [recipientMode, existingName, newName, relationship, honorStatus, suggestions]);
+    return { name: newName.trim(), relationship: "", honorStatus };
+  }, [recipientMode, existingName, newName, honorStatus, suggestions]);
 
   function suggestTitle() {
     setTitle(recipient.name ? `ختمة قرآن مهداة إلى ${recipient.name}` : "ختمة القرآن الكريم");
@@ -82,9 +90,10 @@ export default function NewKhatmaForm({ suggestions = [], owners = [], currentUs
         <p className="muted">اختر شخصًا محفوظًا كي يُحتسب عدد الختمات المهداة والمكتملة له تلقائيًا.</p>
         <div className="recipient-options">
           <button type="button" className={`recipient-option ${recipientMode === "father" ? "selected" : ""}`} onClick={() => setRecipientMode("father")}><span>الوالد</span><strong>يحيى علي الحلبي</strong></button>
-          <button type="button" className={`recipient-option ${recipientMode === "mother" ? "selected" : ""}`} onClick={() => setRecipientMode("mother")}><span>الوالدة</span><strong>دلال محمد طاهر اللاذقي</strong></button>
+          <button type="button" className={`recipient-option ${recipientMode === "mother" ? "selected" : ""}`} onClick={() => setRecipientMode("mother")}><span>الوالدة</span><strong>دلال محمد طاهر اللادقي</strong></button>
+          <button type="button" className={`recipient-option ${recipientMode === "parents" ? "selected" : ""}`} onClick={() => setRecipientMode("parents")}><span>للوالدين</span><strong>يحيى ودلال رحمهما الله</strong></button>
           {suggestions.length ? <button type="button" className={`recipient-option compact ${recipientMode === "existing" ? "selected" : ""}`} onClick={() => setRecipientMode("existing")}><span>شخص سبق الإهداء له</span><strong>اختيار من السجل</strong></button> : null}
-          <button type="button" className={`recipient-option compact ${recipientMode === "new" ? "selected" : ""}`} onClick={() => setRecipientMode("new")}><span>شخص جديد</span><strong>إضافة مستفيد جديد</strong></button>
+          <button type="button" className={`recipient-option compact ${recipientMode === "new" ? "selected" : ""}`} onClick={() => setRecipientMode("new")}><span>إهداء لشخص آخر</span><strong>اسم من ترغب بإهداء ثواب الختمة إليه</strong></button>
           <button type="button" className={`recipient-option compact ${recipientMode === "none" ? "selected" : ""}`} onClick={() => setRecipientMode("none")}><span>ختمة عامة</span><strong>من دون اسم محدد</strong></button>
         </div>
       </fieldset>
@@ -100,15 +109,12 @@ export default function NewKhatmaForm({ suggestions = [], owners = [], currentUs
 
       {recipientMode === "new" ? (
         <div className="new-recipient-panel">
-          <div className="field"><label htmlFor="recipient-name">اسم الشخص</label><input id="recipient-name" className="input" value={newName} onChange={(event) => setNewName(event.target.value)} maxLength={120} required placeholder="الاسم الكامل" /></div>
-          <div className="smart-two-columns">
-            <div className="field"><label htmlFor="recipient-relation">صلته بك</label><select id="recipient-relation" className="input" value={relationship} onChange={(event) => setRelationship(event.target.value)}><option value="">اختر الصلة</option><option>الوالد</option><option>الوالدة</option><option>الزوج</option><option>الزوجة</option><option>الابن</option><option>الابنة</option><option>الأخ</option><option>الأخت</option><option>قريب</option><option>صديق</option><option>شخص عزيز</option></select></div>
-            <div className="field"><label htmlFor="recipient-status">الدعاء له</label><select id="recipient-status" className="input" value={honorStatus} onChange={(event) => setHonorStatus(event.target.value)}><option value="deceased">رحمه الله / رحمها الله</option><option value="living">حفظه الله / حفظها الله</option></select></div>
-          </div>
+          <div className="field"><label htmlFor="recipient-name">اسم من ترغب بإهداء ثواب الختمة إليه</label><input id="recipient-name" className="input" value={newName} onChange={(event) => setNewName(event.target.value)} maxLength={120} required placeholder="الاسم الكامل" /></div>
+          <div className="field"><label htmlFor="recipient-status">حالة الشخص</label><select id="recipient-status" className="input" value={honorStatus} onChange={(event) => setHonorStatus(event.target.value)}><option value="deceased">متوفى</option><option value="living">على قيد الحياة</option></select></div>
         </div>
       ) : null}
 
-      {recipient.name ? <div className="recipient-preview"><span>الإهداء المختار</span><strong>{recipient.name}</strong><small>{recipient.relationship ? `${recipient.relationship} · ` : ""}{recipient.honorStatus === "living" ? "حفظه الله" : "رحمه الله"}</small></div> : null}
+      {recipient.name ? <div className="recipient-preview"><span>الإهداء المختار</span><strong>{recipient.name}</strong><small>{recipient.relationship ? `${recipient.relationship} · ` : ""}{recipientStatusText(recipient)}</small></div> : null}
 
       <div className="field">
         <div className="smart-label-row"><label htmlFor="khatma-title">اسم الختمة</label><button type="button" className="text-action" onClick={suggestTitle}>اقتراح اسم تلقائي</button></div>

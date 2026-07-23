@@ -48,7 +48,7 @@ export default function DedicationForm() {
       </div>
 
       <div className="form-group">
-        <label className="label">رابط صورة/ملص (اختياري)</label>
+        <label className="label">رابط صورة/ملصق (اختياري)</label>
         <input className="input" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://example.com/image.jpg" />
       </div>
 

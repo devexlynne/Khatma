@@ -18,7 +18,7 @@ import { khatmaGiftStats, listPublicActiveKhatmas } from "@/lib/khatma";
 export default function Home() {
   const user = getCurrentUser();
   const father = "يحيى علي الحلبي";
-  const mother = "دلال محمد طاهر اللاذقي";
+  const mother = "دلال محمد طاهر اللادقي";
   const giftStats = { father: khatmaGiftStats(father), mother: khatmaGiftStats(mother) };
   const publicKhatmas = listPublicActiveKhatmas();
   return <><EntrySplash /><Nav /><AnnouncementBar /><main className="container">

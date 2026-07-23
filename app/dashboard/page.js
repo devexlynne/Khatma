@@ -152,7 +152,7 @@ export default function Dashboard() {
         <div className="row" style={{ gap: 16, flexWrap: "wrap", marginTop: 18, marginBottom: 24 }}>
           <div style={{ flex: "1 1 320px", minWidth: 280 }}>
             <div className="card highlight-card">
-              <strong style={{ display: "block", marginBottom: 10 }}>أبطال التفاعل</strong>
+              <strong style={{ display: "block", marginBottom: 10 }}>المشاركون</strong>
               {stats.topParticipants.length ? (
                 <div className="row" style={{ flexWrap: "wrap", gap: 10 }}>
                   {stats.topParticipants.map((participant) => (
