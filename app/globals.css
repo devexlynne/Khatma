@@ -1575,16 +1575,15 @@ img,svg,video,canvas,iframe { max-width:100%; }
   display:block;
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   object-position:center center;
-  background:#eee6d8;
+  background:linear-gradient(145deg,#f4eee3,#e8dfd0);
   filter:sepia(.06) saturate(.94) contrast(1.025);
 }
 .tribute-portrait-father .tribute-portrait-frame img { object-position:center top; }
 .tribute-portrait-mother .tribute-portrait-frame img {
   object-position:center center;
-  transform:scale(1.28) translate(-18%,-12%);
-  transform-origin:center;
+  transform:none;
 }
 .tribute-portrait figcaption { display:flex; flex-direction:column; gap:3px; margin-top:16px; }
 .tribute-portrait figcaption > span { color:#6c675e; font-size:13px; }
@@ -1646,7 +1645,7 @@ img,svg,video,canvas,iframe { max-width:100%; }
   .tribute-portrait-seal { width:58px; height:58px; margin:auto; order:2; }
   .tribute-portrait-mother { order:3; }
   .tribute-portrait { min-width:0; }
-  .tribute-portrait-frame { width:min(100%,290px); padding:6px; }
+  .tribute-portrait-frame { width:min(88vw,290px); padding:6px; }
   .tribute-chapter p { line-height:2; text-align:right; }
   .tribute-prayer { grid-template-columns:1fr; padding:22px 16px; }
   .tribute-prayer > span { display:none; }
