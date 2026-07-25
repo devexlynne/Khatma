@@ -486,6 +486,21 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 24px;
 }
 
+.entry-splash-brand {
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+
+.entry-splash-brand img {
+  width:58px;
+  height:58px;
+  flex:0 0 auto;
+  border-radius:16px;
+  box-shadow:0 10px 24px rgba(43,32,53,.2);
+}
+
 .entry-splash-label {
   display: inline-flex;
   align-items: center;

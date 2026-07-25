@@ -54,9 +54,12 @@ export default function EntrySplash() {
       <div className="entry-splash-backdrop" />
       <div className="entry-splash-card">
         <div className="entry-splash-top">
-          <div>
-            <div className="entry-splash-label">غرسٌ في الجنة، وبرٌّ للوالدين</div>
-            <h1>نور الوالدين</h1>
+          <div className="entry-splash-brand">
+            <img src="/noor-clean-192.png" alt="" aria-hidden="true" />
+            <div>
+              <div className="entry-splash-label">غرسٌ في الجنة، وبرٌّ للوالدين</div>
+              <h1>نور الوالدين</h1>
+            </div>
           </div>
           <button className="btn btn-ghost" type="button" onClick={closeSplash}>تجاوز</button>
         </div>
