@@ -3,7 +3,8 @@ import path from "node:path";
 import { DUAS } from "../lib/dhikrData.js";
 
 const QURAN_FILE = path.join(process.cwd(), "data", "quran.json");
-const SOURCE_URL = "https://api.alquran.cloud/v1/quran/quran-uthmani";
+const SOURCE_URL =
+  "https://tanzil.net/pub/download/index.php?quranType=uthmani&outType=txt-2&marks=true&sajdah=true&tatweel=true&agree=true";
 
 function fail(message) {
   throw new Error(`Quran audit failed: ${message}`);
@@ -81,15 +82,23 @@ function auditDuaaContent(verses) {
 }
 
 async function auditAgainstSource(local) {
-  const response = await fetch(SOURCE_URL, { headers: { Accept: "application/json" } });
+  const response = await fetch(SOURCE_URL, {
+    headers: { Accept: "text/plain", "User-Agent": "khatma-quran-source-audit/1.0" },
+  });
   if (!response.ok) fail(`verified source returned HTTP ${response.status}`);
-  const payload = await response.json();
-  const remote = payload?.data?.surahs?.flatMap((surah) => surah.ayahs.map((ayah) => ({
-    surahNumber: surah.number,
-    numberInSurah: ayah.numberInSurah,
-    aya: ayah.number,
-    text: cleanText(ayah.text),
-  }))) || [];
+  const remote = (await response.text())
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"))
+    .map((line, index) => {
+      const [surahRaw, ayahRaw, ...textParts] = line.split("|");
+      return {
+        surahNumber: Number(surahRaw),
+        numberInSurah: Number(ayahRaw),
+        aya: index + 1,
+        text: cleanText(textParts.join("|").trim()),
+      };
+    });
   if (remote.length !== local.length) fail(`verified source has ${remote.length} ayat while the app has ${local.length}`);
 
   local.forEach((verse, index) => {
