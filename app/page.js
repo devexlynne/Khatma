@@ -48,6 +48,28 @@ export default function Home() {
     <DailyDhikr />
     <KhatmaRequestForm currentUser={user ? { name: user.full_name, email: user.email } : null} />
     <ContactAdminForm />
+    <section className="quran-trust-section moroccan-frame" aria-labelledby="quran-trust-title">
+      <div className="quran-trust-heading">
+        <span>توثيق وطمأنة</span>
+        <h2 id="quran-trust-title">مصدر نص القرآن الكريم</h2>
+        <p>نعتمد في عرض نص القرآن الكريم على النص العثماني من مشروع تنزيل Tanzil، مع الإشارة إلى المصدر ليتمكن الزائر من الرجوع إليه ومتابعة تحديثاته.</p>
+      </div>
+      <div className="quran-trust-grid">
+        <div>
+          <strong>المصدر المعتمد</strong>
+          <p>مشروع تنزيل Tanzil للنص القرآني العثماني.</p>
+          <a href="https://tanzil.net/" target="_blank" rel="noreferrer">زيارة المصدر</a>
+        </div>
+        <div>
+          <strong>فحص النص قبل النشر</strong>
+          <p>يتم التحقق آليًا من ٦٢٣٦ آية، و١١٤ سورة، و٣٠ جزءًا، مع ترتيب الآيات وأرقامها.</p>
+        </div>
+        <div>
+          <strong>مطابقة الاقتباسات</strong>
+          <p>تتم مقارنة الآيات الواردة داخل الأدعية والأذكار مع النص القرآني المعتمد قبل اعتماد النسخة.</p>
+        </div>
+      </div>
+    </section>
     <footer className="center muted">القرآن يجمعنا...</footer>
   </main></>;
 }
