@@ -274,6 +274,7 @@ a { color: inherit; text-decoration: none; }
 .nav-inner { display:flex; align-items:center; justify-content:space-between; height: 64px; }
 .brand { display:flex; align-items:center; gap:10px; font-weight: 800; font-size: 19px; color: var(--green-dark); }
 .brand .logo { width: 34px; height: 34px; border-radius: 10px; background: var(--green); color:#fff; display:grid; place-items:center; font-size:18px; }
+.brand .logo-img { display:block; object-fit:cover; background:#fffaf2; box-shadow:0 5px 13px rgba(43,32,53,.18); }
 .brand-star { color:#d5a020; font-size:18px; line-height:1; filter:drop-shadow(0 2px 4px rgba(181,132,15,.3)); transform:translateY(-1px); }
 .nav-links { display:flex; align-items:center; gap: 6px; }
 .nav-links a { 

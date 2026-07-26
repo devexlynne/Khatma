@@ -14,7 +14,7 @@ export default function CompletePage({ params }) {
     <>
       <nav className="nav">
         <div className="container nav-inner">
-          <Link href="/" className="brand"><span className="logo">۩</span><span>ختمة</span></Link>
+          <Link href="/" className="brand"><img className="logo logo-img" src="/noor-clean-192.png" alt="" aria-hidden="true" /><span>ختمة</span></Link>
         </div>
       </nav>
       <div className="container page" style={{ maxWidth: 520 }}>
