@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
+import Nav from "@/components/Nav";
 import QuranJuzPlayer from "../../../components/QuranJuzPlayer";
 import KidsGardenSection from "../../../components/KidsGardenSection";
 
@@ -36,7 +37,7 @@ export default function JuzPage({ params }) {
   }
 
   return (
-    <div className="container page quran-juz-page" style={{ maxWidth: 1240 }}>
+    <><Nav /><div className="container page quran-juz-page" style={{ maxWidth: 1240 }}>
       <style>{`
         .quran-verse {
           direction: rtl;
@@ -112,6 +113,6 @@ export default function JuzPage({ params }) {
         </div>
         <KidsGardenSection />
       </div>
-    </div>
+    </div></>
   );
 }

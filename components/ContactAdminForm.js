@@ -12,7 +12,7 @@ export default function ContactAdminForm() {
 
   async function submit(event) {
     event.preventDefault();
-    if (!form.name.trim() || !form.message.trim()) return notify("الاسم والرسالة مطلوبان", "error");
+    if (!form.name.trim() || !form.contact.trim() || !form.message.trim()) return notify("الاسم ووسيلة التواصل والرسالة مطلوبة", "error");
     setBusy(true);
     try {
       const response = await fetch("/api/contact", {
@@ -39,7 +39,7 @@ export default function ContactAdminForm() {
     <form onSubmit={submit} className="contact-admin-form">
       <div className="contact-fields-row">
         <div className="field"><label htmlFor="contact-name">الاسم</label><input id="contact-name" className="input" value={form.name} onChange={update("name")} maxLength={80} required placeholder="اكتب اسمك" /></div>
-        <div className="field"><label htmlFor="contact-info">وسيلة التواصل (اختياري)</label><input id="contact-info" className="input" value={form.contact} onChange={update("contact")} maxLength={120} placeholder="بريد إلكتروني أو رقم هاتف" /></div>
+        <div className="field"><label htmlFor="contact-info">وسيلة التواصل</label><input id="contact-info" className="input" value={form.contact} onChange={update("contact")} maxLength={120} required placeholder="بريد إلكتروني أو رقم هاتف" /></div>
       </div>
       <div className="field"><label htmlFor="contact-category">نوع الرسالة</label><select id="contact-category" className="input" value={form.category} onChange={update("category")}><option value="message">رسالة عامة</option><option value="suggestion">اقتراح لتطوير الموقع</option><option value="problem">الإبلاغ عن مشكلة</option><option value="question">استفسار</option></select></div>
       <div className="field"><label htmlFor="contact-message">الرسالة</label><textarea id="contact-message" className="input" value={form.message} onChange={update("message")} maxLength={1500} required rows={5} placeholder="اكتب رسالتك للمشرف هنا..." /></div>

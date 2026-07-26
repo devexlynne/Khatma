@@ -16,11 +16,8 @@ export default function SurahPage({ params }) {
     verses = data.flatMap((item) => item.verses).filter((verse) => verse.surahNumber === surahNumber).sort((a,b) => a.numberInSurah-b.numberInSurah);
   } catch {}
   if (!verses.length) notFound();
-  const audioUrls = verses.map(
-    (verse) => `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${verse.aya}.mp3`
-  );
   return <><Nav /><main className="container page quran-surah-page">
     <div className="row quran-surah-nav"><Link href="/quran" className="btn btn-ghost btn-sm">العودة إلى فهرس القرآن</Link><span className="badge active">{verses.length} آية</span></div>
-    <QuranReader verses={verses} initialFont={30} audioUrls={audioUrls} />
+    <QuranReader verses={verses} initialFont={30} />
   </main></>;
 }

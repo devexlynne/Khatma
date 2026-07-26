@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getSurahName } from "@/lib/surahNames";
+import { QURAN_RECITERS, quranAudioUrl } from "@/lib/quranAudio";
 
-export default function QuranReader({ verses = [], initialFont = 26, audioUrls = [] }) {
+export default function QuranReader({ verses = [], initialFont = 26 }) {
   const [fontSize, setFontSize] = useState(initialFont);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
+  const [selectedReciter, setSelectedReciter] = useState(QURAN_RECITERS[0].id);
   const [selectedAya, setSelectedAya] = useState(verses[0]?.aya ?? null);
   const audioRef = useRef(null);
   const trackIndexRef = useRef(0);
@@ -34,17 +36,31 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
     return Math.max(0, verses.findIndex((verse) => verse.aya === selectedAya));
   }, [selectedAya, verses]);
 
-  const activeAya = isPlaying ? verses[currentTrack]?.aya : selectedAya;
+  const reciter = QURAN_RECITERS.find((item) => item.id === selectedReciter) || QURAN_RECITERS[0];
+  const playlist = useMemo(() => {
+    return verses.flatMap((verse, index) => {
+      const startsSurah = index === 0 || verse.surahNumber !== verses[index - 1]?.surahNumber;
+      const items = [];
+      if (startsSurah && verse.surahNumber !== 1 && verse.surahNumber !== 9) {
+        items.push({ type: "basmala", verseIndex: index, url: quranAudioUrl(reciter, 1, 1) });
+      }
+      items.push({ type: "ayah", verseIndex: index, url: quranAudioUrl(reciter, verse.surahNumber, verse.numberInSurah) });
+      return items;
+    });
+  }, [verses, reciter]);
+
+  const activeAya = isPlaying ? verses[playlist[currentTrack]?.verseIndex]?.aya : selectedAya;
 
   const playAudio = async (startIndex = selectedIndex) => {
     const audio = audioRef.current;
-    if (!audio || !audioUrls || audioUrls.length === 0) return;
+    if (!audio || playlist.length === 0) return;
 
-    const safeIndex = Math.min(Math.max(startIndex, 0), audioUrls.length - 1);
-    trackIndexRef.current = safeIndex;
-    setCurrentTrack(safeIndex);
-    setSelectedAya(verses[safeIndex]?.aya ?? null);
-    audio.src = audioUrls[safeIndex];
+    const verseIndex = Math.min(Math.max(startIndex, 0), verses.length - 1);
+    const safeTrackIndex = Math.max(0, playlist.findIndex((item) => item.verseIndex === verseIndex));
+    trackIndexRef.current = safeTrackIndex;
+    setCurrentTrack(safeTrackIndex);
+    setSelectedAya(verses[verseIndex]?.aya ?? null);
+    audio.src = playlist[safeTrackIndex].url;
 
     try {
       await audio.play();
@@ -64,13 +80,13 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
   };
 
   const handleAudioEnded = async () => {
-    if (!audioUrls || audioUrls.length === 0) {
+    if (playlist.length === 0) {
       setIsPlaying(false);
       return;
     }
 
     const nextIndex = trackIndexRef.current + 1;
-    if (nextIndex >= audioUrls.length) {
+    if (nextIndex >= playlist.length) {
       setIsPlaying(false);
       trackIndexRef.current = 0;
       setCurrentTrack(0);
@@ -79,10 +95,10 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
 
     trackIndexRef.current = nextIndex;
     setCurrentTrack(nextIndex);
-    setSelectedAya(verses[nextIndex]?.aya ?? null);
+    setSelectedAya(verses[playlist[nextIndex]?.verseIndex]?.aya ?? null);
     const audio = audioRef.current;
     if (!audio) return;
-    audio.src = audioUrls[nextIndex];
+    audio.src = playlist[nextIndex].url;
     try {
       await audio.play();
       setIsPlaying(true);
@@ -156,6 +172,22 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
         .mushaf-btn:disabled {
           cursor: not-allowed;
           opacity: 0.45;
+        }
+
+        .mushaf-reciter-label {
+          font-size: 13px;
+          font-weight: 900;
+        }
+
+        .mushaf-reciter-select {
+          min-width: 190px;
+          height: 38px;
+          border: 1px solid rgba(255, 255, 255, 0.38);
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.96);
+          color: #263b25;
+          font: 800 13px/1.2 inherit;
+          padding: 0 10px;
         }
 
         .mushaf-page {
@@ -348,16 +380,16 @@ export default function QuranReader({ verses = [], initialFont = 26, audioUrls =
         </div>
 
         <div className="mushaf-toolbar-group">
-          {audioUrls?.length > 0 ? (
-            <>
-              <button className="mushaf-btn" onClick={() => playAudio(selectedIndex)} disabled={isPlaying}>
-                تشغيل
-              </button>
-              <button className="mushaf-btn" onClick={stopPlayback} disabled={!isPlaying}>
-                إيقاف
-              </button>
-            </>
-          ) : null}
+          <label className="mushaf-reciter-label" htmlFor="quran-reciter">القارئ</label>
+          <select id="quran-reciter" className="mushaf-reciter-select" value={selectedReciter} onChange={(event) => { stopPlayback(); setSelectedReciter(event.target.value); }}>
+            {QURAN_RECITERS.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+          </select>
+          <button className="mushaf-btn" onClick={() => playAudio(selectedIndex)} disabled={isPlaying}>
+            تشغيل
+          </button>
+          <button className="mushaf-btn" onClick={stopPlayback} disabled={!isPlaying}>
+            إيقاف
+          </button>
         </div>
       </div>
 

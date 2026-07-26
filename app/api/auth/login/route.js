@@ -1,10 +1,14 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { verifyUser, startSession, COOKIE_NAME } from "@/lib/auth";
+import { validateRealEmailAddress } from "@/lib/emailValidation";
 
 export async function POST(req) {
   const { email, password, remember = true } = await req.json();
-  const user = verifyUser(email || "", password || "");
+  const emailCheck = await validateRealEmailAddress(email);
+  if (!emailCheck.ok)
+    return NextResponse.json({ error: "يرجى استخدام بريد إلكتروني حقيقي ومسجل" }, { status: 401 });
+  const user = verifyUser(emailCheck.email, password || "");
   if (!user)
     return NextResponse.json({ error: "البريد أو كلمة المرور غير صحيحة" }, { status: 401 });
 
