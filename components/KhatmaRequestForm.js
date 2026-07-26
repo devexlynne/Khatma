@@ -9,7 +9,6 @@ export default function KhatmaRequestForm({ currentUser = null }) {
     requesterName: currentUser?.name || "",
     contactInfo: currentUser?.email || "",
     beneficiaryName: "",
-    beneficiaryStatus: "deceased",
     suggestedTitle: "",
     message: "",
     website: "",
@@ -44,10 +43,7 @@ export default function KhatmaRequestForm({ currentUser = null }) {
       <div className="smart-two-columns">
         <div className="field"><label htmlFor="beneficiary-name">اسم من تريد الختمة له</label><input id="beneficiary-name" className="input" value={form.beneficiaryName} onChange={update("beneficiaryName")} maxLength={120} required placeholder="الاسم الكامل" /></div>
       </div>
-      <div className="smart-two-columns">
-        <div className="field"><label htmlFor="beneficiary-status">نوع الدعاء</label><select id="beneficiary-status" className="input" value={form.beneficiaryStatus} onChange={update("beneficiaryStatus")}><option value="deceased">لشخص متوفى — رحمه الله</option></select></div>
-        <div className="field"><label htmlFor="suggested-title">عنوان مقترح (اختياري)</label><input id="suggested-title" className="input" value={form.suggestedTitle} onChange={update("suggestedTitle")} maxLength={140} placeholder="يُنشأ تلقائيًا إذا تركته فارغًا" /></div>
-      </div>
+      <div className="field"><label htmlFor="suggested-title">عنوان مقترح (اختياري)</label><input id="suggested-title" className="input" value={form.suggestedTitle} onChange={update("suggestedTitle")} maxLength={140} placeholder="يُنشأ تلقائيًا إذا تركته فارغًا" /></div>
       <div className="field"><label htmlFor="request-message">رسالة للمشرف (اختياري)</label><textarea id="request-message" className="input" value={form.message} onChange={update("message")} maxLength={800} rows={3} placeholder="مناسبة الختمة أو دعاء ترغب بإضافته..." /></div>
       <input className="contact-honeypot" tabIndex="-1" autoComplete="off" value={form.website} onChange={update("website")} aria-hidden="true" />
       <button className="btn btn-primary" disabled={busy}>{busy ? "جارٍ إرسال الطلب..." : "إرسال طلب الختمة إلى المشرف"}</button>
