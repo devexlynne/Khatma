@@ -9,7 +9,6 @@ export default function KhatmaRequestForm({ currentUser = null }) {
     requesterName: currentUser?.name || "",
     contactInfo: currentUser?.email || "",
     beneficiaryName: "",
-    relationship: "",
     beneficiaryStatus: "deceased",
     suggestedTitle: "",
     message: "",
@@ -27,7 +26,7 @@ export default function KhatmaRequestForm({ currentUser = null }) {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "تعذّر إرسال الطلب");
       setSentId(data.requestId);
-      setForm((current) => ({ ...current, beneficiaryName: "", relationship: "", suggestedTitle: "", message: "" }));
+      setForm((current) => ({ ...current, beneficiaryName: "", suggestedTitle: "", message: "" }));
       notify("وصل طلب الختمة إلى المشرف", "success");
     } catch (error) {
       notify(error.message || "تعذّر إرسال الطلب", "error");
@@ -44,7 +43,6 @@ export default function KhatmaRequestForm({ currentUser = null }) {
       </div>
       <div className="smart-two-columns">
         <div className="field"><label htmlFor="beneficiary-name">اسم من تريد الختمة له</label><input id="beneficiary-name" className="input" value={form.beneficiaryName} onChange={update("beneficiaryName")} maxLength={120} required placeholder="الاسم الكامل" /></div>
-        <div className="field"><label htmlFor="request-relationship">صلته بك</label><select id="request-relationship" className="input" value={form.relationship} onChange={update("relationship")}><option value="">اختر الصلة</option><option>الوالد</option><option>الوالدة</option><option>الزوج</option><option>الزوجة</option><option>الابن</option><option>الابنة</option><option>الأخ</option><option>الأخت</option><option>قريب</option><option>صديق</option><option>شخص عزيز</option></select></div>
       </div>
       <div className="smart-two-columns">
         <div className="field"><label htmlFor="beneficiary-status">نوع الدعاء</label><select id="beneficiary-status" className="input" value={form.beneficiaryStatus} onChange={update("beneficiaryStatus")}><option value="deceased">لشخص متوفى — رحمه الله</option></select></div>
