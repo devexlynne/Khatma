@@ -1,33 +1,14 @@
 export const dynamic = "force-dynamic";
-import fs from "fs";
-import path from "path";
+
 import Link from "next/link";
 import Nav from "@/components/Nav";
-import { getSurahName } from "@/lib/surahNames";
+import { getJuzList, getSurahList } from "@/lib/quranData";
 
 export const metadata = { title: "القرآن الكريم — نور الوالدين" };
 
 export default function QuranIndex() {
-  let juzList = [];
-  let surahList = [];
-
-  try {
-    const data = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "quran.json"), "utf8"));
-    juzList = data.map((item) => ({ juz: item.juz, versesCount: item.verses.length }));
-
-    const surahMap = new Map();
-    data.flatMap((item) => item.verses).forEach((verse) => {
-      if (!surahMap.has(verse.surahNumber)) {
-        surahMap.set(verse.surahNumber, {
-          number: verse.surahNumber,
-          name: getSurahName(verse.surahNumber),
-          versesCount: 0,
-        });
-      }
-      surahMap.get(verse.surahNumber).versesCount += 1;
-    });
-    surahList = [...surahMap.values()];
-  } catch {}
+  const juzList = getJuzList();
+  const surahList = getSurahList();
 
   return (
     <>
@@ -54,9 +35,7 @@ export default function QuranIndex() {
           <div className="quran-section-heading">
             <span>تقسيم الختمة</span>
             <h2>الأجزاء الثلاثون</h2>
-            <p className="muted">
-              اختر الجزء الذي تريد قراءته. هذه هي قائمة الأجزاء الأساسية للختمة.
-            </p>
+            <p className="muted">اختر الجزء الذي تريد قراءته. هذه هي قائمة الأجزاء الأساسية للختمة.</p>
           </div>
           {juzList.length ? (
             <div className="quran-grid">
@@ -68,7 +47,7 @@ export default function QuranIndex() {
               ))}
             </div>
           ) : (
-            <div className="card muted">بيانات القرآن غير متاحة حاليًا.</div>
+            <div className="card muted">بيانات القرآن غير متاحة حالياً.</div>
           )}
         </section>
 
@@ -76,9 +55,7 @@ export default function QuranIndex() {
           <div className="quran-section-heading">
             <span>قراءة كاملة من الآية الأولى</span>
             <h2>السور القرآنية</h2>
-            <p className="muted">
-              اختر السورة لقراءتها كاملة من الآية ١ حتى نهايتها.
-            </p>
+            <p className="muted">اختر السورة لقراءتها كاملة من الآية ١ حتى نهايتها.</p>
           </div>
           {surahList.length ? (
             <div className="quran-grid">
