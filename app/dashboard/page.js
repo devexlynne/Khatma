@@ -30,6 +30,16 @@ export default function Dashboard() {
   const adminInfo = isAdmin ? adminOverview() : null;
   const recipientStats = recipientGiftStats(isAdmin ? null : user.id);
   const myMessages = listUserContactMessages(user.id);
+  const dashboardStats = isAdmin
+    ? {
+        active: adminInfo.activeKhatmas,
+        completed: adminInfo.completedKhatmas,
+        completedJuz: adminInfo.completedJuz,
+        avg: adminInfo.totalKhatmas
+          ? Math.round(adminInfo.allKhatmas.reduce((sum, khatma) => sum + (khatma.percent || 0), 0) / adminInfo.totalKhatmas)
+          : 0,
+      }
+    : stats;
 
   return (
     <>
@@ -47,10 +57,10 @@ export default function Dashboard() {
         ) : null}
 
         <div className="stat-grid" style={{ marginTop: 18 }}>
-          <div className="stat"><div className="v">{stats.active}</div><div className="l">ختمات نشطة</div></div>
-          <div className="stat"><div className="v">{stats.completed}</div><div className="l">ختمات مكتملة</div></div>
-          <div className="stat"><div className="v">{stats.completedJuz}</div><div className="l">أجزاء مُتمّة</div></div>
-          <div className="stat"><div className="v">{stats.avg}%</div><div className="l">متوسط الإنجاز</div></div>
+          <div className="stat"><div className="v">{dashboardStats.active}</div><div className="l">ختمات نشطة</div></div>
+          <div className="stat"><div className="v">{dashboardStats.completed}</div><div className="l">ختمات مكتملة</div></div>
+          <div className="stat"><div className="v">{dashboardStats.completedJuz}</div><div className="l">أجزاء مُتمّة</div></div>
+          <div className="stat"><div className="v">{dashboardStats.avg}%</div><div className="l">متوسط الإنجاز</div></div>
         </div>
 
         <GiftRecipientStats recipients={recipientStats} admin={isAdmin} />
