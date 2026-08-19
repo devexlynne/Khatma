@@ -79,6 +79,15 @@ export default function Dashboard() {
             <AnnouncementAdmin />
             <KhatmaRequestsAdmin />
             <AdminMessages />
+            <div className="card admin-visitor-summary">
+              <div className="admin-card-title"><div><span className="admin-kicker">عدد الزائرين</span><h3>إحصاء الزيارات</h3></div><span className="badge admin-badge">تحديث مباشر</span></div>
+              <div className="stat-grid admin-stat-grid">
+                <div className="stat"><div className="v">{adminInfo.totalVisits}</div><div className="l">المجموع الكلي للزيارات</div></div>
+                <div className="stat"><div className="v">{adminInfo.todayVisits}</div><div className="l">زيارات اليوم</div></div>
+                <div className="stat"><div className="v">{adminInfo.uniqueVisitors}</div><div className="l">زوار مختلفون كليًا</div></div>
+                <div className="stat"><div className="v">{adminInfo.todayUniqueVisitors}</div><div className="l">زوار مختلفون اليوم</div></div>
+              </div>
+            </div>
             <div className="row" style={{ gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
               <div style={{ flex: "1 1 320px", minWidth: 280 }}>
                 <div className="stat-grid">
@@ -133,7 +142,9 @@ export default function Dashboard() {
                 <div className="stat"><div className="v">{adminInfo.participantCount}</div><div className="l">أسماء مشاركين</div></div>
                 <div className="stat"><div className="v">{adminInfo.totalUsers}</div><div className="l">حسابات مسجلة</div></div>
                 <div className="stat"><div className="v">{adminInfo.totalVisits}</div><div className="l">دخول للموقع</div></div>
+                <div className="stat"><div className="v">{adminInfo.todayVisits}</div><div className="l">دخول اليوم</div></div>
                 <div className="stat"><div className="v">{adminInfo.uniqueVisitors}</div><div className="l">زوار مختلفون</div></div>
+                <div className="stat"><div className="v">{adminInfo.todayUniqueVisitors}</div><div className="l">زوار اليوم</div></div>
                 <div className="stat"><div className="v">{adminInfo.totalDedications}</div><div className="l">رسائل دعاء ورثاء</div></div>
                 <div className="stat"><div className="v">{adminInfo.pendingDedications}</div><div className="l">رسائل تنتظر الموافقة</div></div>
                 <div className="stat"><div className="v">{adminInfo.dhikrTotal}</div><div className="l">مجموع الذكر الجماعي</div></div>
