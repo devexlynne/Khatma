@@ -6,6 +6,7 @@ import { cookies, headers } from "next/headers";
 import db from "@/lib/db";
 import { COOKIE_NAME, userFromToken } from "@/lib/auth";
 import { randomId } from "@/lib/ids";
+import { getClientIp, lookupIpGeo } from "@/lib/geoip";
 
 const VISITOR_COOKIE = "khatma_visitor";
 
@@ -13,12 +14,6 @@ function cleanText(value, fallback = "") {
   const normalized = value == null || value === "" ? fallback : value;
   if (normalized == null) return null;
   return String(normalized).trim().slice(0, 500);
-}
-
-function getClientIp(headerList) {
-  const forwarded = headerList.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0]?.trim() || null;
-  return headerList.get("x-real-ip") || headerList.get("cf-connecting-ip") || null;
 }
 
 export async function POST(req) {
@@ -38,11 +33,12 @@ export async function POST(req) {
   const referrer = cleanText(body.referrer || headerList.get("referer") || "", null);
   const userAgent = cleanText(headerList.get("user-agent") || "", null);
   const ipAddress = cleanText(getClientIp(headerList), null);
+  const geo = await lookupIpGeo(ipAddress);
 
   db.prepare(
-    `INSERT INTO visit_logs (visitor_id, user_id, path, referrer, ip_address, user_agent)
-     VALUES (?, ?, ?, ?, ?, ?)`
-  ).run(visitorId, user?.id || null, path, referrer, ipAddress, userAgent);
+    `INSERT INTO visit_logs (visitor_id, user_id, path, referrer, ip_address, ip_country, ip_city, user_agent)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+  ).run(visitorId, user?.id || null, path, referrer, ipAddress, geo.country, geo.city, userAgent);
 
   db.prepare(
     `DELETE FROM visit_logs

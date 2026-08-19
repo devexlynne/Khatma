@@ -176,6 +176,8 @@ export default function Dashboard() {
                         <span><b>الصفحة:</b> {visit.path}</span>
                         <span><b>وقت الدخول:</b> {formatDateTime(visit.created_at)}</span>
                         <span><b>IP:</b> {visit.ip_address || "غير متوفر"}</span>
+                        <span><b>بلد IP:</b> {visit.ip_country || "غير متوفر"}</span>
+                        <span><b>مدينة IP:</b> {visit.ip_city || "غير متوفر"}</span>
                         <span><b>المصدر:</b> {visit.referrer || "دخول مباشر"}</span>
                         <span><b>نوع الحساب:</b> {visit.role === "admin" ? "مشرف" : visit.email ? "مستخدم" : "زائر"}</span>
                         <span><b>المتصفح:</b> {shortText(visit.user_agent)}</span>
@@ -201,6 +203,8 @@ export default function Dashboard() {
                         <span><b>عدد الدخول:</b> {account.visit_count || 0}</span>
                         <span><b>آخر صفحة:</b> {account.last_path || "غير متوفر"}</span>
                         <span><b>IP آخر دخول:</b> {account.last_ip || "غير متوفر"}</span>
+                        <span><b>بلد آخر IP:</b> {account.last_ip_country || "غير متوفر"}</span>
+                        <span><b>مدينة آخر IP:</b> {account.last_ip_city || "غير متوفر"}</span>
                         <span><b>آخر مصدر:</b> {account.last_referrer || "دخول مباشر"}</span>
                         <span><b>الهاتف:</b> {account.latest_phone || "لم يرسل رقمًا"}</span>
                         <span><b>البلد:</b> {account.latest_country || "غير متوفر"}</span>

@@ -70,7 +70,10 @@ export default function AdminMessages() {
         <div className="admin-detail-grid admin-message-details">
           <span><b>البريد:</b> {email || "غير متوفر"}</span>
           <span><b>الهاتف:</b> {item.phone || "غير متوفر"}</span>
-          <span><b>البلد:</b> {item.country || "غير متوفر"}</span>
+          <span><b>البلد المدخل:</b> {item.country || "غير متوفر"}</span>
+          <span><b>بلد IP:</b> {item.ip_country || "غير متوفر"}</span>
+          <span><b>مدينة IP:</b> {item.ip_city || "غير متوفر"}</span>
+          <span><b>IP:</b> {item.ip_address || "غير متوفر"}</span>
           <span><b>الحساب:</b> {item.account_name || "زائر بدون حساب"}</span>
         </div>
         {item.contact_info ? <p className="admin-message-contact">كل معلومات التواصل: {item.contact_info}</p> : null}
