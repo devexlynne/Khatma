@@ -45,7 +45,14 @@ export default function AdminMessages() {
     if (!response.ok) return notify("تعذر حفظ الرد", "error");
     const repliedAt = new Date().toISOString().slice(0, 19).replace("T", " ");
     setMessages((current) => current.map((message) => message.id === item.id ? { ...message, status: "replied", admin_reply: reply, replied_at: repliedAt } : message));
-    notify("تم حفظ الرد في البوابة", "success");
+    notify("تم إرسال الرد داخل البوابة", "success");
+  }
+
+  function replyEmail(item) {
+    const directEmail = item.sender_email || item.account_email;
+    if (directEmail) return directEmail;
+    const match = String(item.contact_info || "").match(/[^\s@]+@[^\s@]+\.[^\s@]+/);
+    return match?.[0] || "";
   }
 
   const unread = messages.filter((item) => item.status === "new").length;
@@ -55,9 +62,13 @@ export default function AdminMessages() {
     <div className="admin-card-title"><div><span className="admin-kicker">صندوق التواصل</span><h3>رسائل الزوار والمشتركين</h3></div><span className={`badge ${unread ? "active" : "completed"}`}>{unread} جديدة</span></div>
     {loading ? <p className="muted">جارٍ تحميل الرسائل...</p> : error ? <div><p className="error-text">{error}</p><button className="btn btn-sm btn-ghost" onClick={load}>إعادة المحاولة</button></div> : messages.length === 0 ? <p className="muted">لا توجد رسائل بعد.</p> : <div className="admin-message-list">
       {messages.map((item) => <article key={item.id} className={`admin-message-item ${item.status === "new" ? "is-new" : ""}`}>
+        {(() => {
+          const email = replyEmail(item);
+          const replyText = replies[item.id] ?? item.admin_reply ?? "";
+          return <>
         <div className="admin-message-meta"><strong>{item.sender_name} · {categoryLabel[item.category] || "رسالة"}</strong><span>{item.created_at?.slice(0,16)}</span></div>
         <div className="admin-detail-grid admin-message-details">
-          <span><b>البريد:</b> {item.sender_email || item.account_email || "غير متوفر"}</span>
+          <span><b>البريد:</b> {email || "غير متوفر"}</span>
           <span><b>الهاتف:</b> {item.phone || "غير متوفر"}</span>
           <span><b>البلد:</b> {item.country || "غير متوفر"}</span>
           <span><b>الحساب:</b> {item.account_name || "زائر بدون حساب"}</span>
@@ -71,10 +82,12 @@ export default function AdminMessages() {
         </div>
         <div className="row">
           {item.status === "new" ? <button className="btn btn-sm btn-primary" onClick={() => update(item.id, "read")}>تعليم كمقروءة</button> : <span className={`badge ${item.status === "replied" ? "completed" : "active"}`}>{statusLabel[item.status] || item.status}</span>}
-          <button className="btn btn-sm btn-primary" onClick={() => saveReply(item)} disabled={savingReply === item.id}>{savingReply === item.id ? "جارٍ الحفظ..." : "حفظ الرد"}</button>
-          {item.sender_email ? <a className="btn btn-sm btn-gold" href={`mailto:${item.sender_email}?subject=${encodeURIComponent("رد من إدارة نور الوالدين")}&body=${encodeURIComponent(replies[item.id] ?? item.admin_reply ?? "")}`}>فتح البريد</a> : null}
+          <button className="btn btn-sm btn-primary" onClick={() => saveReply(item)} disabled={savingReply === item.id}>{savingReply === item.id ? "جارٍ الإرسال..." : "إرسال الرد"}</button>
+          {email ? <a className="btn btn-sm btn-gold" href={`mailto:${email}?subject=${encodeURIComponent("رد من إدارة نور الوالدين")}&body=${encodeURIComponent(replyText)}`}>إرسال بالبريد</a> : null}
           <button className="btn btn-sm btn-ghost" onClick={() => update(item.id, "delete")}>حذف</button>
         </div>
+        </>;
+        })()}
       </article>)}
     </div>}
   </section>;
