@@ -7,8 +7,7 @@ import db from "@/lib/db";
 import { COOKIE_NAME, userFromToken } from "@/lib/auth";
 import { randomId } from "@/lib/ids";
 import { getClientIp, lookupIpGeo } from "@/lib/geoip";
-
-const VISITOR_COOKIE = "khatma_visitor";
+import { VISITOR_COOKIE, attachVisitorToUser } from "@/lib/visitIdentity";
 
 function cleanText(value, fallback = "") {
   const normalized = value == null || value === "" ? fallback : value;
@@ -23,6 +22,7 @@ export async function POST(req) {
   const user = userFromToken(sessionToken);
   const existingVisitorId = cookieStore.get(VISITOR_COOKIE)?.value;
   const visitorId = existingVisitorId || randomId(12);
+  if (user && existingVisitorId) attachVisitorToUser(existingVisitorId, user.id);
 
   let body = {};
   try {
