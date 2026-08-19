@@ -37,10 +37,12 @@ export default function KhatmaRequestsAdmin() {
   }
 
   const pending = requests.filter((item) => item.status === "pending").length;
-  return <section className="card admin-khatma-requests">
-    <div className="admin-card-title"><div><span className="admin-kicker">طلبات من الزوار والمستخدمين</span><h3>طلبات إنشاء ختمة</h3></div><span className={`badge ${pending ? "active" : "completed"}`}>{pending} بانتظارك</span></div>
-    {loading ? <p className="muted">جارٍ تحميل الطلبات...</p> : requests.length === 0 ? <p className="muted">لا توجد طلبات ختمة بعد.</p> : <div className="admin-request-list">
-      {requests.map((item) => <article key={item.id} className={`admin-request-item ${item.status === "pending" ? "is-pending" : ""}`}>
+  const pendingRequests = requests.filter((item) => item.status === "pending");
+  const processedRequests = requests.filter((item) => item.status !== "pending");
+
+  function RequestCard({ item }) {
+    return (
+      <article className={`admin-request-item ${item.status === "pending" ? "is-pending" : "is-processed"}`}>
         <div className="admin-request-top"><div><span>طلب رقم {item.id}</span><h4>{item.beneficiary_name}</h4><p>{item.relationship || "لم تحدد الصلة"} · {item.beneficiary_status === "living" ? "حي — حفظه الله" : "متوفى — رحمه الله"}</p></div><span className={`badge ${item.status === "approved" ? "completed" : item.status === "pending" ? "active" : "disabled"}`}>{STATUS_LABEL[item.status] || item.status}</span></div>
         <div className="admin-detail-grid"><span><b>مقدم الطلب:</b> {item.requester_name}</span><span><b>التواصل:</b> {item.contact_info || "غير مذكور"}</span><span><b>الحساب:</b> {item.account_name || "زائر من دون حساب"}</span><span><b>العنوان:</b> {item.suggested_title || "سيُنشأ تلقائيًا"}</span></div>
         {item.message ? <p className="admin-request-message">{item.message}</p> : null}
@@ -48,7 +50,15 @@ export default function KhatmaRequestsAdmin() {
           {item.status === "pending" ? <><button className="btn btn-primary btn-sm" disabled={busyId === item.id} onClick={() => review(item.id, "approve")}>{busyId === item.id ? "جارٍ الإنشاء..." : "قبول وإنشاء الختمة"}</button><button className="btn btn-ghost btn-sm" disabled={busyId === item.id} onClick={() => review(item.id, "reject")}>رفض</button></> : null}
           {item.created_khatma_id ? <><Link href={`/khatmas/${item.created_khatma_id}`} className="btn btn-primary btn-sm">إدارة الختمة</Link>{item.khatma_public_id ? <Link href={`/k/${item.khatma_public_id}`} className="btn btn-ghost btn-sm">الرابط العام</Link> : null}</> : null}
         </div>
-      </article>)}
+      </article>
+    );
+  }
+
+  return <section className="card admin-khatma-requests">
+    <div className="admin-card-title"><div><span className="admin-kicker">طلبات من الزوار والمستخدمين</span><h3>طلبات إنشاء ختمة</h3></div><span className={`badge ${pending ? "active" : "completed"}`}>{pending} بانتظارك</span></div>
+    {loading ? <p className="muted">جارٍ تحميل الطلبات...</p> : requests.length === 0 ? <p className="muted">لا توجد طلبات ختمة بعد.</p> : <div className="admin-request-list">
+      {pendingRequests.length ? pendingRequests.map((item) => <RequestCard key={item.id} item={item} />) : <div className="admin-request-empty">لا توجد طلبات بانتظار الموافقة الآن.</div>}
+      {processedRequests.length ? <details className="admin-processed-requests"><summary>طلبات تمت معالجتها ({processedRequests.length})</summary><div className="admin-request-list">{processedRequests.map((item) => <RequestCard key={item.id} item={item} />)}</div></details> : null}
     </div>}
   </section>;
 }
