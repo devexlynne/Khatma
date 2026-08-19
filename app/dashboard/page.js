@@ -165,6 +165,68 @@ export default function Dashboard() {
               </div>
 
               <div className="card admin-data-card">
+                <div className="admin-card-title"><h3>تفاصيل الحسابات المسجلة</h3><span>{adminInfo.users.length} مستخدم</span></div>
+                <div className="admin-user-list">
+                  {adminInfo.users.map((account) => (
+                    <article key={account.id} className="admin-user-item detailed">
+                      <div>
+                        <strong>{account.full_name}</strong>
+                        <small>{account.email}</small>
+                        <small>أنشئ الحساب: {formatDateTime(account.created_at)}</small>
+                        <small>آخر دخول: {formatDateTime(account.last_seen)}</small>
+                      </div>
+                      <div className="admin-detail-grid admin-user-detail-grid">
+                        <span><b>نوع الحساب:</b> {account.role === "admin" ? "مشرف" : "مستخدم"}</span>
+                        <span><b>عدد الدخول:</b> {account.visit_count || 0}</span>
+                        <span><b>آخر صفحة:</b> {account.last_path || "غير متوفر"}</span>
+                        <span><b>IP آخر دخول:</b> {account.last_ip || "غير متوفر"}</span>
+                        <span><b>آخر مصدر:</b> {account.last_referrer || "دخول مباشر"}</span>
+                        <span><b>الهاتف:</b> {account.latest_phone || "لم يرسل رقمًا"}</span>
+                        <span><b>البلد:</b> {account.latest_country || "غير متوفر"}</span>
+                        <span><b>رسائل للمشرف:</b> {account.contact_count || 0}</span>
+                        <span><b>آخر رسالة:</b> {account.latest_message ? shortText(account.latest_message, 120) : "لا توجد رسالة"}</span>
+                        <span><b>الختمات:</b> {account.khatmas} · مكتملة {account.completed_khatmas} · أجزاء {account.completed_juz || 0}</span>
+                        <span><b>المتصفح:</b> {shortText(account.last_user_agent, 120)}</span>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="card admin-data-card">
+                <div className="admin-card-title"><h3>أسماء الحاجزين والمشاركين</h3><span>{adminInfo.recentParticipants.length} اسم</span></div>
+                <div className="admin-visit-list">
+                  {adminInfo.recentParticipants.length ? adminInfo.recentParticipants.map((participant) => (
+                    <article key={participant.id} className="admin-visit-item">
+                      <div className="admin-khatma-top">
+                        <div>
+                          <h4>{participant.participant_name}</h4>
+                          <p>{participant.khatma_title}</p>
+                        </div>
+                        <span className={`badge ${participant.status === "completed" ? "completed" : "active"}`}>
+                          {participant.status === "completed" ? "أكمل القراءة" : participant.status === "reserved" ? "حجز جزء" : "متاح"}
+                        </span>
+                      </div>
+                      <div className="admin-detail-grid">
+                        <span><b>الجزء:</b> {participant.number}</span>
+                        <span><b>الختمة:</b> {participant.khatma_title}</span>
+                        <span><b>المالك:</b> {participant.owner_name}</span>
+                        <span><b>بريد المالك:</b> {participant.owner_email}</span>
+                        <span><b>الإهداء:</b> {participant.honor_name || "بدون إهداء"}</span>
+                        <span><b>وقت الحجز:</b> {formatDateTime(participant.reserved_at)}</span>
+                        <span><b>وقت الإتمام:</b> {formatDateTime(participant.completed_at)}</span>
+                        <span><b>الرابط العام:</b> {participant.public_id}</span>
+                      </div>
+                      <div className="row">
+                        <Link href={`/khatmas/${participant.khatma_id}`} className="btn btn-primary btn-sm">إدارة الختمة</Link>
+                        <Link href={`/k/${participant.public_id}`} className="btn btn-ghost btn-sm">فتح الرابط العام</Link>
+                      </div>
+                    </article>
+                  )) : <p className="muted">لا توجد أسماء حجز أو مشاركة بعد.</p>}
+                </div>
+              </div>
+
+              <div className="card admin-data-card">
                 <div className="admin-card-title"><h3>تفاصيل جميع الختمات لكل المستخدمين</h3><span>{adminInfo.allKhatmas.length} ختمة</span></div>
                 <div className="admin-khatma-list">
                   {adminInfo.allKhatmas.length ? adminInfo.allKhatmas.map((k) => (
@@ -192,17 +254,6 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <details className="card admin-data-card">
-                <summary>تفاصيل المستخدمين ({adminInfo.users.length})</summary>
-                <div className="admin-user-list">
-                  {adminInfo.users.map((account) => (
-                    <div key={account.id} className="admin-user-item">
-                      <div><strong>{account.full_name}</strong><small>{account.email}</small><small>آخر دخول: {formatDateTime(account.last_seen)}</small></div>
-                      <div className="admin-user-metrics"><span>{account.role === "admin" ? "مشرف" : "مستخدم"}</span><span>{account.visit_count || 0} دخول</span><span>{account.khatmas} ختمة</span><span>{account.completed_khatmas} مكتملة</span><span>{account.completed_juz || 0} جزءاً منجزاً</span></div>
-                    </div>
-                  ))}
-                </div>
-              </details>
             </section>
           </div>
         ) : null}
