@@ -1038,8 +1038,9 @@ a { color: inherit; text-decoration: none; }
 .admin-card-title { display:flex; justify-content:space-between; align-items:center; gap:12px; }
 .admin-card-title h3 { margin:0; }
 .admin-card-title span { color:var(--muted); font-size:13px; font-weight:800; }
-.admin-khatma-list,.admin-user-list { display:grid; gap:12px; }
+.admin-khatma-list,.admin-user-list,.admin-visit-list { display:grid; gap:12px; }
 .admin-khatma-item { display:grid; gap:13px; padding:17px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(145deg,#fff,#faf7ff); }
+.admin-visit-item { display:grid; gap:13px; padding:17px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(145deg,#fff,#f6fbff); }
 .admin-khatma-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
 .admin-khatma-top h4 { margin:0; font-size:17px; color:var(--green-dark); }
 .admin-khatma-top p { margin:5px 0 0; color:var(--muted); font-size:13px; }

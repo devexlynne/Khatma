@@ -11,6 +11,16 @@ import GiftRecipientStats from "@/components/GiftRecipientStats";
 
 export const dynamic = "force-dynamic";
 
+function formatDateTime(value) {
+  return value ? value.slice(0, 16) : "غير متوفر";
+}
+
+function shortText(value, max = 90) {
+  if (!value) return "غير متوفر";
+  const text = String(value);
+  return text.length > max ? `${text.slice(0, max)}...` : text;
+}
+
 export default function Dashboard() {
   const user = requireUser();
   const stats = ownerStats(user.id);
@@ -101,9 +111,36 @@ export default function Dashboard() {
                 <div className="stat"><div className="v">{adminInfo.availableJuz}</div><div className="l">أجزاء متاحة</div></div>
                 <div className="stat"><div className="v">{adminInfo.participantCount}</div><div className="l">أسماء مشاركين</div></div>
                 <div className="stat"><div className="v">{adminInfo.totalUsers}</div><div className="l">حسابات مسجلة</div></div>
+                <div className="stat"><div className="v">{adminInfo.totalVisits}</div><div className="l">دخول للموقع</div></div>
+                <div className="stat"><div className="v">{adminInfo.uniqueVisitors}</div><div className="l">زوار مختلفون</div></div>
                 <div className="stat"><div className="v">{adminInfo.totalDedications}</div><div className="l">رسائل دعاء ورثاء</div></div>
                 <div className="stat"><div className="v">{adminInfo.pendingDedications}</div><div className="l">رسائل تنتظر الموافقة</div></div>
                 <div className="stat"><div className="v">{adminInfo.dhikrTotal}</div><div className="l">مجموع الذكر الجماعي</div></div>
+              </div>
+
+              <div className="card admin-data-card">
+                <div className="admin-card-title"><h3>كل من دخل إلى الموقع مؤخراً</h3><span>{adminInfo.recentVisits.length} دخول حديث</span></div>
+                <div className="admin-visit-list">
+                  {adminInfo.recentVisits.length ? adminInfo.recentVisits.map((visit) => (
+                    <article key={visit.id} className="admin-visit-item">
+                      <div className="admin-khatma-top">
+                        <div>
+                          <h4>{visit.full_name || "زائر بدون تسجيل دخول"}</h4>
+                          <p>{visit.email || `زائر رقم ${visit.visitor_id.slice(0, 8)}`}</p>
+                        </div>
+                        <span className={`badge ${visit.email ? "completed" : "active"}`}>{visit.email ? "مستخدم مسجل" : "زائر"}</span>
+                      </div>
+                      <div className="admin-detail-grid">
+                        <span><b>الصفحة:</b> {visit.path}</span>
+                        <span><b>وقت الدخول:</b> {formatDateTime(visit.created_at)}</span>
+                        <span><b>IP:</b> {visit.ip_address || "غير متوفر"}</span>
+                        <span><b>المصدر:</b> {visit.referrer || "دخول مباشر"}</span>
+                        <span><b>نوع الحساب:</b> {visit.role === "admin" ? "مشرف" : visit.email ? "مستخدم" : "زائر"}</span>
+                        <span><b>المتصفح:</b> {shortText(visit.user_agent)}</span>
+                      </div>
+                    </article>
+                  )) : <p className="muted">لم يتم تسجيل زيارات بعد. ستظهر هنا بعد فتح أي صفحة في الموقع.</p>}
+                </div>
               </div>
 
               <div className="card admin-data-card">
@@ -139,8 +176,8 @@ export default function Dashboard() {
                 <div className="admin-user-list">
                   {adminInfo.users.map((account) => (
                     <div key={account.id} className="admin-user-item">
-                      <div><strong>{account.full_name}</strong><small>{account.email}</small></div>
-                      <div className="admin-user-metrics"><span>{account.role === "admin" ? "مشرف" : "مستخدم"}</span><span>{account.khatmas} ختمة</span><span>{account.completed_khatmas} مكتملة</span><span>{account.completed_juz || 0} جزءاً منجزاً</span></div>
+                      <div><strong>{account.full_name}</strong><small>{account.email}</small><small>آخر دخول: {formatDateTime(account.last_seen)}</small></div>
+                      <div className="admin-user-metrics"><span>{account.role === "admin" ? "مشرف" : "مستخدم"}</span><span>{account.visit_count || 0} دخول</span><span>{account.khatmas} ختمة</span><span>{account.completed_khatmas} مكتملة</span><span>{account.completed_juz || 0} جزءاً منجزاً</span></div>
                     </div>
                   ))}
                 </div>
