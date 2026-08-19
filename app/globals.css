@@ -1102,6 +1102,13 @@ footer { padding:40px 0; }
 .admin-message-meta { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:12px; }
 .admin-message-meta strong { color:var(--green-dark); font-size:15px; }
 .admin-message-contact { color:#72530c; font-size:13px; font-weight:700; }
+.admin-message-details { margin:12px 0; }
+.admin-reply-field { margin-top:12px; }
+.admin-reply-box { margin:12px 0; padding:12px 14px; border-radius:12px; background:#eef7f4; border:1px solid #cfe7dc; line-height:1.7; }
+.admin-reply-box p { margin:6px 0; white-space:pre-wrap; }
+.admin-reply-box small { color:var(--muted); }
+.user-message-replies,.owner-reserve-section { margin:20px 0; }
+.owner-reserve-section { display:grid; gap:14px; }
 @media (max-width:620px) { .contact-fields-row { grid-template-columns:1fr; } .contact-submit-row { align-items:stretch; flex-direction:column; } .contact-submit-row .btn { width:100%; } }
 .install-card { margin:22px 0; display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; background:linear-gradient(135deg,#f5fff8,#fff4fa); }
 .install-card p { margin:7px 0 0; }

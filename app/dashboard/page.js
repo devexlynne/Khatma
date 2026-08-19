@@ -8,6 +8,7 @@ import AnnouncementAdmin from "@/components/AnnouncementAdmin";
 import AdminMessages from "@/components/AdminMessages";
 import KhatmaRequestsAdmin from "@/components/KhatmaRequestsAdmin";
 import GiftRecipientStats from "@/components/GiftRecipientStats";
+import { listUserContactMessages } from "@/lib/contactMessages";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,7 @@ export default function Dashboard() {
   const isAdmin = user.role === "admin";
   const adminInfo = isAdmin ? adminOverview() : null;
   const recipientStats = recipientGiftStats(isAdmin ? null : user.id);
+  const myMessages = listUserContactMessages(user.id);
 
   return (
     <>
@@ -52,6 +54,25 @@ export default function Dashboard() {
         </div>
 
         <GiftRecipientStats recipients={recipientStats} admin={isAdmin} />
+
+        {myMessages.length ? (
+          <section className="card user-message-replies">
+            <div className="admin-card-title"><div><span className="admin-kicker">رسائلك للمشرف</span><h3>الردود من الإدارة</h3></div><span className="badge active">{myMessages.length} رسالة</span></div>
+            <div className="admin-message-list">
+              {myMessages.map((message) => (
+                <article key={message.id} className="admin-message-item">
+                  <div className="admin-message-meta"><strong>{message.sender_name} · {message.category}</strong><span>{formatDateTime(message.created_at)}</span></div>
+                  <p>{message.message}</p>
+                  {message.admin_reply ? (
+                    <div className="admin-reply-box"><strong>رد المشرف:</strong><p>{message.admin_reply}</p><small>{formatDateTime(message.replied_at)}</small></div>
+                  ) : (
+                    <p className="muted">لم يتم الرد على هذه الرسالة بعد.</p>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         {isAdmin ? (
           <div style={{ marginTop: 22 }}>

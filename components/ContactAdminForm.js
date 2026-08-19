@@ -5,14 +5,16 @@ import { useToast } from "@/components/Toast";
 
 export default function ContactAdminForm() {
   const notify = useToast();
-  const [form, setForm] = useState({ name: "", contact: "", category: "message", message: "", website: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", country: "", category: "message", message: "", website: "" });
   const [busy, setBusy] = useState(false);
 
   const update = (key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value }));
 
   async function submit(event) {
     event.preventDefault();
-    if (!form.name.trim() || !form.contact.trim() || !form.message.trim()) return notify("الاسم ووسيلة التواصل والرسالة مطلوبة", "error");
+    if (!form.name.trim() || !form.email.trim() || !form.phone.trim() || !form.country.trim() || !form.message.trim()) {
+      return notify("الاسم والبريد الإلكتروني والهاتف والبلد والرسالة مطلوبة", "error");
+    }
     setBusy(true);
     try {
       const response = await fetch("/api/contact", {
@@ -22,7 +24,7 @@ export default function ContactAdminForm() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "تعذر إرسال الرسالة");
-      setForm({ name: "", contact: "", category: "message", message: "", website: "" });
+      setForm({ name: "", email: "", phone: "", country: "", category: "message", message: "", website: "" });
       notify("وصلت رسالتك إلى المشرف، شكرًا لك", "success");
     } catch (error) {
       notify(error.message || "تعذر إرسال الرسالة", "error");
@@ -39,7 +41,11 @@ export default function ContactAdminForm() {
     <form onSubmit={submit} className="contact-admin-form">
       <div className="contact-fields-row">
         <div className="field"><label htmlFor="contact-name">الاسم</label><input id="contact-name" className="input" value={form.name} onChange={update("name")} maxLength={80} required placeholder="اكتب اسمك" /></div>
-        <div className="field"><label htmlFor="contact-info">وسيلة التواصل</label><input id="contact-info" className="input" value={form.contact} onChange={update("contact")} maxLength={120} required placeholder="بريد إلكتروني أو رقم هاتف" /></div>
+        <div className="field"><label htmlFor="contact-email">البريد الإلكتروني الحقيقي</label><input id="contact-email" className="input" type="email" value={form.email} onChange={update("email")} maxLength={120} required placeholder="name@example.com" /></div>
+      </div>
+      <div className="contact-fields-row">
+        <div className="field"><label htmlFor="contact-phone">رقم الهاتف</label><input id="contact-phone" className="input" value={form.phone} onChange={update("phone")} maxLength={40} required placeholder="رقم واتساب أو هاتف" /></div>
+        <div className="field"><label htmlFor="contact-country">البلد / المدينة</label><input id="contact-country" className="input" value={form.country} onChange={update("country")} maxLength={80} required placeholder="مثال: لبنان - بيروت" /></div>
       </div>
       <div className="field"><label htmlFor="contact-category">نوع الرسالة</label><select id="contact-category" className="input" value={form.category} onChange={update("category")}><option value="message">رسالة عامة</option><option value="suggestion">اقتراح لتطوير الموقع</option><option value="problem">الإبلاغ عن مشكلة</option><option value="question">استفسار</option></select></div>
       <div className="field"><label htmlFor="contact-message">الرسالة</label><textarea id="contact-message" className="input" value={form.message} onChange={update("message")} maxLength={1500} required rows={5} placeholder="اكتب رسالتك للمشرف هنا..." /></div>

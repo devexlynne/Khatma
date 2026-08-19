@@ -6,6 +6,7 @@ import ShareButton from "@/components/ShareButton";
 import ShareCompletionCard from "@/components/ShareCompletionCard";
 import GroupTasbihWidget from "@/components/GroupTasbihWidget";
 import { useToast } from "@/components/Toast";
+import ReservePanel from "../../k/[publicId]/ReservePanel";
 
 const STATUS_AR = { active: "نشطة", completed: "مكتملة", disabled: "موقوفة" };
 const JUZ_LABEL = { available: "متاح", reserved: "محجوز", completed: "تم" };
@@ -171,6 +172,17 @@ export default function ManageKhatma({ khatma, juz, progress, groupDhikrs, timel
       <p className="muted" style={{ marginTop: 0, fontSize: 14 }}>اضغط على أي جزء لتغيير حالته يدويًا.</p>
 
       <GroupTasbihWidget khatmaId={khatma.id} groupDhikrs={groupDhikrs} />
+
+      {khatma.status !== "disabled" && !completedAll ? (
+        <section className="owner-reserve-section">
+          <div className="admin-card-title"><div><span className="admin-kicker">حجز من داخل ختمتي</span><h3>احجز جزءًا أو أكثر للقراءة</h3></div><span className="badge active">{progress.available} متاح</span></div>
+          <ReservePanel
+            publicId={khatma.public_id}
+            juz={juz.map(({ number, status }) => ({ number, status }))}
+            progress={progress}
+          />
+        </section>
+      ) : null}
 
       <div className="juz-grid">
         {juz.map((j) => (
