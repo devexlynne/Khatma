@@ -10,6 +10,7 @@ export default function SignupPage() {
   const [form, setForm] = useState({ fullName: "", email: "", password: "", confirm: "" });
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
+  const [pendingApproval, setPendingApproval] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
@@ -17,6 +18,7 @@ export default function SignupPage() {
   async function submit(e) {
     e.preventDefault();
     setError("");
+    setPendingApproval(false);
     if (form.password !== form.confirm) return setError("كلمتا المرور غير متطابقتين");
     setLoading(true);
     try {
@@ -28,6 +30,11 @@ export default function SignupPage() {
       let data = null;
       try { data = await res.json(); } catch { /* ignore invalid response bodies */ }
       if (!res.ok) return setError(data?.error || "تعذر إنشاء الحساب");
+      if (data?.pendingApproval) {
+        setPendingApproval(true);
+        notify("تم إرسال الحساب للمشرف للموافقة");
+        return;
+      }
       notify("تم إنشاء الحساب بنجاح");
       router.push("/dashboard");
       router.refresh();
@@ -64,6 +71,11 @@ export default function SignupPage() {
             <input className="input" type={show ? "text" : "password"} value={form.confirm} onChange={set("confirm")} required />
           </div>
           {error && <div className="error-text">{error}</div>}
+          {pendingApproval && (
+            <div className="success-text">
+              تم إنشاء الحساب، وهو الآن بانتظار موافقة المشرف قبل تسجيل الدخول.
+            </div>
+          )}
           <button className="btn btn-primary btn-block" disabled={loading} style={{ marginTop: 8 }}>
             {loading ? "جارٍ الإنشاء…" : "إنشاء الحساب"}
           </button>

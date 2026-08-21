@@ -10,10 +10,18 @@ export async function POST(req) {
   const emailCheck = await validateRealEmailAddress(email);
   if (!emailCheck.ok)
     return NextResponse.json({ error: "يرجى استخدام بريد إلكتروني حقيقي ومسجل" }, { status: 401 });
-  const user = verifyUser(emailCheck.email, password || "");
-  if (!user)
+  const result = verifyUser(emailCheck.email, password || "");
+  if (!result.ok) {
+    if (result.reason === "pending_approval") {
+      return NextResponse.json({ error: "حسابك بانتظار موافقة المشرف. سيتم تفعيله قريبًا." }, { status: 403 });
+    }
+    if (result.reason === "rejected") {
+      return NextResponse.json({ error: "لم تتم الموافقة على هذا الحساب. تواصل مع المشرف للمساعدة." }, { status: 403 });
+    }
     return NextResponse.json({ error: "البريد أو كلمة المرور غير صحيحة" }, { status: 401 });
+  }
 
+  const user = result.user;
   const token = startSession(user.id);
   attachVisitorToUser(cookies().get(VISITOR_COOKIE)?.value, user.id);
   const out = NextResponse.json({ ok: true });

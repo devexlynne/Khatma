@@ -19,8 +19,16 @@ export async function POST(req) {
   if (!res.ok)
     return NextResponse.json({ error: "هذا البريد مستخدم بالفعل" }, { status: 409 });
 
-  const token = startSession(res.userId);
   attachVisitorToUser(cookies().get(VISITOR_COOKIE)?.value, res.userId);
+  if (res.approvalStatus !== "approved") {
+    return NextResponse.json({
+      ok: true,
+      pendingApproval: true,
+      message: "تم إرسال الحساب للمشرف للموافقة قبل الدخول.",
+    }, { status: 201 });
+  }
+
+  const token = startSession(res.userId);
   const out = NextResponse.json({ ok: true });
   out.cookies.set(COOKIE_NAME, token, {
     httpOnly: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30,

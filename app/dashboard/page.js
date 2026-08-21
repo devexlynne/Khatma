@@ -8,6 +8,7 @@ import AnnouncementAdmin from "@/components/AnnouncementAdmin";
 import AdminMessages from "@/components/AdminMessages";
 import KhatmaRequestsAdmin from "@/components/KhatmaRequestsAdmin";
 import GiftRecipientStats from "@/components/GiftRecipientStats";
+import AdminUserApprovalActions from "@/components/AdminUserApprovalActions";
 import { listUserContactMessages } from "@/lib/contactMessages";
 
 export const dynamic = "force-dynamic";
@@ -63,6 +64,25 @@ export default function Dashboard() {
           <div className="stat"><div className="v">{dashboardStats.avg}%</div><div className="l">متوسط الإنجاز</div></div>
         </div>
 
+        {isAdmin ? (
+          <nav className="card admin-dashboard-nav" aria-label="روابط لوحة المشرف">
+            <div>
+              <span className="admin-kicker">تنقل سريع</span>
+              <h3>وصّل الإحصائيات بالتفاصيل</h3>
+              <p className="muted">اضغط على أي قسم للانتقال مباشرة بدل التمرير الطويل.</p>
+            </div>
+            <div className="admin-dashboard-links">
+              <a href="#admin-visitor-summary">عدد الزائرين</a>
+              <a href="#admin-visitor-details">تفاصيل الزوار</a>
+              <a href="#admin-user-details">الحسابات والموافقات</a>
+              <a href="#admin-request-details">طلبات الختمات</a>
+              <a href="#admin-message-details">رسائل المشرف</a>
+              <a href="#admin-khatma-details">كل الختمات</a>
+              <a href="#admin-participant-details">الحاجزون</a>
+            </div>
+          </nav>
+        ) : null}
+
         <GiftRecipientStats recipients={recipientStats} admin={isAdmin} />
 
         {myMessages.length ? (
@@ -87,9 +107,13 @@ export default function Dashboard() {
         {isAdmin ? (
           <div style={{ marginTop: 22 }}>
             <AnnouncementAdmin />
-            <KhatmaRequestsAdmin />
-            <AdminMessages />
-            <div className="card admin-visitor-summary">
+            <div id="admin-request-details">
+              <KhatmaRequestsAdmin />
+            </div>
+            <div id="admin-message-details">
+              <AdminMessages />
+            </div>
+            <div id="admin-visitor-summary" className="card admin-visitor-summary">
               <div className="admin-card-title"><div><span className="admin-kicker">عدد الزائرين</span><h3>إحصاء الزيارات</h3></div><span className="badge admin-badge">تحديث مباشر</span></div>
               <div className="stat-grid admin-stat-grid">
                 <div className="stat"><div className="v">{adminInfo.totalVisits}</div><div className="l">المجموع الكلي للزيارات</div></div>
@@ -102,6 +126,7 @@ export default function Dashboard() {
               <div style={{ flex: "1 1 320px", minWidth: 280 }}>
                 <div className="stat-grid">
                   <div className="stat"><div className="v">{adminInfo.totalUsers}</div><div className="l">مستخدمون</div></div>
+                  <div className="stat"><div className="v">{adminInfo.pendingUserApprovals}</div><div className="l">حسابات بانتظار الموافقة</div></div>
                   <div className="stat"><div className="v">{adminInfo.totalKhatmas}</div><div className="l">كل الختمات</div></div>
                   <div className="stat"><div className="v">{adminInfo.completedJuz}</div><div className="l">أجزاء مكتملة</div></div>
                   <div className="stat"><div className="v">{adminInfo.reservedJuz}</div><div className="l">أجزاء محجوزة</div></div>
@@ -155,12 +180,13 @@ export default function Dashboard() {
                 <div className="stat"><div className="v">{adminInfo.todayVisits}</div><div className="l">دخول اليوم</div></div>
                 <div className="stat"><div className="v">{adminInfo.uniqueVisitors}</div><div className="l">زوار مختلفون</div></div>
                 <div className="stat"><div className="v">{adminInfo.todayUniqueVisitors}</div><div className="l">زوار اليوم</div></div>
+                <div className="stat"><div className="v">{adminInfo.pendingUserApprovals}</div><div className="l">حسابات تنتظر الموافقة</div></div>
                 <div className="stat"><div className="v">{adminInfo.totalDedications}</div><div className="l">رسائل دعاء ورثاء</div></div>
                 <div className="stat"><div className="v">{adminInfo.pendingDedications}</div><div className="l">رسائل تنتظر الموافقة</div></div>
                 <div className="stat"><div className="v">{adminInfo.dhikrTotal}</div><div className="l">مجموع الذكر الجماعي</div></div>
               </div>
 
-              <div className="card admin-data-card">
+              <div id="admin-visitor-details" className="card admin-data-card">
                 <div className="admin-card-title"><h3>كل من دخل إلى الموقع مؤخراً</h3><span>{adminInfo.recentVisits.length} دخول حديث</span></div>
                 <div className="admin-visit-list">
                   {adminInfo.recentVisits.length ? adminInfo.recentVisits.map((visit) => (
@@ -187,8 +213,8 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="card admin-data-card">
-                <div className="admin-card-title"><h3>تفاصيل الحسابات المسجلة</h3><span>{adminInfo.users.length} مستخدم</span></div>
+              <div id="admin-user-details" className="card admin-data-card">
+                <div className="admin-card-title"><h3>تفاصيل الحسابات المسجلة والموافقات</h3><span>{adminInfo.users.length} مستخدم · {adminInfo.pendingUserApprovals} بانتظارك</span></div>
                 <div className="admin-user-list">
                   {adminInfo.users.map((account) => (
                     <article key={account.id} className="admin-user-item detailed">
@@ -197,9 +223,11 @@ export default function Dashboard() {
                         <small>{account.email}</small>
                         <small>أنشئ الحساب: {formatDateTime(account.created_at)}</small>
                         <small>آخر دخول: {formatDateTime(account.last_seen)}</small>
+                        <AdminUserApprovalActions userId={account.id} status={account.approval_status} isAdminAccount={account.role === "admin"} />
                       </div>
                       <div className="admin-detail-grid admin-user-detail-grid">
                         <span><b>نوع الحساب:</b> {account.role === "admin" ? "مشرف" : "مستخدم"}</span>
+                        <span><b>حالة الحساب:</b> {account.approval_status === "approved" ? "موافق عليه" : account.approval_status === "pending" ? "بانتظار الموافقة" : "مرفوض"}</span>
                         <span><b>عدد الدخول:</b> {account.visit_count || 0}</span>
                         <span><b>آخر صفحة:</b> {account.last_path || "غير متوفر"}</span>
                         <span><b>IP آخر دخول:</b> {account.last_ip || "غير متوفر"}</span>
@@ -218,7 +246,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="card admin-data-card">
+              <div id="admin-participant-details" className="card admin-data-card">
                 <div className="admin-card-title"><h3>أسماء الحاجزين والمشاركين</h3><span>{adminInfo.recentParticipants.length} اسم</span></div>
                 <div className="admin-visit-list">
                   {adminInfo.recentParticipants.length ? adminInfo.recentParticipants.map((participant) => (
@@ -251,7 +279,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="card admin-data-card">
+              <div id="admin-khatma-details" className="card admin-data-card">
                 <div className="admin-card-title"><h3>تفاصيل جميع الختمات لكل المستخدمين</h3><span>{adminInfo.allKhatmas.length} ختمة</span></div>
                 <div className="admin-khatma-list">
                   {adminInfo.allKhatmas.length ? adminInfo.allKhatmas.map((k) => (
