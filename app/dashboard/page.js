@@ -23,6 +23,24 @@ function shortText(value, max = 90) {
   return text.length > max ? `${text.slice(0, max)}...` : text;
 }
 
+function StatCard({ value, label, href }) {
+  const content = (
+    <>
+      <div className="v">{value}</div>
+      <div className="l">{label}</div>
+      {href ? <span className="admin-stat-detail-link">عرض التفاصيل</span> : null}
+    </>
+  );
+
+  return href ? (
+    <a className="stat admin-linked-stat" href={href}>
+      {content}
+    </a>
+  ) : (
+    <div className="stat">{content}</div>
+  );
+}
+
 export default function Dashboard() {
   const user = requireUser();
   const stats = ownerStats(user.id);
@@ -58,10 +76,10 @@ export default function Dashboard() {
         ) : null}
 
         <div className="stat-grid" style={{ marginTop: 18 }}>
-          <div className="stat"><div className="v">{dashboardStats.active}</div><div className="l">ختمات نشطة</div></div>
-          <div className="stat"><div className="v">{dashboardStats.completed}</div><div className="l">ختمات مكتملة</div></div>
-          <div className="stat"><div className="v">{dashboardStats.completedJuz}</div><div className="l">أجزاء مُتمّة</div></div>
-          <div className="stat"><div className="v">{dashboardStats.avg}%</div><div className="l">متوسط الإنجاز</div></div>
+          <StatCard value={dashboardStats.active} label="ختمات نشطة" href={isAdmin ? "#admin-khatma-details" : null} />
+          <StatCard value={dashboardStats.completed} label="ختمات مكتملة" href={isAdmin ? "#admin-khatma-details" : null} />
+          <StatCard value={dashboardStats.completedJuz} label="أجزاء مُتمّة" href={isAdmin ? "#admin-participant-details" : null} />
+          <StatCard value={`${dashboardStats.avg}%`} label="متوسط الإنجاز" href={isAdmin ? "#admin-khatma-details" : null} />
         </div>
 
         {isAdmin ? (
@@ -116,20 +134,20 @@ export default function Dashboard() {
             <div id="admin-visitor-summary" className="card admin-visitor-summary">
               <div className="admin-card-title"><div><span className="admin-kicker">عدد الزائرين</span><h3>إحصاء الزيارات</h3></div><span className="badge admin-badge">تحديث مباشر</span></div>
               <div className="stat-grid admin-stat-grid">
-                <div className="stat"><div className="v">{adminInfo.totalVisits}</div><div className="l">المجموع الكلي للزيارات</div></div>
-                <div className="stat"><div className="v">{adminInfo.todayVisits}</div><div className="l">زيارات اليوم</div></div>
-                <div className="stat"><div className="v">{adminInfo.uniqueVisitors}</div><div className="l">زوار مختلفون كليًا</div></div>
-                <div className="stat"><div className="v">{adminInfo.todayUniqueVisitors}</div><div className="l">زوار مختلفون اليوم</div></div>
+                <StatCard value={adminInfo.totalVisits} label="المجموع الكلي للزيارات" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.todayVisits} label="زيارات اليوم" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.uniqueVisitors} label="زوار مختلفون كليًا" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.todayUniqueVisitors} label="زوار مختلفون اليوم" href="#admin-visitor-details" />
               </div>
             </div>
             <div className="row" style={{ gap: 16, flexWrap: "wrap", marginBottom: 20 }}>
               <div style={{ flex: "1 1 320px", minWidth: 280 }}>
                 <div className="stat-grid">
-                  <div className="stat"><div className="v">{adminInfo.totalUsers}</div><div className="l">مستخدمون</div></div>
-                  <div className="stat"><div className="v">{adminInfo.pendingUserApprovals}</div><div className="l">حسابات بانتظار الموافقة</div></div>
-                  <div className="stat"><div className="v">{adminInfo.totalKhatmas}</div><div className="l">كل الختمات</div></div>
-                  <div className="stat"><div className="v">{adminInfo.completedJuz}</div><div className="l">أجزاء مكتملة</div></div>
-                  <div className="stat"><div className="v">{adminInfo.reservedJuz}</div><div className="l">أجزاء محجوزة</div></div>
+                  <StatCard value={adminInfo.totalUsers} label="مستخدمون" href="#admin-user-details" />
+                  <StatCard value={adminInfo.pendingUserApprovals} label="حسابات بانتظار الموافقة" href="#admin-user-details" />
+                  <StatCard value={adminInfo.totalKhatmas} label="كل الختمات" href="#admin-khatma-details" />
+                  <StatCard value={adminInfo.completedJuz} label="أجزاء مكتملة" href="#admin-participant-details" />
+                  <StatCard value={adminInfo.reservedJuz} label="أجزاء محجوزة" href="#admin-participant-details" />
                 </div>
               </div>
               <div style={{ flex: "1 1 320px", minWidth: 280 }}>
@@ -167,23 +185,23 @@ export default function Dashboard() {
                 <span className="badge admin-badge">تحديث مباشر</span>
               </div>
               <div className="stat-grid admin-stat-grid">
-                <div className="stat"><div className="v">{adminInfo.totalKhatmas}</div><div className="l">إجمالي الختمات</div></div>
-                <div className="stat"><div className="v">{adminInfo.activeKhatmas}</div><div className="l">ختمات نشطة</div></div>
-                <div className="stat"><div className="v">{adminInfo.completedKhatmas}</div><div className="l">ختمات مكتملة</div></div>
-                <div className="stat"><div className="v">{adminInfo.disabledKhatmas}</div><div className="l">ختمات موقوفة</div></div>
-                <div className="stat"><div className="v">{adminInfo.completedJuz}</div><div className="l">أجزاء مكتملة</div></div>
-                <div className="stat"><div className="v">{adminInfo.reservedJuz}</div><div className="l">أجزاء محجوزة</div></div>
-                <div className="stat"><div className="v">{adminInfo.availableJuz}</div><div className="l">أجزاء متاحة</div></div>
-                <div className="stat"><div className="v">{adminInfo.participantCount}</div><div className="l">أسماء مشاركين</div></div>
-                <div className="stat"><div className="v">{adminInfo.totalUsers}</div><div className="l">حسابات مسجلة</div></div>
-                <div className="stat"><div className="v">{adminInfo.totalVisits}</div><div className="l">دخول للموقع</div></div>
-                <div className="stat"><div className="v">{adminInfo.todayVisits}</div><div className="l">دخول اليوم</div></div>
-                <div className="stat"><div className="v">{adminInfo.uniqueVisitors}</div><div className="l">زوار مختلفون</div></div>
-                <div className="stat"><div className="v">{adminInfo.todayUniqueVisitors}</div><div className="l">زوار اليوم</div></div>
-                <div className="stat"><div className="v">{adminInfo.pendingUserApprovals}</div><div className="l">حسابات تنتظر الموافقة</div></div>
-                <div className="stat"><div className="v">{adminInfo.totalDedications}</div><div className="l">رسائل دعاء ورثاء</div></div>
-                <div className="stat"><div className="v">{adminInfo.pendingDedications}</div><div className="l">رسائل تنتظر الموافقة</div></div>
-                <div className="stat"><div className="v">{adminInfo.dhikrTotal}</div><div className="l">مجموع الذكر الجماعي</div></div>
+                <StatCard value={adminInfo.totalKhatmas} label="إجمالي الختمات" href="#admin-khatma-details" />
+                <StatCard value={adminInfo.activeKhatmas} label="ختمات نشطة" href="#admin-khatma-details" />
+                <StatCard value={adminInfo.completedKhatmas} label="ختمات مكتملة" href="#admin-khatma-details" />
+                <StatCard value={adminInfo.disabledKhatmas} label="ختمات موقوفة" href="#admin-khatma-details" />
+                <StatCard value={adminInfo.completedJuz} label="أجزاء مكتملة" href="#admin-participant-details" />
+                <StatCard value={adminInfo.reservedJuz} label="أجزاء محجوزة" href="#admin-participant-details" />
+                <StatCard value={adminInfo.availableJuz} label="أجزاء متاحة" href="#admin-khatma-details" />
+                <StatCard value={adminInfo.participantCount} label="أسماء مشاركين" href="#admin-participant-details" />
+                <StatCard value={adminInfo.totalUsers} label="حسابات مسجلة" href="#admin-user-details" />
+                <StatCard value={adminInfo.totalVisits} label="دخول للموقع" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.todayVisits} label="دخول اليوم" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.uniqueVisitors} label="زوار مختلفون" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.todayUniqueVisitors} label="زوار اليوم" href="#admin-visitor-details" />
+                <StatCard value={adminInfo.pendingUserApprovals} label="حسابات تنتظر الموافقة" href="#admin-user-details" />
+                <StatCard value={adminInfo.totalDedications} label="رسائل دعاء ورثاء" href="#admin-message-details" />
+                <StatCard value={adminInfo.pendingDedications} label="رسائل تنتظر الموافقة" href="#admin-message-details" />
+                <StatCard value={adminInfo.dhikrTotal} label="مجموع الذكر الجماعي" href="#admin-participant-details" />
               </div>
 
               <div id="admin-visitor-details" className="card admin-data-card">
