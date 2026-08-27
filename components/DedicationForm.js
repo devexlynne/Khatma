@@ -1,30 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+const MAX_IMAGE_SIZE = 3 * 1024 * 1024;
 
 export default function DedicationForm() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
   const [status, setStatus] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const chooseImage = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      e.target.value = "";
+      return setStatus({ ok: false, msg: "الرجاء اختيار ملف صورة" });
+    }
+    if (file.size > MAX_IMAGE_SIZE) {
+      e.target.value = "";
+      return setStatus({ ok: false, msg: "حجم الصورة يجب ألا يتجاوز 3 ميغابايت" });
+    }
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setImage(file);
+    setPreviewUrl(URL.createObjectURL(file));
+    setStatus(null);
+  };
+
+  const removeImage = () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setImage(null);
+    setPreviewUrl("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const submit = async (e) => {
     e.preventDefault();
     if (!message.trim()) return setStatus({ ok: false, msg: "الرجاء إدخال نص الدعاء أو الرثاء" });
     setSubmitting(true);
     try {
+      const body = new FormData();
+      if (name.trim()) body.append("name", name.trim());
+      body.append("message", message.trim());
+      if (image) body.append("image", image);
       const res = await fetch("/api/dedications/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim() || null, message: message.trim(), image_url: imageUrl.trim() || null }),
+        body,
       });
       const data = await res.json();
       if (data.ok) {
         setStatus({ ok: true, msg: "تم الإرسال. سيظهر بعد الموافقة من المشرف." });
         setName("");
         setMessage("");
-        setImageUrl("");
+        removeImage();
       } else {
         setStatus({ ok: false, msg: data.reason || "خطأ في الإرسال" });
       }
@@ -48,8 +79,26 @@ export default function DedicationForm() {
       </div>
 
       <div className="form-group">
-        <label className="label">رابط صورة/ملصق (اختياري)</label>
-        <input className="input" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://example.com/image.jpg" />
+        <label className="label" htmlFor="dedication-image">صورة/ملصق (اختياري)</label>
+        <input
+          ref={fileInputRef}
+          id="dedication-image"
+          className="visually-hidden"
+          type="file"
+          accept="image/*"
+          onChange={chooseImage}
+        />
+        {previewUrl ? (
+          <div className="dedication-image-preview">
+            <img src={previewUrl} alt="معاينة الصورة المرفقة" />
+            <button type="button" className="btn dedication-image-remove" onClick={removeImage}>إزالة الصورة</button>
+          </div>
+        ) : (
+          <button type="button" className="input dedication-image-picker" onClick={() => fileInputRef.current?.click()}>
+            اختر صورة من جهازك
+          </button>
+        )}
+        <small className="muted">JPG أو PNG أو GIF أو WebP، بحد أقصى 3 ميغابايت</small>
       </div>
 
       <div className="dedication-form-actions">
