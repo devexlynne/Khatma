@@ -6,7 +6,7 @@ import { cookies, headers } from "next/headers";
 import db from "@/lib/db";
 import { COOKIE_NAME, userFromToken } from "@/lib/auth";
 import { randomId } from "@/lib/ids";
-import { getClientIp, lookupIpGeo } from "@/lib/geoip";
+import { getClientIp, getGeoFromHeaders, lookupIpGeo } from "@/lib/geoip";
 import { VISITOR_COOKIE, attachVisitorToUser } from "@/lib/visitIdentity";
 
 function cleanText(value, fallback = "") {
@@ -33,7 +33,7 @@ export async function POST(req) {
   const referrer = cleanText(body.referrer || headerList.get("referer") || "", null);
   const userAgent = cleanText(headerList.get("user-agent") || "", null);
   const ipAddress = cleanText(getClientIp(headerList), null);
-  const geo = await lookupIpGeo(ipAddress);
+  const geo = await lookupIpGeo(ipAddress, getGeoFromHeaders(headerList));
 
   db.prepare(
     `INSERT INTO visit_logs (visitor_id, user_id, path, referrer, ip_address, ip_country, ip_city, user_agent)
