@@ -6,6 +6,7 @@ import { requireUser } from "@/lib/guard";
 import { ownerStats, adminOverview, recipientGiftStats } from "@/lib/khatma";
 import AnnouncementAdmin from "@/components/AnnouncementAdmin";
 import AdminMessages from "@/components/AdminMessages";
+import AdminDedications from "@/components/AdminDedications";
 import KhatmaRequestsAdmin from "@/components/KhatmaRequestsAdmin";
 import GiftRecipientStats from "@/components/GiftRecipientStats";
 import AdminUserApprovalActions from "@/components/AdminUserApprovalActions";
@@ -95,6 +96,7 @@ export default function Dashboard() {
               <a href="#admin-user-details">الحسابات والموافقات</a>
               <a href="#admin-request-details">طلبات الختمات</a>
               <a href="#admin-message-details">رسائل المشرف</a>
+              <a href="#admin-dedication-details">الدعاء والرثاء</a>
               <a href="#admin-khatma-details">كل الختمات</a>
               <a href="#admin-participant-details">الحاجزون</a>
             </div>
@@ -130,6 +132,9 @@ export default function Dashboard() {
             </div>
             <div id="admin-message-details">
               <AdminMessages />
+            </div>
+            <div id="admin-dedication-details">
+              <AdminDedications />
             </div>
             <div id="admin-visitor-summary" className="card admin-visitor-summary">
               <div className="admin-card-title"><div><span className="admin-kicker">عدد الزائرين</span><h3>إحصاء الزيارات</h3></div><span className="badge admin-badge">تحديث مباشر</span></div>
@@ -199,8 +204,8 @@ export default function Dashboard() {
                 <StatCard value={adminInfo.uniqueVisitors} label="زوار مختلفون" href="#admin-visitor-details" />
                 <StatCard value={adminInfo.todayUniqueVisitors} label="زوار اليوم" href="#admin-visitor-details" />
                 <StatCard value={adminInfo.pendingUserApprovals} label="حسابات تنتظر الموافقة" href="#admin-user-details" />
-                <StatCard value={adminInfo.totalDedications} label="رسائل دعاء ورثاء" href="#admin-message-details" />
-                <StatCard value={adminInfo.pendingDedications} label="رسائل تنتظر الموافقة" href="#admin-message-details" />
+                <StatCard value={adminInfo.totalDedications} label="رسائل دعاء ورثاء" href="#admin-dedication-details" />
+                <StatCard value={adminInfo.pendingDedications} label="رسائل تنتظر الموافقة" href="#admin-dedication-details" />
                 <StatCard value={adminInfo.dhikrTotal} label="مجموع الذكر الجماعي" href="#admin-participant-details" />
               </div>
 

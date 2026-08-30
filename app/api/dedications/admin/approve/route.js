@@ -2,13 +2,29 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { userFromToken, isAdmin, COOKIE_NAME } from "../../../../../lib/auth.js";
-import { approveDedication, rejectDedication } from "../../../../../lib/dedication.js";
+import { approveDedication, getAdminDedications, rejectDedication } from "../../../../../lib/dedication.js";
+
+function currentAdmin() {
+  const cookie = cookies().get(COOKIE_NAME)?.value;
+  const user = userFromToken(cookie);
+  return user && isAdmin(user) ? user : null;
+}
+
+export async function GET() {
+  try {
+    if (!currentAdmin()) {
+      return NextResponse.json({ ok: false, reason: "forbidden" }, { status: 403 });
+    }
+    return NextResponse.json({ ok: true, items: getAdminDedications() });
+  } catch {
+    return NextResponse.json({ ok: false, reason: "server_error" }, { status: 500 });
+  }
+}
 
 export async function POST(req) {
   try {
-    const cookie = cookies().get(COOKIE_NAME)?.value;
-    const user = userFromToken(cookie);
-    if (!user || !isAdmin(user)) {
+    const user = currentAdmin();
+    if (!user) {
       return NextResponse.json({ ok: false, reason: "forbidden" }, { status: 403 });
     }
 
